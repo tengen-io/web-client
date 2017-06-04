@@ -1,4 +1,5 @@
-# go-stop-client
+# GoStop
+### Open source Go server
 Frontend open source Go server
 
 Visit the [GoStop server](https://github.com/camirmas/go-stop-server)
