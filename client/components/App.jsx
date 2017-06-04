@@ -6,7 +6,7 @@ class App extends React.Component {
         return (
             <div style={{
                 padding: 200,
-                textAlign: center
+                textAlign: 'center'
             }}><h1>Hello, world!</h1></div>
         )
     }
