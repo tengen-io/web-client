@@ -11,6 +11,8 @@ const path = require('path');
 // ( Especially useful for fingerprinted bundles )
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 // TODO: Setup JSON config dir
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
     template: './client/index.html',
@@ -28,8 +30,25 @@ module.exports = {
 
     module: {
         loaders: [
-            { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-            { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
+            },
+            {
+                test: /\.jsx$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
+            },
+            {
+                test: /\.scss$/,
+                loaders: ['style', 'css', 'sass']
+            }
+        ],
+        plugins: [
+            new ExtractTextPlugin('dist/style.css', {
+                allChunks: true
+            })
         ]
     },
     

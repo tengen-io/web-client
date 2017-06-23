@@ -10,10 +10,13 @@
     "start": "webpack-dev-server"
   },
   "dependencies": {
+    "css-loader": "^0.28.4",
     "html-webpack-plugin": "^2.28.0",
     "path": "^0.12.7",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
     "webpack": "^2.6.1",
     "webpack-dev-server": "^2.4.5"
   },
