@@ -1,0 +1,25 @@
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+.dropdown .menu {
+  -webkit-animation: slide-down .2s ease 1;
+  animation: slide-down .2s ease 1;
+  display: none;
+  left: 0;
+  position: absolute;
+  top: 100%;
+}
+.dropdown.dropdown-right .menu {
+  left: auto;
+  right: 0;
+}
+.dropdown.active .menu,
+.dropdown .dropdown-toggle:focus + .menu,
+.dropdown .menu:hover {
+  display: block;
+}
+.dropdown .btn-group .dropdown-toggle:nth-last-child(2) {
+  border-bottom-right-radius: .2rem;
+  border-top-right-radius: .2rem;
+}

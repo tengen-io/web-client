@@ -1,0 +1,36 @@
+.toast {
+  background: $primary-bedrock-background;
+  border: .1rem solid $primary-bedrock;
+  border-color: $primary-bedrock;
+  border-radius: .2rem;
+  color: $white;
+  display: block;
+  padding: 1rem;
+  width: 100%;
+}
+.toast.toast-primary {
+  background: $primary-background;
+  border-color: $primary;
+}
+.toast.toast-success {
+  background: $primary-success-background;
+  border-color: $primary-success;
+}
+.toast.toast-warning {
+  background: $primary-warning-background;
+  border-color: $primary-warning;
+}
+.toast.toast-error {
+  background: $primary-error-background;
+  border-color: $primary-error;
+}
+.toast a {
+  color: $white;
+  text-decoration: underline;
+}
+.toast a:focus,
+.toast a:hover,
+.toast a:active,
+.toast a.active {
+  opacity: .75;
+}

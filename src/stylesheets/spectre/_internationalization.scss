@@ -1,0 +1,64 @@
+mark {
+  background: #ffe9b3;
+  border-radius: .2rem;
+  color: #50596c;
+  display: inline-block;
+  line-height: 1;
+  padding: .3rem .4rem;
+  vertical-align: baseline;
+}
+kbd {
+  background: #454d5d;
+  border-radius: .2rem;
+  color: #fff;
+  display: inline-block;
+  line-height: 1;
+  padding: .3rem .4rem;
+  vertical-align: baseline;
+}
+abbr[title] {
+  border-bottom: .1rem dotted;
+  cursor: help;
+  text-decoration: none;
+}
+:lang(zh),
+:lang(ja),
+:lang(ko),
+.cjk {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Hiragino Kaku Gothic Pro", Meiryo, "Malgun Gothic", "Helvetica Neue", sans-serif;
+}
+:lang(zh) ins,
+:lang(ja) ins,
+.cjk ins,
+:lang(zh) u,
+:lang(ja) u,
+.cjk u {
+  border-bottom: .1rem solid;
+  text-decoration: none;
+}
+:lang(zh) del + del,
+:lang(ja) del + del,
+.cjk del + del,
+:lang(zh) del + s,
+:lang(ja) del + s,
+.cjk del + s,
+:lang(zh) ins + ins,
+:lang(ja) ins + ins,
+.cjk ins + ins,
+:lang(zh) ins + u,
+:lang(ja) ins + u,
+.cjk ins + u,
+:lang(zh) s + del,
+:lang(ja) s + del,
+.cjk s + del,
+:lang(zh) s + s,
+:lang(ja) s + s,
+.cjk s + s,
+:lang(zh) u + ins,
+:lang(ja) u + ins,
+.cjk u + ins,
+:lang(zh) u + u,
+:lang(ja) u + u,
+.cjk u + u {
+  margin-left: .125em;
+}

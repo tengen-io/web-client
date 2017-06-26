@@ -1,0 +1,17 @@
+.empty {
+  background: #f8f9fa;
+  border-radius: .2rem;
+  color: #727e96;
+  padding: 4rem;
+  text-align: center;
+}
+.empty .empty-title,
+.empty .empty-subtitle {
+  margin: 1rem auto;
+}
+.empty .empty-subtitle {
+  color: #bbc1cd;
+}
+.empty .empty-action {
+  margin-top: 1.5rem;
+}

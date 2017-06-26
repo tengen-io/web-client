@@ -1,0 +1,24 @@
+.table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  text-align: left;
+  width: 100%;
+}
+.table.table-striped tbody tr:nth-of-type(odd) {
+  background: $primary-white;
+}
+.table.table-hover tbody tr:hover {
+  background: $primary-white;
+}
+.table tbody tr.active,
+.table.table-striped tbody tr.active {
+  background: $primary-white;
+}
+.table td {
+  border-bottom: .1rem solid $primary-white;
+  padding: 1.5rem 1rem;
+}
+.table th {
+  border-bottom: .1rem solid $primary-slate;
+  padding: 1.5rem 1rem;
+}

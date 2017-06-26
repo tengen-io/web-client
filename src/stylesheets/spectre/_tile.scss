@@ -1,0 +1,50 @@
+.tile {
+  -webkit-align-content: space-between;
+  align-content: space-between;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+  display: flex;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  -ms-flex-align: start;
+  -ms-flex-line-pack: justify;
+}
+.tile .tile-icon,
+.tile .tile-action {
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+.tile .tile-content {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+.tile .tile-content:not(:first-child) {
+  padding-left: 1rem;
+}
+.tile .tile-content:not(:last-child) {
+  padding-right: 1rem;
+}
+.tile .tile-title {
+  line-height: 2rem;
+}
+.tile .tile-subtitle {
+  color: $primary-gray;
+  line-height: 2rem;
+}
+.tile.tile-centered {
+  -webkit-align-items: center;
+  align-items: center;
+  -ms-flex-align: center;
+}
+.tile.tile-centered .tile-content {
+  overflow: hidden;
+}
+.tile.tile-centered .tile-title,
+.tile.tile-centered .tile-subtitle {
+  margin-bottom: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -1,0 +1,61 @@
+.step {
+  display: flex;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  list-style: none;
+  margin: .5rem 0;
+  width: 100%;
+}
+.step .step-item {
+  -webkit-flex: 1 1 0;
+  -ms-flex: 1 1 0;
+  flex: 1 1 0;
+  margin-top: 0;
+  min-height: 2rem;
+  position: relative;
+  text-align: center;
+}
+.step .step-item:not(:first-child)::before {
+  background: $primary;
+  content: "";
+  height: .2rem;
+  left: -50%;
+  position: absolute;
+  top: .9rem;
+  width: 100%;
+}
+.step .step-item a {
+  color: $primary-gray;
+  display: inline-block;
+  padding: 2rem 1rem 0;
+  text-decoration: none;
+}
+.step .step-item a::before {
+  background: $primary;
+  border: .2rem solid $white;
+  border-radius: 50%;
+  content: "";
+  display: block;
+  height: 1.2rem;
+  left: 50%;
+  position: absolute;
+  top: .4rem;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  width: 1.2rem;
+  z-index: 1;
+}
+.step .step-item.active a::before {
+  background: $white;
+  border: .2rem solid $primary;
+}
+.step .step-item.active ~ .step-item::before {
+  background: $primary-white;
+}
+.step .step-item.active ~ .step-item a::before {
+  background: $primary-off-white;
+}
