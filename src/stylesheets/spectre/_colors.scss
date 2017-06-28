@@ -1,35 +1,87 @@
 
+// ---
+// # Main palette
+// ---
+// Primary
+$spring:        #b1b9ae;
+// Secondary
+$vanilla:       #d4bba7;
+$pavlova:       #d7bf9d;
+$sapling:       #dcd0a6;
+// UI
+$whiskey:       #DB9D6B; // Warning
+$bayLeaf:       #769F83; // Success
+$coralTree:     #AB6665; // Error
+$indigo:        #6F70CE; // Info
 
 // Primary
-$primary:                         #5764c6;
-$primary-background:              rgba(87, 100, 198, .9);
-$primary-dark:                    #3b49af;
-$primary-shadow:                  rgba(87, 100, 198, .15);
+$primary:                         $spring;
+$primary-background:              rgba($spring, .9);
+$primary-dark:                    darken($spring, 32%);
+$primary-dark-background:         darken($primary-dark,  .9);
+$primary-dark-shadow:             darken($primary-dark, .15);
+$primary-shadow:                  rgba($spring, .15);
 
 // Grayscale
-$primary-bedrock:                 #454d5d;
-$primary-bedrock-background:      rgba(69, 77, 93, .9);
-$primary-charcoal:                #50596c;
-$primary-slate:                   #727e96;
-$primary-gray:                    #acb3c2;
-$primary-light-gray:              #c4c9d3;
-$primary-off-white:               #e7e9ed;
-$primary-white:                   #f0f1f4;
+$primary-desat:                   desaturate($spring, 4%);
+
+$primary-bedrock:                 darken($primary-desat,  50%);
+$primary-bedrock-background:      rgba($primary-bedrock,   .9);
+$primary-charcoal:                darken($primary-desat,  35%);
+$primary-slate:                   darken($primary-desat,  20%);
+$primary-gray:                    $primary-desat;
+$primary-light-gray:              lighten($primary-desat, 5%);
+$primary-off-white:               lighten($primary-desat, 15%);
+$primary-white:                   lighten($primary-desat, 25%);
 
 // Warning
-$primary-warning:                 #ffb700;
-$primary-warning-background:      rgba(255, 183, 0, .9);
+$primary-warning:                 $whiskey;
+$primary-warning-background:      rgba($whiskey, .9);
+$primary-warning-shadow:          rgba($whiskey, .15);
 
 // Success
-$primary-success:                 #32b643;
-$primary-success-background:      rgba(50, 182, 67, .9);
-$primary-success-shadow:          rgba(50, 182, 67, .15);
+$primary-success:                 $bayLeaf;
+$primary-success-background:      rgba($bayLeaf,  .9);
+$primary-success-shadow:          rgba($bayLeaf, .15);
 
 // Error
-$primary-error:                   #e85600;
-$primary-error-background:        rgba(232, 86, 0, .9);
-$primary-error-shadow:            rgba(232, 86, 0, .15);
+$primary-error:                   $coralTree;
+$primary-error-background:        rgba($coralTree,  .9);
+$primary-error-shadow:            rgba($coralTree, .15);
+
+// Info
+$primary-info:                    $indigo;
+$primary-info-background:         rgba($indigo,  .9);
+$primary-info-shadow:             rgba($indigo, .15);
 
 // Utilities
 $white:                           #fff;
 $black:                           #000;
+
+// =============================================================================
+// Application
+// =============================================================================
+
+// Buttons
+$button-primary:             $primary-dark;
+$button-primary-border:      darken($primary-dark, 3%);
+$button-primary-active:      lighten($primary-dark, 2%);
+$button-primary-shadow:      $primary-dark-shadow;
+$button-info:                $primary-info;
+$button-info-border:         darken($primary-info, 3%);
+$button-info-active:         lighten($primary-info, 2%);
+$button-info-shadow:         $primary-info-shadow;
+$button-error:               $primary-error;
+$button-error-border:        darken($primary-error, 3%);
+$button-error-active:        lighten($primary-error, 2%);
+$button-error-shadow:        $primary-error-shadow;
+$button-success:             $primary-success;
+$button-success-border:      darken($primary-success, 3%);
+$button-success-active:      lighten($primary-success, 2%);
+$button-success-shadow:      $primary-success-shadow;
+$button-warning:             $primary-warning;
+$button-warning-border:      darken($primary-warning, 3%);
+$button-warning-active:      lighten($primary-warning, 2%);
+$button-warning-shadow:      $primary-warning-shadow;
+
+

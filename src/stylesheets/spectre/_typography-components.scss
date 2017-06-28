@@ -1,3 +1,4 @@
+@import 'colors';
 
 a,
 ins,
@@ -54,6 +55,9 @@ blockquote cite {
 }
 .text-capitalize {
   text-transform: capitalize;
+}
+.text-lighter {
+  font-weight: lighter;
 }
 .text-normal {
   font-weight: normal;
