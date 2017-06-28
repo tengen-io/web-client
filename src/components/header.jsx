@@ -1,7 +1,7 @@
 
 import React, { Component } from "react";
 
-import style from '../../stylesheets/partials/header.scss';
+import style from '../stylesheets/partials/header.scss';
 
 export default class Header extends Component {
     

@@ -1,6 +1,6 @@
 
 import React, { Component } from "react";
-import Header from "./partials/header";
+import Header from "./header";
 
 export default class App extends Component {
     
