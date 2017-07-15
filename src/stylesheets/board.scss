@@ -1,0 +1,12 @@
+@import './spectre/colors.scss';
+
+#board {
+  position: absolute;
+  top: 50%;
+  left: 3.25em;
+  height: 500px;
+  width: 500px;
+  background: $sapling;
+  border: 1px solid $primary-dark;
+  transform: translateY(-50%);
+}

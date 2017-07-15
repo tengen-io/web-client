@@ -25,6 +25,10 @@ $primary-shadow:                  rgba($spring, .15);
 // Grayscale
 $primary-desat:                   desaturate($spring, 4%);
 
+// Typography
+$headings-color:                  darken($spring, 32%);
+$text-color:                      darken($spring, 45%);
+
 $primary-bedrock:                 darken($primary-desat,  50%);
 $primary-bedrock-background:      rgba($primary-bedrock,   .9);
 $primary-charcoal:                darken($primary-desat,  35%);

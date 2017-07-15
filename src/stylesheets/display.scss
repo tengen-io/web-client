@@ -1,0 +1,26 @@
+@import './spectre/colors.scss';
+
+#display {
+  position: absolute;
+  top: 4em;
+  right: 4em;
+  height: 185px;
+  width: 300px;
+  border: 1px solid $primary-slate;
+}
+
+.display__time {
+  
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 2;
+  padding: 0 .2em;
+  
+  &--black {
+    float: left;
+  }
+  &--white {
+    float: right;
+  }
+  
+}

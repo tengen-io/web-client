@@ -1,30 +1,20 @@
 
 import React, { Component } from "react";
-import { browserHistory } from 'react-router';
+import Board from './board';
+import Display from './display';
 
+import style from '../stylesheets/game.scss';
 
-export default class Home extends Component {
-    
-    componentDidMount() {
-        browserHistory.push('/');
-    }
-  
+export default class Game extends Component {
+
     render() {
 
     return (
-        <section id="home">
-            <div className="container grid-960">
-            
-                <h1>Title</h1>
-                <h2>Second title</h2>
-                <h4>Subtitle down here</h4>
-                <p>This is the home page.</p>
-                <button className="btn">Click me</button>
-                <button className="btn btn-primary">Click me</button>
-                
-            </div>
+        <section id="game" className="container grid-960">
+            <Board/>
+            <Display/>
         </section>
-    ); // Home component
-    
+    );
+
   }
 }

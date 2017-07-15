@@ -12,7 +12,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --hot --inline",
-    "start": "node server.js"
+    "start": "node server.js",
+    "blazeit": "npm run dev"
   },
   "dependencies": {
     "babel-core": "^6.22.1",

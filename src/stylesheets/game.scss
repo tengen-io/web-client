@@ -1,0 +1,10 @@
+@import './spectre/colors.scss';
+
+#game {
+  position: relative;
+  height: 606px;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  border: 1px solid $primary-off-white;
+  border-radius: 4px;
+}
