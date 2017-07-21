@@ -1,0 +1,9 @@
+@import './spectre/colors.scss';
+
+$squareSideLength: (512px/19) - 3px; // Remove the three px when done testing
+
+.square {
+  position: relative;
+  height: $squareSideLength;
+  width: $squareSideLength;
+}

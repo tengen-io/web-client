@@ -53,7 +53,7 @@
   background: #f0f1f4;
   z-index: 1;
 }
-.bar-slider .bar-slider-btn {
+.bar-slider .bar-slider-button {
   background: #5764c6;
   border: 0;
   border-radius: 50%;
@@ -67,6 +67,6 @@
   transform: translate(50%, -50%);
   width: 1.2rem;
 }
-.bar-slider .bar-slider-btn:active {
+.bar-slider .bar-slider-button:active {
   box-shadow: 0 0 0 .2rem #5764c6;
 }

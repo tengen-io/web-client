@@ -1,26 +1,54 @@
 @import './spectre/colors.scss';
 
-#display {
+.display {
+  display: flex;
+  flex-direction: column;
   position: absolute;
-  top: 4em;
+  top: 0em;
   right: 4em;
-  height: 185px;
   width: 300px;
-  border: 1px solid $primary-slate;
+  padding: 1em;
 }
 
-.display__time {
-  
-  font-size: 56px;
+.display .button.display__pass-button {
+  padding: 1rem;
+  height: auto;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.display .display__capture-count {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: .75em 0;
+  font-size: 36px;
   font-weight: 700;
   line-height: 2;
-  padding: 0 .2em;
   
-  &--black {
-    float: left;
+  &--white-container {
+    padding: .25em;
+    // background: $primary-off-white; // Turn indicator
   }
-  &--white {
-    float: right;
+  
+  &--white-stone,
+  &--black-stone {
+    display: inline-block;
+    height: 1.2em;
+    width: 1.2em;
+    border-radius: 50%;
+    border: 1px solid black;
+  }
+  &--white-stone {
+    background-color: white;
+  }
+  &--black-stone {
+    background-color: black;
+  }
+  
+  &--white-stone-capture-count,
+  &--black-stone-capture-count {
+    padding: 0 .3em;
   }
   
 }

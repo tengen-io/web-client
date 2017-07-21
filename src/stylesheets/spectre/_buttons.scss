@@ -1,6 +1,6 @@
 @import 'colors';
 
-.btn {
+.button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -25,89 +25,89 @@
   vertical-align: middle;
   white-space: nowrap;
 }
-.btn:focus {
+.button:focus {
   background: $primary-white;
   box-shadow: 0 0 0 .2rem $primary-shadow;
   text-decoration: none;
 }
-.btn:hover {
+.button:hover {
   background: $button-primary;
   border-color: $button-primary-border;
   color: #fff;
   text-decoration: none;
 }
-.btn:active,
-.btn.active {
+.button:active,
+.button.active {
   background: $button-primary-active;
   border-color: $button-primary-border;
   color: #fff;
   text-decoration: none;
 }
-.btn[disabled],
-.btn:disabled,
-.btn.disabled {
+.button[disabled],
+.button:disabled,
+.button.disabled {
   cursor: default;
   opacity: .5;
   pointer-events: none;
 }
-.btn.btn-primary {
+.button.button-primary {
   background: $button-primary;
   border-color: $button-primary-border;
   color: #fff;
 }
-.btn.btn-primary:focus,
-.btn.btn-primary:hover {
+.button.button-primary:focus,
+.button.button-primary:hover {
   background: $button-primary-border;
   border-color: $button-primary-border;
   color: #fff;
 }
-.btn.btn-primary:active,
-.btn.btn-primary.active {
+.button.button-primary:active,
+.button.button-primary.active {
   background: $button-primary-active;
   border-color: $button-primary-active;
   color: #fff;
 }
-.btn.btn-primary.loading::after {
+.button.button-primary.loading::after {
   border-bottom-color: #fff;
   border-left-color: #fff;
 }
-.btn.btn-link {
+.button.button-link {
   background: transparent;
   border-color: transparent;
   color: $button-primary;
 }
-.btn.btn-link:focus,
-.btn.btn-link:hover,
-.btn.btn-link:active,
-.btn.btn-link.active {
+.button.button-link:focus,
+.button.button-link:hover,
+.button.button-link:active,
+.button.button-link.active {
   color: $button-primary-active;
 }
-.btn.btn-sm {
+.button.button-sm {
   font-size: 1.2rem;
   height: 2.4rem;
   padding: .1rem .8rem;
 }
-.btn.btn-lg {
+.button.button-lg {
   font-size: 1.6rem;
   height: 4rem;
   padding: .9rem .8rem;
 }
-.btn.btn-block {
+.button.button-block {
   display: block;
   width: 100%;
 }
-.btn.btn-action {
+.button.button-action {
   padding-left: 0;
   padding-right: 0;
   width: 3.2rem;
 }
-.btn.btn-action.btn-sm {
+.button.button-action.button-sm {
   width: 2.4rem;
 }
-.btn.btn-action.btn-lg {
+.button.button-action.button-lg {
   width: 4rem;
 }
-.btn.btn-clear {
+.button.button-clear {
   background: transparent;
   border: 0;
   color: currentColor;
@@ -120,13 +120,13 @@
   text-decoration: none;
   width: 1.6rem;
 }
-.btn.btn-clear:hover {
+.button.button-clear:hover {
   opacity: .85;
 }
-.btn.btn-clear::before {
+.button.button-clear::before {
   content: "\2715";
 }
-.btn-group {
+.button-group {
   display: inline-flex;
   display: -ms-inline-flexbox;
   display: -webkit-inline-flex;
@@ -134,36 +134,36 @@
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
-.btn-group .btn {
+.button-group .button {
   -webkit-flex: 1 0 auto;
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
 }
-.btn-group .btn:first-child:not(:last-child) {
+.button-group .button:first-child:not(:last-child) {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
 }
-.btn-group .btn:not(:first-child):not(:last-child) {
+.button-group .button:not(:first-child):not(:last-child) {
   border-radius: 0;
   margin-left: -.1rem;
 }
-.btn-group .btn:last-child:not(:first-child) {
+.button-group .button:last-child:not(:first-child) {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
   margin-left: -.1rem;
 }
-.btn-group .btn:focus,
-.btn-group .btn:hover,
-.btn-group .btn:active,
-.btn-group .btn.active {
+.button-group .button:focus,
+.button-group .button:hover,
+.button-group .button:active,
+.button-group .button.active {
   z-index: 1;
 }
-.btn-group.btn-group-block {
+.button-group.button-group-block {
   display: flex;
   display: -ms-flexbox;
   display: -webkit-flex;
 }
-.btn-group.btn-group-block .btn {
+.button-group.button-group-block .button {
   -webkit-flex: 1 0 0;
   -ms-flex: 1 0 0;
   flex: 1 0 0;

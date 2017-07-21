@@ -487,7 +487,7 @@ textarea.form-input {
   padding: .9rem .8rem;
 }
 .input-group .input-group-addon,
-.input-group .input-group-btn {
+.input-group .input-group-button {
   -webkit-flex: 1 0 auto;
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
@@ -495,21 +495,21 @@ textarea.form-input {
 .input-group .form-input:first-child:not(:last-child),
 .input-group .form-select:first-child:not(:last-child),
 .input-group .input-group-addon:first-child:not(:last-child),
-.input-group .input-group-btn:first-child:not(:last-child) {
+.input-group .input-group-button:first-child:not(:last-child) {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
 }
 .input-group .form-input:not(:first-child):not(:last-child),
 .input-group .form-select:not(:first-child):not(:last-child),
 .input-group .input-group-addon:not(:first-child):not(:last-child),
-.input-group .input-group-btn:not(:first-child):not(:last-child) {
+.input-group .input-group-button:not(:first-child):not(:last-child) {
   border-radius: 0;
   margin-left: -.1rem;
 }
 .input-group .form-input:last-child:not(:first-child),
 .input-group .form-select:last-child:not(:first-child),
 .input-group .input-group-addon:last-child:not(:first-child),
-.input-group .input-group-btn:last-child:not(:first-child) {
+.input-group .input-group-button:last-child:not(:first-child) {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
   margin-left: -.1rem;
@@ -517,7 +517,7 @@ textarea.form-input {
 .input-group .form-input:focus,
 .input-group .form-select:focus,
 .input-group .input-group-addon:focus,
-.input-group .input-group-btn:focus {
+.input-group .input-group-button:focus {
   z-index: 1;
 }
 .input-group .form-select {

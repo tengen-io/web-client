@@ -1,0 +1,81 @@
+
+@import './spectre/colors';
+
+@import 'square';
+
+.grid-line {
+  display: flex;
+  align-items: center;justify-content: center;
+  position: relative;
+  height: $squareSideLength;
+  width: $squareSideLength;
+}
+
+.grid-line .vertical-line,
+.grid-line .horizontal-line {
+  position: absolute;
+  background: $primary-charcoal;
+}
+
+.grid-line.guide-square {
+  
+}
+
+
+// In general
+.grid-line .vertical-line {
+  width: 1px;
+  height: 100%;
+}
+.grid-line .horizontal-line {
+  width: 100%;
+  height: 1px;
+}
+
+// Left
+.grid-line.side-left .horizontal-line {
+  right: 0;
+  width: 50%;
+}
+
+// Right
+.grid-line.side-right .horizontal-line {
+  left: 0;
+  width: 50%;
+}
+
+// Top
+.grid-line.side-top .vertical-line {
+  bottom: 0;
+  height: 50%;
+}
+
+// Bottom
+.grid-line.side-bottom .vertical-line {
+  top: 0;
+  height: 50%;
+}
+
+// Corners
+.grid-line.corner {
+  
+  .vertical-line   { height: 50%; }
+  .horizontal-line { width: 50%; }
+  
+  &.top-left {
+    .vertical-line { bottom: 0; }
+    .horizontal-line { right: 0; }
+  }
+  &.top-right {
+    .vertical-line { bottom: 0; }
+    .horizontal-line { left: 0; }
+  }
+  &.bottom-left {
+    .vertical-line { top: 0; }
+    .horizontal-line { right: 0; }
+  }
+  &.bottom-right {
+    .vertical-line { top: 0; }
+    .horizontal-line { left: 0; }
+  }
+}
