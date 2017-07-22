@@ -18,9 +18,21 @@
 }
 
 .grid-line.guide-square {
+  position: relative;
+  
+  &:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%,-50%,0);
+    content: '';
+    height: 5px;
+    width: 5px;
+    border-radius: 1000px;
+    background: $primary-charcoal;
+  }
   
 }
-
 
 // In general
 .grid-line .vertical-line {

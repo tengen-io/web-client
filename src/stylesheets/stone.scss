@@ -1,0 +1,26 @@
+@import './spectre/colors';
+
+.stone {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%,-50%,0);
+  height: 20px;
+  width: 20px;
+  border-radius: 1000px;
+  z-index: 10;
+  box-shadow: 1px 1px 12px $primary-shadow;
+}
+
+
+.stone.white {
+  background: #F2F2F2;
+  background: -webkit-linear-gradient(to right, #f2f2f2, #eaeaea);
+  background: linear-gradient(to right, #f2f2f2, #eaeaea);
+}
+
+.stone.black {
+  background: #232526;
+  background: -webkit-linear-gradient(to right, #414345, #232526);
+  background: linear-gradient(to right, #414345, #232526);
+}

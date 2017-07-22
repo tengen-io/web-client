@@ -3,7 +3,8 @@
 import React, { Component } from "react";
 import R from "ramda";
 // Component
-import GridLine from "./gridLine"
+import Stone from "./stone";
+import GridLine from "./gridLine";
 // Style
 import style from '../../stylesheets/square.scss';
 
@@ -16,7 +17,7 @@ const allSquares = Array.from(
 
 const corners = [0,18,342,360];
 
-const guides = [60,66,72]; // Needs more guides
+const guides = [60,66,72,174,180,186,288,294,300];
 
 const sideTop        = R.filter( (i) => 0 < i && i < 18,      allSquares )
 const sideBottom     = R.filter( (i) => 342 < i && i < 360,   allSquares )
@@ -32,6 +33,7 @@ function createPositionClass( position ) {
     if ( R.contains(position, sideBottom) ) { return "side side-bottom" };
     if ( R.contains(position, sideLeft) )   { return "side side-left" };
     if ( R.contains(position, sideRight) )  { return "side side-right" };
+    if ( R.contains(position, guides) )     { return "central guide-square" };
     return "central";
 }
 
@@ -40,8 +42,10 @@ export default class Square extends Component {
     render() {
 
     return (
-        <section className={"square square-" + this.props.number + " " + createPositionClass(this.props.number)}>
-
+        <section className={"square occupied white square-" + this.props.number + " " + createPositionClass(this.props.number)}>
+            
+            <Stone color={"white"}/>
+            
             <GridLine position={createPositionClass(this.props.number)} isGuide="" />
             
         </section>
