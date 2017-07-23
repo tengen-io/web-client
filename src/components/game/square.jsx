@@ -19,7 +19,7 @@ const corners = [0,18,342,360];
 
 const guides = [60,66,72,174,180,186,288,294,300];
 
-const sideTop        = R.filter( (i) => 0 < i && i < 18,      allSquares )
+const sideTop        = R.filter( (i) =>   0 < i && i <  18,   allSquares )
 const sideBottom     = R.filter( (i) => 342 < i && i < 360,   allSquares )
 const sideLeft       = R.filter( (i) => i % 19 === 0,         allSquares )
 const sideRight      = R.filter( (i) => i % 19 === 18,        allSquares )
@@ -39,12 +39,24 @@ function createPositionClass( position ) {
 
 export default class Square extends Component {
 
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+
+    }
+    
+    handleClick() {
+        return true;
+    }
+    
     render() {
 
     return (
-        <section className={"square occupied white square-" + this.props.number + " " + createPositionClass(this.props.number)}>
+        <section
+            className={"square occupied white square-" + this.props.number + " " + createPositionClass(this.props.number)}
+            onClick={this.handleClick()}>
             
-            <Stone color={"white"}/>
+            { this.stone }
             
             <GridLine position={createPositionClass(this.props.number)} isGuide="" />
             

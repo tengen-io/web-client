@@ -6,15 +6,14 @@
   position: absolute;
   top: 0em;
   right: 4em;
-  width: 300px;
+  width: 270px;
   padding: 1em;
 }
 
 .display .button.display__pass-button {
   padding: 1rem;
   height: auto;
-  font-size: 20px;
-  line-height: 1.4;
+  font-size: 18px;
 }
 
 .display .display__capture-count {
@@ -23,13 +22,7 @@
   align-items: baseline;
   padding: .75em 0;
   font-size: 36px;
-  font-weight: 700;
   line-height: 2;
-  
-  &--white-container {
-    padding: .25em;
-    // background: $primary-off-white; // Turn indicator
-  }
   
   &--white-stone,
   &--black-stone {
@@ -37,13 +30,13 @@
     height: 1.2em;
     width: 1.2em;
     border-radius: 50%;
-    border: 1px solid black;
   }
   &--white-stone {
-    background-color: white;
+    @include background-white-stone()
+    border: 1px solid $primary-light-gray;
   }
   &--black-stone {
-    background-color: black;
+    @include background-black-stone()
   }
   
   &--white-stone-capture-count,

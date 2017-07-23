@@ -14,13 +14,9 @@
 
 
 .stone.white {
-  background: #F2F2F2;
-  background: -webkit-linear-gradient(to right, #f2f2f2, #eaeaea);
-  background: linear-gradient(to right, #f2f2f2, #eaeaea);
+  @include background-white-stone()
 }
 
 .stone.black {
-  background: #232526;
-  background: -webkit-linear-gradient(to right, #414345, #232526);
-  background: linear-gradient(to right, #414345, #232526);
+  @include background-black-stone()
 }
