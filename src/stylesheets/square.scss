@@ -1,7 +1,7 @@
 @import './spectre/colors.scss';
 
-$square-side-length: (512px/19) - 3px;
-// $square-side-length: (512px/19) - 3px; // Remove the three px when done testing
+$square-side-length: (512px/19) - 3px; // make this expression nicer
+$hover-shadow-radius: 20px;
 
 .square {
   position: relative;
@@ -13,8 +13,8 @@ $square-side-length: (512px/19) - 3px;
 .square:hover::before{
   content: "";
   position:absolute;
-  height: $square-side-length;
-  width: $square-side-length;
+  height: $hover-shadow-radius;
+  width: $hover-shadow-radius;
   top: 50%;
   left: 50%;
   transform: translate3d(-50%,-50%,0);
