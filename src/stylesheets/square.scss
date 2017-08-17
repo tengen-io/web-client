@@ -1,9 +1,44 @@
 @import './spectre/colors.scss';
 
-$squareSideLength: (512px/19) - 3px; // Remove the three px when done testing
+$square-side-length: (512px/19) - 3px;
+// $square-side-length: (512px/19) - 3px; // Remove the three px when done testing
 
 .square {
   position: relative;
-  height: $squareSideLength;
-  width: $squareSideLength;
+  height: $square-side-length;
+  width: $square-side-length;
+  cursor: pointer;
+}
+
+.square:hover::before{
+  content: "";
+  position:absolute;
+  height: $square-side-length;
+  width: $square-side-length;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%,-50%,0);
+  background-color: darken($sapling,5%);
+  border-radius: 50%;
+}
+
+.stone {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%,-50%,0);
+  height: 20px;
+  width: 20px;
+  border-radius: 1000px;
+  z-index: 10;
+  box-shadow: 1px 1px 12px $primary-shadow;
+}
+
+
+.stone.white {
+  @include background-white-stone()
+}
+
+.stone.black {
+  @include background-black-stone()
 }

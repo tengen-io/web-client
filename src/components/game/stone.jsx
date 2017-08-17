@@ -10,9 +10,8 @@ import style from '../../stylesheets/stone.scss';
 export default class Square extends Component {
 
     render() {
-
-    return (
-        <section className={"stone " + this.props.color}></section>
-    );
-  }
+        console.log(this.props)
+        return <section className={"stone " + this.props.color}></section>
+        
+    }
 }

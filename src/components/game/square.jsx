@@ -8,16 +8,14 @@ import GridLine from "./gridLine";
 // Style
 import style from '../../stylesheets/square.scss';
 
+// Move these into game config
 const numberOfSquares = 361;
+const corners = [0,18,342,360];
+const guides = [60,66,72,174,180,186,288,294,300];
 
 const allSquares = Array.from(
-    new Array(numberOfSquares),
-    (val, index) => index
+    new Array(numberOfSquares), (val, index) => index
 );
-
-const corners = [0,18,342,360];
-
-const guides = [60,66,72,174,180,186,288,294,300];
 
 const sideTop        = R.filter( (i) =>   0 < i && i <  18,   allSquares )
 const sideBottom     = R.filter( (i) => 342 < i && i < 360,   allSquares )
@@ -37,26 +35,51 @@ function createPositionClass( position ) {
     return "central";
 }
 
+
+
 export default class Square extends Component {
 
     constructor(props) {
         super(props);
-        this.handleClick = this.handleClick.bind(this);
-
+        
+        this.addStone = this.addStone.bind(this);
+        
+        this.state = {
+            color: null,
+            hasStone: false
+         };
     }
     
-    handleClick() {
-        return true;
+    addStone() {
+        const colors = ['black', 'white'];
+        const color = this.state.color || colors[Math.floor(Math.random() * 2)];
+        
+        if ( !this.state.hasStone ) {
+            this.setState({
+                color: color,
+                hasStone: true
+            });
+        }
+        
     }
     
     render() {
 
     return (
         <section
-            className={"square occupied white square-" + this.props.number + " " + createPositionClass(this.props.number)}
-            onClick={this.handleClick()}>
+            className={
+                "square square-" + this.props.number
+                + " "
+                + ( this.state.hasStone ? 'vacant' : 'occupied' )
+                + " "
+                + ( this.state.color )
+                + " "
+                + createPositionClass(this.props.number)
+            }
             
-            { this.stone }
+            onClick={this.addStone}>
+            
+            { this.state.hasStone && <Stone color={this.state.color} /> }
             
             <GridLine position={createPositionClass(this.props.number)} isGuide="" />
             
