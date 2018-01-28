@@ -37,8 +37,7 @@ Board.prototype.createBoard = function createBoard(size) {
 
 
 Board.prototype.switchPlayer = function switchPlayer() {
-    this.currentColor = 
-            Board.BLACK ? Board.BLACK : Board.WHITE;
+    this.currentColor = Board.BLACK ? Board.BLACK : Board.WHITE;
 };
 
 
