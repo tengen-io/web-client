@@ -1,37 +1,52 @@
-
-// # Path
-// Duplicate of Node core path module
 const path = require('path');
 
-// # HtmlWebpackPlugin
-// Takes a template .html and makes a [filename].html which dynamically includes
-// other webpack bundles using <script> tags so you don't have to sweat changing
-// the <script> tag as bundles get created.
-//
-// ( Especially useful for fingerprinted bundles )
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-// TODO: Setup JSON config dir
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-    template: './client/index.html',
-    filename: 'index.html',
-    inject: 'body'
-});
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const paths = {
+    DIST: path.resolve(__dirname, 'dist'),
+    SRC: path.resolve(__dirname, 'src'),
+    JS: path.resolve(__dirname, 'src/js')
+}
 
 module.exports = {
-    entry: './client/index.js',
+
+    entry: path.join(paths.JS, 'app.js'),
 
     output: {
-        path: path.resolve('dist'),
-        filename: 'index_bundle.js'
+        path: paths.DIST,
+        filename: 'app.bundle.js'
     },
 
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: path.join(paths.SRC, 'index.html')
+        }),
+        new ExtractTextPlugin('style.bundle.css'),
+    ],
+
     module: {
-        loaders: [
-            { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-            { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
-        ]
+        rules: [
+
+        {
+            test: /\.(js|jsx)$/,
+            exclude: /node_modules/,
+            use: ['babel-loader'],
+        },
+
+        {
+            test:/\.(s*)css$/,
+            loader: ExtractTextPlugin.extract({
+              use:['style-loader', 'css-loader', 'sass-loader']
+            }),
+        }
+
+
+        ],
     },
-    
-    plugins: [ HtmlWebpackPluginConfig ]
+
+    resolve: {
+        extensions: ['.js', '.jsx']
+    }
 }
