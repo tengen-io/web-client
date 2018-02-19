@@ -19,32 +19,31 @@ let config = {
         filename: 'app.bundle.js'
     },
 
+    module: {
+        rules: [
+
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: ['babel-loader'],
+            },
+
+            {
+                test:/\.scss$/,
+                loader: ExtractTextPlugin.extract({
+                  use:['style-loader', 'css-loader', 'sass-loader'],
+                }),
+            },
+
+        ],
+    },
+
     plugins: [
         new HtmlWebpackPlugin({
             template: path.join(paths.SRC, 'index.html')
         }),
         new ExtractTextPlugin('style.bundle.css'),
     ],
-
-    module: {
-        rules: [
-
-        {
-            test: /\.(js|jsx)$/,
-            exclude: /node_modules/,
-            use: ['babel-loader'],
-        },
-
-        {
-            test:/\.scss$/,
-            loader: ExtractTextPlugin.extract({
-              use:['style-loader', 'css-loader', 'sass-loader'],
-            }),
-        }
-
-
-        ],
-    },
 
     resolve: {
         extensions: ['.js', '.jsx']

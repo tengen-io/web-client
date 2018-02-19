@@ -6,9 +6,7 @@ require('../stylesheets/app.scss');
 export default class Hello extends Component {
   render() {
     return (
-      <p>
-        Hello from react
-      </p>
+      <p>Hello from react</p>
     );
   }
 }
