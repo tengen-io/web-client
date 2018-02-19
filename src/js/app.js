@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 
+require('../stylesheets/app.scss');
+
 export default class Hello extends Component {
   render() {
     return (
-      <div>
+      <p>
         Hello from react
-      </div>
+      </p>
     );
   }
 }

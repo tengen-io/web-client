@@ -10,7 +10,7 @@ const paths = {
     JS: path.resolve(__dirname, 'src/js')
 }
 
-module.exports = {
+let config = {
 
     entry: path.join(paths.JS, 'app.js'),
 
@@ -36,9 +36,9 @@ module.exports = {
         },
 
         {
-            test:/\.(s*)css$/,
+            test:/\.scss$/,
             loader: ExtractTextPlugin.extract({
-              use:['style-loader', 'css-loader', 'sass-loader']
+              use:['style-loader', 'css-loader', 'sass-loader'],
             }),
         }
 
@@ -49,4 +49,6 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.jsx']
     }
-}
+};
+
+module.exports = config;
