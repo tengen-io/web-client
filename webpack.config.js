@@ -30,9 +30,10 @@ let config = {
 
             {
                 test:/\.scss$/,
-                loader: ExtractTextPlugin.extract({
-                  use:['style-loader', 'css-loader', 'sass-loader'],
-                }),
+                use:['style-loader', 'css-loader', 'sass-loader']
+                // loader: ExtractTextPlugin.extract({
+                //   use:['style-loader', 'css-loader', 'sass-loader'],
+                // }),
             },
 
         ],
