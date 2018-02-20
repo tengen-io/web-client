@@ -1,22 +1,42 @@
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import * as _ from 'ramda';
 
-import React from 'react';
-import _ from 'ramda';
+import Point from './point';
 
-const makeArray = size => Array.from( new Array(size), (val, index) => index + 1 );
+require('../../stylesheets/board.scss');
 
-export default function Board(props) {
 
-    console.log(props.size)
 
-    // const sizedArray = makeArray(props.size);
+export default function Board(size) {
 
-    return <div>
-        {
-            makeArray(19).map( 
-                x => (makeArray(19).map( 
-                    y => <span key={`${x}${y}`}> {x} {y} </span> 
-                ))
-            )
-        }</div>
 
+
+  const zeroOneOrTwo = () => {
+    return Math.floor( Math.random() * Math.floor(3) );
+  }
+
+
+
+  const grid = (size) => {
+
+    return _.map( x => _.map( y => {
+
+      let color = zeroOneOrTwo();
+      return <Point key={`${x},${y}`} x={ x } y={ y } color={ color } /> 
+          
+    })
+    ( _.range(1,size) ))
+    ( _.range(1,size) );
+
+  }
+
+
+
+  return (
+    <div className='board'>
+      { grid(size) }
+    </div>
+  )
 }
+
