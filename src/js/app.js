@@ -1,14 +1,17 @@
+
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 
+import Board from './components/board';
+
 require('../stylesheets/app.scss');
 
-export default class Hello extends Component {
+export default class App extends Component {
   render() {
     return (
-      <p>Hello from react</p>
+        <Board size="19"/>
     );
   }
 }
 
-render(<Hello />, document.getElementById('app'));
+render(<App />, document.getElementById('app'));
