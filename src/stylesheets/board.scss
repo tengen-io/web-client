@@ -1,0 +1,34 @@
+$black: #2c2c2c;
+$brown: #c43b00;
+$beige: #a0522d;
+
+.board {
+  display: grid;
+  background-color: $beige;
+  grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px 100px 100px 100px 100px 100px 100px;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+}
+
+@mixin point {
+  width: 35px;
+  height: 35px;
+  padding: 30px;
+  border-radius: 50%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
+.black {
+  @include point;
+  background-color: $black;
+}
+
+.white {
+  @include point;
+  background-color: white;
+}
