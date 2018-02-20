@@ -1,6 +1,21 @@
+.board {
+  display: grid;
+  grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px 100px 100px 100px 100px 100px 100px;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+}
 
-$pink: #ff00ff;
+.intersectionBlack {
+  background-color: #2c2c2c;
+}
 
-p {
-    background-color: $pink;
+.intersectionWhite {
+  background-color: grey;
+}
+
+.intersectionBrown {
+  background-color: #c43b00;
 }
