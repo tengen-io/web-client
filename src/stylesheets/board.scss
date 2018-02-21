@@ -2,33 +2,30 @@ $black: #2c2c2c;
 $brown: #c43b00;
 $beige: #a0522d;
 
+$board-size: 540;
+
+body {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
 .board {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   background-color: $beige;
-  grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px 100px;
-  grid-template-rows: 100px 100px 100px 100px 100px 100px 100px 100px 100px;
-  justify-content: center;
-  align-content: center;
-  justify-items: center;
-  align-items: center;
+  height: #{$board-size}px;
+  width: #{$board-size}px;
+  border: 36px solid $beige;
 }
 
-@mixin point {
-  width: 35px;
-  height: 35px;
-  padding: 30px;
+.point {
+  width: #{$board-size / 19}px;
+  height: #{$board-size / 19}px;
   border-radius: 50%;
-  display: grid;
-  align-items: center;
-  justify-content: center;
-}
 
-.black {
-  @include point;
-  background-color: $black;
-}
-
-.white {
-  @include point;
-  background-color: white;
+  &__color--empty { background-color: transparent; }
+  &__color--white { background-color: white; }
+  &__color--black { background-color: $black; }
 }

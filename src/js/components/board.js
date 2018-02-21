@@ -23,11 +23,17 @@ export default function Board(size) {
     return _.map( x => _.map( y => {
 
       let color = zeroOneOrTwo();
-      return <Point key={`${x},${y}`} x={ x } y={ y } color={ color } /> 
+
+      let position = zeroOneOrTwo();
+
+      return <Point key={`${x},${y}`} 
+                    x={ x } 
+                    y={ y } 
+                    color={ color } /> 
           
     })
-    ( _.range(1,size) ))
-    ( _.range(1,size) );
+    ( _.range(1, size + 1) ))
+    ( _.range(1, size + 1) );
 
   }
 
