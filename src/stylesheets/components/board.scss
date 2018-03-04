@@ -1,0 +1,21 @@
+
+
+$board-size: 540;
+
+body {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(19, 1fr);
+  grid-template-rows: repeat(19, 1fr);
+  background-color: $beige;
+  height: #{$board-size}px;
+  width: #{$board-size}px;
+  border: 30px solid $beige;
+  box-sizing: border-box;
+}

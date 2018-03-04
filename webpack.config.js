@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const paths = {
     DIST: path.resolve(__dirname, 'dist'),
     SRC: path.resolve(__dirname, 'src'),
-    JS: path.resolve(__dirname, 'src/js')
+    JS: path.resolve(__dirname, 'src/js'),
 }
 
 let config = {
@@ -14,7 +14,7 @@ let config = {
 
     output: {
         path: paths.DIST,
-        filename: 'app.bundle.js'
+        filename: 'app.bundle.js',
     },
 
     module: {

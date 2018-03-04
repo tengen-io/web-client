@@ -4,45 +4,30 @@ import * as _ from 'ramda';
 
 import Point from './point';
 
-require('../../stylesheets/board.scss');
+class Board extends Component {
+  constructor(props) {
+    super(props);
 
-
-
-export default function Board(size) {
-
-
-
-  const zeroOneOrTwo = () => {
-    return Math.floor( Math.random() * Math.floor(3) );
+    // this.state = {
+    //   turn: 'black' // Black always moves first
+    // }
   }
 
-
-
-  const grid = (size) => {
-
-    return _.map( x => _.map( y => {
-
-      let color = zeroOneOrTwo();
-
-      let position = zeroOneOrTwo();
-
-      return <Point key={`${x},${y}`} 
-                    x={ x } 
-                    y={ y } 
-                    color={ color } /> 
-          
-    })
-    ( _.range(1, size + 1) ))
-    ( _.range(1, size + 1) );
-
+  zeroOneOrTwo() {
+    return Math.floor(Math.random() * Math.floor(3));
   }
 
+  grid(size) {
+    return _.map(x =>
+      _.map(y => {
+        return <Point key={`${x},${y}`} x={x} y={y} />;
+      })(_.range(1, size + 1))
+    )(_.range(1, size + 1));
+  }
 
-
-  return (
-    <div className='board'>
-      { grid(size) }
-    </div>
-  )
+  render() {
+    return <div className="board">{this.grid(parseInt(this.props.size))}</div>;
+  }
 }
 
+export default Board;
