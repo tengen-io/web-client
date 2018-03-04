@@ -11,7 +11,7 @@ export default class Point extends React.Component {
     this.state = {
       color: this.getColor(),
       styleString: this.getStyleString(),
-    }
+    };
 
     this.setColor = this.setColor.bind(this);
     this.styleString = this.getStyleString.bind(this);

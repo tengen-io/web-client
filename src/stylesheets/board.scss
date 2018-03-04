@@ -12,17 +12,18 @@ body {
 }
 
 .board {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(19, 1fr);
+  grid-template-rows: repeat(19, 1fr);
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
   background-color: $beige;
   height: #{$board-size}px;
   width: #{$board-size}px;
-  border: 36px solid $beige;
+  border: 20px solid $beige;
 }
 
 .point {
-  width: #{$board-size / 19}px;
-  height: #{$board-size / 19}px;
   border-radius: 50%;
 
   &__color--empty { background-color: transparent; }
