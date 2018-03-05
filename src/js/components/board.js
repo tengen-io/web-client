@@ -12,15 +12,16 @@ class Board extends Component {
       turn: 'black', // Black always moves first
     };
 
-    this.onPlay = this.onPlay.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  onPlay() {
+  handleClick(stone) {
     this.setState({ turn: this.state.turn === 'black' ? 'white' : 'black' });
+    console.log(stone);
   }
 
   grid(state, rawSize) {
-    const size = parseInt(rawSize);
+    const size = parseInt(rawSize); // prop comes in as a string, there's gotta be a better way
     return _.map(y =>
       _.map(x => {
         return (
@@ -28,7 +29,7 @@ class Board extends Component {
             key={`${x},${y}`}
             x={x}
             y={y}
-            turn={state.turn}
+            state={state}
             isTopEdge={y === 0}
             isRightEdge={x === size - 1}
             isBottomEdge={y === size - 1}
@@ -45,8 +46,9 @@ class Board extends Component {
   }
 
   render() {
+    let stone = this.state.turn;
     return (
-      <div className="board" onClick={this.onPlay}>
+      <div className="board" onClick={() => this.handleClick(stone)}>
         {this.grid(this.state, this.props.size)}
       </div>
     );

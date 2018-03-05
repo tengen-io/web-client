@@ -4,8 +4,11 @@ export default class Point extends React.Component {
   constructor(props) {
     super(props);
 
+    // console.log(this.props);
+
     this.state = {
       color: null,
+      turn: this.props.state.turn,
     };
 
     this.playStone = this.playStone.bind(this);
@@ -13,7 +16,8 @@ export default class Point extends React.Component {
   }
 
   playStone(e) {
-    // console.log('playStone', this.state, this.props);
+    console.log('playStone', this.props);
+    this.setState({ color: this.props.turn });
   }
 
   makeGridlineClass(props) {
@@ -50,9 +54,17 @@ export default class Point extends React.Component {
   }
 
   render() {
+    let stone = null;
+
+    if (this.state.color === 'black') {
+      stone = <div className="stone stone--black" />;
+    } else if (this.state.color === 'white') {
+      stone = <div className="stone stone--white" />;
+    }
+
     return (
       <div className="point" onClick={this.playStone}>
-        <div className="stone" />
+        {stone}
         <div className={this.makeGridlineClass(this.props)} />
         {this.props.isStarPoint ? <div className="star-point" /> : null}
       </div>

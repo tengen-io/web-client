@@ -11,10 +11,11 @@ body {
   display: grid;
   grid-template-columns: repeat(19, 1fr);
   grid-template-rows: repeat(19, 1fr);
-  background-color: $beige;
+  background-color: $wheat;
   height: #{$board-size}px;
   width: #{$board-size}px;
-  border: 30px solid $beige;
+  border: 30px solid $wheat;
   box-sizing: border-box;
-  box-shadow: 0 14px 28px 0 rgba($black, 0.15), 0 0 10px 0 rgba($black, 0.08);
+  box-shadow: 0 14px 28px 0 rgba($stone-black, 0.15),
+    0 0 10px 0 rgba($stone-black, 0.08);
 }

@@ -1,4 +1,11 @@
-$brown: #c43b00;
-$beige: #dcb771;
-$black: #2c2c2c;
-$grid-line: #a58c5d;
+// Private — Hex codes stay here
+$wheat: #dcb771;
+$slate: #2c2c2c;
+$snow: #f0f0f0;
+$teak: #a58c5d;
+
+// Public — Give these usage names
+$stone-black: $slate;
+$stone-white: $snow;
+$grid-line: $teak;
+$board-color: $wheat;

@@ -1,22 +1,31 @@
+// Point (Intersection)
+// Includes stones, grid-lines, and star-points
+
 .point {
   position: relative;
   box-sizing: border-box;
-  // border: 1px solid rgba(black, 0.1);
 }
 
 .stone {
   position: absolute;
+  z-index: $zIndex--stone;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
   border-radius: 50%;
-  // border: 1px solid rgba(black, 0.05);
   box-sizing: border-box;
+  &--black {
+    background-color: $stone-black;
+  }
+  &--white {
+    background-color: $stone-white;
+  }
 }
 
 .star-point {
   position: absolute;
+  z-index: $zIndex--board;
   top: 50%;
   left: 50%;
   height: 5px;
