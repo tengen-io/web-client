@@ -5,46 +5,56 @@ export default class Point extends React.Component {
     super(props);
 
     this.state = {
-      color: this.getColor()
-      // styleString: this.getStyleString(),
+      color: null,
     };
 
-    this.setColor = this.setColor.bind(this);
-    // this.styleString = this.getStyleString.bind(this);
+    this.playStone = this.playStone.bind(this);
+    this.makeGridlineClass = this.makeGridlineClass.bind(this);
   }
 
-  getColor(color = this.props.color) {
-    if (color === 1) {
-      return 'white';
-    } else if (color === 2) {
-      return 'black';
+  playStone(e) {
+    // console.log('playStone', this.state, this.props);
+  }
+
+  makeGridlineClass(props) {
+    let className = 'grid-line';
+
+    // corners
+    if (props.isTopEdge && props.isLeftEdge) {
+      className += ' grid-line--corner-top-left';
+    }
+    if (props.isTopEdge && props.isRightEdge) {
+      className += ' grid-line--corner-top-right';
+    }
+    if (props.isBottomEdge && props.isLeftEdge) {
+      className += ' grid-line--corner-bottom-left';
+    }
+    if (props.isBottomEdge && props.isRightEdge) {
+      className += ' grid-line--corner-bottom-right';
     }
 
-    return 'empty';
-  }
-
-  // getStyleString(color, x, y) {
-  //   return `point point__color--${color} point__pos--x${x} point__pos--y${y}`;
-  // }
-
-  /* Right now this only adds a white Stone, will eventually
-* need to know about the current User.
-*/
-  setColor(e) {
-    console.log('setColor');
-    let color = this.props.color > 1 ? 0 : this.props.color;
-    this.setState({ color: this.getColor(color) });
+    // edges
+    if (props.isTopEdge && !props.isRightEdge && !props.isLeftEdge) {
+      className += ' grid-line--edge-top';
+    }
+    if (props.isRightEdge && !props.isBottomEdge && !props.isTopEdge) {
+      className += ' grid-line--edge-right';
+    }
+    if (props.isBottomEdge && !props.isRightEdge && !props.isLeftEdge) {
+      className += ' grid-line--edge-bottom';
+    }
+    if (props.isLeftEdge && !props.isBottomEdge && !props.isTopEdge) {
+      className += ' grid-line--edge-left';
+    }
+    return className;
   }
 
   render() {
-    // const styleString = this.getStyleString(this.state.color, this.props.x, this.props.y );
-
     return (
-      // <div className={ styleString } onClick={ this.setColor }>
-      <div className="point" onClick={this.setColor}>
+      <div className="point" onClick={this.playStone}>
         <div className="stone" />
-        <div className="grid-line grid-line--vertical" />
-        <div className="grid-line grid-line--horizontal" />
+        <div className={this.makeGridlineClass(this.props)} />
+        {this.props.isStarPoint ? <div className="star-point" /> : null}
       </div>
     );
   }

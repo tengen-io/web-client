@@ -1,5 +1,3 @@
-
-
 $board-size: 540;
 
 body {
@@ -18,4 +16,5 @@ body {
   width: #{$board-size}px;
   border: 30px solid $beige;
   box-sizing: border-box;
+  box-shadow: 0 14px 28px 0 rgba($black, 0.15), 0 0 10px 0 rgba($black, 0.08);
 }

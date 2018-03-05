@@ -1,3 +1,14 @@
 {
-    "extends": "airbnb"
+    "extends": [
+        "airbnb",
+        "prettier",
+        "prettier/react"
+    ],
+    "plugins": [
+        "prettier"
+    ],
+    "env": {
+        "es6": true,
+        "browser": true,
+    }
 }

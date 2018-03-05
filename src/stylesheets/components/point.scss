@@ -1,15 +1,7 @@
-
-
 .point {
   position: relative;
-  padding: 2px;
-  // border-radius: 50%;
-
-  // &__color--empty { background-color: transparent; }
-  // &__color--white { background-color: white; }
-  // &__color--black { background-color: $black; }
-  border: 1px solid rgba(black,.05);
   box-sizing: border-box;
+  // border: 1px solid rgba(black, 0.1);
 }
 
 .stone {
@@ -19,29 +11,121 @@
   height: 100%;
   width: 100%;
   border-radius: 50%;
-  border: 1px solid rgba(black,.05);
+  // border: 1px solid rgba(black, 0.05);
   box-sizing: border-box;
+}
+
+.star-point {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 5px;
+  width: 5px;
+  border-radius: 50%;
+  transform: translate3d(-40%, -40%, 0);
+  background-color: darken($grid-line, 25%);
 }
 
 .grid-line {
   position: absolute;
   top: 0;
   left: 0;
-  background: $black;
+  right: 0;
+  bottom: 0;
 
-
-  &--vertical {
-    height: 100%;
-    width: 1px;
-    left: 50%;
-    transform: translateX(-50%);
+  &:before,
+  &:after {
+    position: absolute;
+    display: block;
+    content: '';
+    background: $grid-line;
   }
 
-  &--horizontal {
-    width: 100%;
-    height: 1px;
+  // horizontal
+  &:before {
     top: 50%;
+    height: 1px;
+    width: 101%;
     transform: translateY(-50%);
   }
 
+  // vertical
+  &:after {
+    left: 50%;
+    width: 1px;
+    height: 101%;
+    transform: translateX(-50%);
+  }
+}
+
+.grid-line--corner-top-left {
+  &:before {
+    width: 50%;
+    left: 50%;
+  }
+  &:after {
+    height: 50%;
+    top: 50%;
+  }
+}
+
+.grid-line--corner-top-right {
+  &:before {
+    width: 50%;
+    right: 50%;
+  }
+  &:after {
+    height: 50%;
+    top: 50%;
+  }
+}
+
+.grid-line--corner-bottom-right {
+  &:before {
+    width: 50%;
+    right: 50%;
+  }
+  &:after {
+    height: 50%;
+    bottom: 50%;
+  }
+}
+
+.grid-line--corner-bottom-left {
+  &:before {
+    width: 50%;
+    left: 50%;
+  }
+  &:after {
+    height: 50%;
+    bottom: 50%;
+  }
+}
+
+.grid-line--edge-top {
+  &:after {
+    height: 50%;
+    top: 50%;
+  }
+}
+
+.grid-line--edge-bottom {
+  &:after {
+    height: 50%;
+    bottom: 50%;
+  }
+}
+
+.grid-line--edge-left {
+  &:before {
+    width: 50%;
+    left: 50%;
+  }
+}
+
+.grid-line--edge-right {
+  &:before {
+    width: 50%;
+    right: 50%;
+  }
 }
