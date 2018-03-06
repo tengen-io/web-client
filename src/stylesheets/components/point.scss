@@ -8,9 +8,9 @@
 
 .stone {
   position: absolute;
-  z-index: $zIndex--stone;
   top: 0;
   left: 0;
+  z-index: $zIndex--stone;
   height: 100%;
   width: 100%;
   border-radius: 50%;
