@@ -10,7 +10,7 @@ const paths = {
 
 let config = {
 
-    entry: path.join(paths.JS, 'app.js'),
+    entry: path.join(paths.JS, 'app.jsx'),
 
     output: {
         path: paths.DIST,
@@ -19,7 +19,6 @@ let config = {
 
     module: {
         rules: [
-
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
