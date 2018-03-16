@@ -4,8 +4,6 @@ export default class Point extends React.Component {
   constructor(props) {
     super(props);
 
-    // console.log(this.props);
-
     this.state = {
       color: null,
       turn: this.props.state.turn,
@@ -16,8 +14,11 @@ export default class Point extends React.Component {
   }
 
   playStone(e) {
-    console.log('playStone', this.props);
-    this.setState({ color: this.props.turn });
+    if (this.state.color) {
+      // stone already played here
+      return;
+    }
+    this.setState({ color: this.props.state.turn });
   }
 
   makeGridlineClass(props) {
