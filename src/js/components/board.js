@@ -16,8 +16,9 @@ class Board extends Component {
   }
 
   handleClick(stone) {
-    this.setState({ turn: this.state.turn === 'black' ? 'white' : 'black' });
-    console.log(stone);
+    this.setState({ 
+      turn: this.state.turn === 'black' ? 'white' : 'black' 
+    });
   }
 
   grid(state, rawSize) {

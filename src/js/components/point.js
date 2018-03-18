@@ -14,6 +14,20 @@ export default class Point extends React.Component {
   }
 
   playStone(e) {
+
+    fetch( 'http://localhost:4000/api', {
+
+      header: { 'content-type': 'application/json' },
+      mode: 'cors',
+      method: 'POST',
+      body: '{users {email}}'
+
+    }).then(function(response) {
+      return response.json();
+    }).then(function(response) {
+      console.debug(response)
+    })
+
     if (this.state.color) {
       // stone already played here
       return;
