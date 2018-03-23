@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import * as _ from 'ramda';
+import { BOARD } from '../utils/constants';
 
 import Point from './point';
 
@@ -8,8 +9,12 @@ class Board extends Component {
   constructor(props) {
     super(props);
 
+    this.size = props.size;
+
     this.state = {
-      turn: 'black', // Black always moves first
+      turn: BOARD.BLACK,
+      lastMovePassed: false,
+      inAtari: false
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -17,17 +22,34 @@ class Board extends Component {
 
   handleClick(stone) {
     this.setState({ 
-      turn: this.state.turn === 'black' ? 'white' : 'black' 
+      turn: this.switchPlayer(this.state.turn) 
     });
   }
 
-  grid(state, rawSize) {
+  switchPlayer(turn) {
+    return turn === BOARD.BLACK ? BOARD.WHITE : BOARD.BLACK 
+  }
+
+  pass() {
+    if (this.state.lastMovePassed) {
+      this.endGame()
+    }
+    this.setState({lastMovePassed: true});
+    this.switchPlayer();
+  }
+
+  endGame() {
+    console.log('GAME OVER');
+    // Start counting?
+  }
+
+  createBoard(state, rawSize) {
     const size = parseInt(rawSize); // prop comes in as a string, there's gotta be a better way
     return _.map(y =>
       _.map(x => {
         return (
           <Point
-            key={`${x},${y}`}
+            key={ x.toString() + y.toString() }
             x={x}
             y={y}
             state={state}
@@ -50,7 +72,7 @@ class Board extends Component {
     let stone = this.state.turn;
     return (
       <div className="board" onClick={() => this.handleClick(stone)}>
-        {this.grid(this.state, this.props.size)}
+        {this.createBoard(this.state, this.props.size)}
       </div>
     );
   }

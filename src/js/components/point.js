@@ -1,4 +1,5 @@
 import React from 'react';
+import { BOARD } from '../utils/constants';
 
 export default class Point extends React.Component {
   constructor(props) {
@@ -32,7 +33,9 @@ export default class Point extends React.Component {
       // stone already played here
       return;
     }
-    this.setState({ color: this.props.state.turn });
+    this.setState({ 
+      color: BOARD.COLOR[this.props.state.turn] 
+    });
   }
 
   makeGridlineClass(props) {
