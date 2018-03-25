@@ -1,5 +1,5 @@
 const path = require('path');
-
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const paths = {
@@ -34,10 +34,16 @@ let config = {
         ],
     },
 
+    devServer: {
+        hot: true
+    },
+
     plugins: [
         new HtmlWebpackPlugin({
             template: path.join(paths.SRC, 'index.html')
         }),
+        new webpack.NamedModulesPlugin(),
+        new webpack.HotModuleReplacementPlugin()
     ],
 
     resolve: {

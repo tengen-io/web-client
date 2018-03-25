@@ -9,25 +9,37 @@ class Board extends Component {
   constructor(props) {
     super(props);
 
-    this.size = props.size;
+    // this.size = props.size;
 
     this.state = {
       turn: BOARD.BLACK,
       lastMovePassed: false,
-      inAtari: false
+      inAtari: false,
+      position: _.map( position => {
+
+        let row = position % props.size;
+        let column = Math.floor(position / props.size);
+
+        return { x: row, y: column, color: BOARD.EMPTY }
+
+      }) ([ ...Array( props.size * props.size ).keys() ])
     };
 
-    this.handleClick = this.handleClick.bind(this);
+    this.handleBoardClick = this.handleBoardClick.bind(this);
+
   }
 
-  handleClick(stone) {
+  handleBoardClick(e) {
+    console.log(e.target)
     this.setState({ 
-      turn: this.switchPlayer(this.state.turn) 
+      turn: this.switchPlayer(this.state.turn)
     });
   }
 
   switchPlayer(turn) {
-    return turn === BOARD.BLACK ? BOARD.WHITE : BOARD.BLACK 
+    return (turn === BOARD.BLACK) 
+      ? BOARD.WHITE
+      : BOARD.BLACK
   }
 
   pass() {
@@ -43,36 +55,35 @@ class Board extends Component {
     // Start counting?
   }
 
-  createBoard(state, rawSize) {
-    const size = parseInt(rawSize); // prop comes in as a string, there's gotta be a better way
-    return _.map(y =>
-      _.map(x => {
-        return (
-          <Point
-            key={ x.toString() + y.toString() }
-            x={x}
-            y={y}
-            state={state}
-            isTopEdge={y === 0}
-            isRightEdge={x === size - 1}
-            isBottomEdge={y === size - 1}
-            isLeftEdge={x === 0}
-            isStarPoint={
-              // E.g. if grid(19) -> x and y are in [3,9,15]
-              [3, Math.floor(size / 2), size - 4].indexOf(x) >= 0 &&
-              [3, Math.floor(size / 2), size - 4].indexOf(y) >= 0
-            }
+  createPointView(position) {
+    return <Point
+              key={ position.x.toString() + ',' + position.y.toString() }
+              x={position.x}
+              y={position.y}
+              color={position.color}
+              turn={this.state.turn}
+              isTopEdge={position.y === 0}
+              isRightEdge={position.x === this.props.size - 1}
+              isBottomEdge={position.y === this.props.size - 1}
+              isLeftEdge={position.x === 0}
+              isStarPoint={
+                // E.g. if grid(19) -> x and y are in [3,9,15]
+                [3, Math.floor(this.props.size / 2), this.props.size - 4].indexOf(position.x) >= 0 &&
+                [3, Math.floor(this.props.size / 2), this.props.size - 4].indexOf(position.y) >= 0
+              }
           />
-        );
-      })(_.range(0, size))
-    )(_.range(0, size));
   }
 
   render() {
+    // --- TODO: Style me dynamically
+    // let style = {
+    //     gridTemplateColumns: `repeat(${this.size}, 1fr)`,
+    //     gridTemplateRows: `repeat(${this.size}, 1fr)`
+    // }
     let stone = this.state.turn;
     return (
-      <div className="board" onClick={() => this.handleClick(stone)}>
-        {this.createBoard(this.state, this.props.size)}
+      <div className="board" onClick={(e) => this.handleBoardClick(e)}>
+        { this.state.position.map( position => this.createPointView(position) )}
       </div>
     );
   }

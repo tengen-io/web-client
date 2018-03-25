@@ -1,44 +1,55 @@
 import React from 'react';
 import { BOARD } from '../utils/constants';
+import * as _ from 'ramda';
 
 export default class Point extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      color: null,
-      turn: this.props.state.turn,
+      color: this.props.color,
     };
 
     this.playStone = this.playStone.bind(this);
-    this.makeGridlineClass = this.makeGridlineClass.bind(this);
+    this.makeGridlineClassName = this.makeGridlineClassName.bind(this);
+  }
+
+  // Board state and changes in the form of
+  // [{x,y,color},...]
+  getNeighbors() {
+    return _.filter(el => el)([
+      (this.props.isTopEdge     ? null : {x: this.props.x, y: this.props.y + 1, color: BOARD.EMPTY }),
+      (this.props.isRightEdge   ? null : {x: this.props.x + 1, y: this.props.y, color: BOARD.EMPTY }),
+      (this.props.isBottomEdge  ? null : {x: this.props.x, y: this.props.y - 1, color: BOARD.EMPTY }),
+      (this.props.isLeftEdge    ? null : {x: this.props.x - 1, y: this.props.y, color: BOARD.EMPTY })
+    ])
   }
 
   playStone(e) {
 
-    fetch( 'http://localhost:4000/api', {
+    // fetch( 'http://localhost:4000/api', {
 
-      header: { 'content-type': 'application/json' },
-      mode: 'cors',
-      method: 'POST',
-      body: '{users {email}}'
+    //   header: { 'content-type': 'application/json' },
+    //   mode: 'cors',
+    //   method: 'POST',
+    //   body: '{users {email}}'
 
-    }).then(function(response) {
-      return response.json();
-    }).then(function(response) {
-      console.debug(response)
-    })
+    // }).then(function(response) {
+    //   return response.json();
+    // }).then(function(response) {
+    //   console.debug(response)
+    // })
 
     if (this.state.color) {
       // stone already played here
       return;
     }
     this.setState({ 
-      color: BOARD.COLOR[this.props.state.turn] 
+      color: this.props.turn
     });
   }
 
-  makeGridlineClass(props) {
+  makeGridlineClassName(props) {
     let className = 'grid-line';
 
     // corners
@@ -74,16 +85,18 @@ export default class Point extends React.Component {
   render() {
     let stone = null;
 
-    if (this.state.color === 'black') {
+    if (this.state.color === BOARD.BLACK) {
       stone = <div className="stone stone--black" />;
-    } else if (this.state.color === 'white') {
+    } else if (this.state.color === BOARD.WHITE) {
       stone = <div className="stone stone--white" />;
     }
 
     return (
-      <div className="point" onClick={this.playStone}>
+      <div 
+        className="point" 
+        onClick={this.playStone}>
         {stone}
-        <div className={this.makeGridlineClass(this.props)} />
+        <div className={this.makeGridlineClassName(this.props)} />
         {this.props.isStarPoint ? <div className="star-point" /> : null}
       </div>
     );
