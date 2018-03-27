@@ -3,26 +3,27 @@ import { render } from 'react-dom';
 import * as _ from 'ramda';
 import { BOARD } from '../utils/constants';
 
-import Point from './point';
+import Intersection from './intersection';
 
 class Board extends Component {
   constructor(props) {
     super(props);
 
-    // this.size = props.size;
-
     this.state = {
       turn: BOARD.BLACK,
       lastMovePassed: false,
       inAtari: false,
-      position: _.map( position => {
+      // Makes an array of ${size}^2 objects, 
+      // each with a coordinate pair and color
+      position: ([ ...Array( props.size * props.size ).keys() ])
+        .map( position => {
 
-        let row = position % props.size;
-        let column = Math.floor(position / props.size);
+          let row = position % props.size;
+          let column = Math.floor(position / props.size);
 
-        return { x: row, y: column, color: BOARD.EMPTY }
-
-      }) ([ ...Array( props.size * props.size ).keys() ])
+          return { x: row, y: column, color: BOARD.EMPTY }
+        }
+      ) 
     };
 
     this.handleBoardClick = this.handleBoardClick.bind(this);
@@ -55,8 +56,8 @@ class Board extends Component {
     // Start counting?
   }
 
-  createPointView(position) {
-    return <Point
+  createPointJsx(position) {
+    return <Intersection
               key={ position.x.toString() + ',' + position.y.toString() }
               x={position.x}
               y={position.y}
@@ -83,7 +84,7 @@ class Board extends Component {
     let stone = this.state.turn;
     return (
       <div className="board" onClick={(e) => this.handleBoardClick(e)}>
-        { this.state.position.map( position => this.createPointView(position) )}
+        { this.state.position.map( position => this.createPointJsx(position) )}
       </div>
     );
   }

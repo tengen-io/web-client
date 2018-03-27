@@ -2,7 +2,7 @@ import React from 'react';
 import { BOARD } from '../utils/constants';
 import * as _ from 'ramda';
 
-export default class Point extends React.Component {
+export default class Intersection extends React.Component {
   constructor(props) {
     super(props);
 
@@ -93,7 +93,7 @@ export default class Point extends React.Component {
 
     return (
       <div 
-        className="point" 
+        className="intersection" 
         onClick={this.playStone}>
         {stone}
         <div className={this.makeGridlineClassName(this.props)} />
