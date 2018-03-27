@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-
-import Board from './components/board';
+import { BOARD } from './utils/constants';
+import Game from './components/game';
 
 require('../stylesheets/app.scss');
 
-render(<Board size="19" />, document.getElementById('app'));
+render(
+    <Game />, 
+    document.getElementById('app'));

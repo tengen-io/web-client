@@ -9,6 +9,8 @@ class Board extends Component {
   constructor(props) {
     super(props);
 
+    console.log(props.size)
+
     this.state = {
       turn: BOARD.BLACK,
       lastMovePassed: false,
