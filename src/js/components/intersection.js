@@ -40,9 +40,12 @@ export default class Intersection extends React.Component {
     //   console.debug(response)
     // })
 
+    console.log('interstion props', this.props)
+
     if (this.state.color || this.props.gameIsOver) { 
       return;
     } else {
+      this.props.handleIntersectionClick(this.props)
       this.setState({
         color: this.props.turn
       });

@@ -16,8 +16,6 @@ export default class Game extends React.Component {
       inAtari: false,
       lastMovePassed: false,
       gameIsOver: false,
-      // Makes an array of ${size}^2 objects, 
-      // each with a coordinate pair and color
       position: ([ ...Array( props.size * props.size ).keys() ])
         .map( position => {
 
@@ -40,9 +38,9 @@ export default class Game extends React.Component {
   }
 
   handleBoardClick(point) {
-    // console.log('handleBoardClick', point)
+    console.log('handleBoardClick', point)
     if (this.state.gameIsOver) {
-      console.log('Game over')
+      console.log('Game is over')
       return;
     } else {
       this.setState({ 
@@ -53,8 +51,6 @@ export default class Game extends React.Component {
   }
 
   handlePass() {
-    console.log('pass') 
-    // console.log('thisPoint', point)
     this.pass();
   }
   
@@ -66,18 +62,14 @@ export default class Game extends React.Component {
       turn: this.switchPlayer(this.state.turn),
       lastMovePassed: true
     });
-    this.switchPlayer();
   }
 
   endGame() {
     console.log('GAME OVER');
     this.setState({ gameIsOver: true })
-    // Start counting?
   }
 
   render() {
-    // console.log('Game | position: ', this.state)
-    // console.log('myTest', this.myTest)
 
     return (
       <section className="game columns">
