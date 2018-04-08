@@ -27,7 +27,7 @@ export default class Game extends React.Component {
       )
     }
 
-    this.handleBoardClick = this.handleBoardClick.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.handlePass = this.handlePass.bind(this);
   }
   
@@ -37,8 +37,8 @@ export default class Game extends React.Component {
       : BOARD.BLACK
   }
 
-  handleBoardClick(point) {
-    console.log('handleBoardClick', point)
+  handleClick(point) {
+    console.log('handleClick getNeighbors', this.getNeighbors(point))
     if (this.state.gameIsOver) {
       console.log('Game is over')
       return;
@@ -47,6 +47,11 @@ export default class Game extends React.Component {
         turn: this.switchPlayer(this.state.turn)
       });
     }
+  }
+
+  // Board state and changes in the form of
+  // [{x,y,color},...]
+  getNeighbors(point) {
 
   }
 
@@ -78,7 +83,7 @@ export default class Game extends React.Component {
                  turn={this.state.turn}
                  position={this.state.position}
                  gameIsOver={this.state.gameIsOver}
-                 handleBoardClick={this.handleBoardClick} />
+                 handleClick={this.handleClick} />
         </div>
         <div className="column is-one-third">
           <Display turn={this.state.turn}

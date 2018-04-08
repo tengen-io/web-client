@@ -14,17 +14,6 @@ export default class Intersection extends React.Component {
     this.makeGridlineClassName = this.makeGridlineClassName.bind(this);
   }
 
-  // Board state and changes in the form of
-  // [{x,y,color},...]
-  getNeighbors() {
-    return _.filter(el => el)([
-      (this.props.isTopEdge     ? null : {x: this.props.x, y: this.props.y + 1, color: BOARD.EMPTY }),
-      (this.props.isRightEdge   ? null : {x: this.props.x + 1, y: this.props.y, color: BOARD.EMPTY }),
-      (this.props.isBottomEdge  ? null : {x: this.props.x, y: this.props.y - 1, color: BOARD.EMPTY }),
-      (this.props.isLeftEdge    ? null : {x: this.props.x - 1, y: this.props.y, color: BOARD.EMPTY })
-    ])
-  }
-
   playStone(e) {
 
     // fetch( 'http://localhost:4000/api', {
@@ -40,12 +29,10 @@ export default class Intersection extends React.Component {
     //   console.debug(response)
     // })
 
-    console.log('interstion props', this.props)
-
     if (this.state.color || this.props.gameIsOver) { 
       return;
     } else {
-      this.props.handleIntersectionClick(this.props)
+      this.props.handleClick(this.props)
       this.setState({
         color: this.props.turn
       });
