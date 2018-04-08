@@ -9,70 +9,33 @@ class Board extends Component {
   constructor(props) {
     super(props);
 
-    console.log(props.size)
+    console.log('PROPS', props)
+
+    // this.position = props.position;
 
     this.state = {
-      turn: BOARD.BLACK,
-      lastMovePassed: false,
-      inAtari: false,
-      // Makes an array of ${size}^2 objects, 
-      // each with a coordinate pair and color
-      position: ([ ...Array( props.size * props.size ).keys() ])
-        .map( position => {
-
-          let row = position % props.size;
-          let column = Math.floor(position / props.size);
-
-          return { x: row, y: column, color: BOARD.EMPTY }
-        }
-      ) 
+      position: this.props.position
     };
 
-    this.handleBoardClick = this.handleBoardClick.bind(this);
-
+    
   }
 
-  handleBoardClick(e) {
-    console.log(e.target)
-    this.setState({ 
-      turn: this.switchPlayer(this.state.turn)
-    });
-  }
-
-  switchPlayer(turn) {
-    return (turn === BOARD.BLACK) 
-      ? BOARD.WHITE
-      : BOARD.BLACK
-  }
-
-  pass() {
-    if (this.state.lastMovePassed) {
-      this.endGame()
-    }
-    this.setState({lastMovePassed: true});
-    this.switchPlayer();
-  }
-
-  endGame() {
-    console.log('GAME OVER');
-    // Start counting?
-  }
-
-  createPointJsx(position) {
+  createPointJsx(point) {
     return <Intersection
-              key={ position.x.toString() + ',' + position.y.toString() }
-              x={position.x}
-              y={position.y}
-              color={position.color}
-              turn={this.state.turn}
-              isTopEdge={position.y === 0}
-              isRightEdge={position.x === this.props.size - 1}
-              isBottomEdge={position.y === this.props.size - 1}
-              isLeftEdge={position.x === 0}
+              key={ point.x.toString() + ',' + point.y.toString() }
+              x={point.x}
+              y={point.y}
+              color={point.color}
+              turn={this.props.turn}
+              isTopEdge={point.y === 0}
+              isRightEdge={point.x === this.props.size - 1}
+              isBottomEdge={point.y === this.props.size - 1}
+              isLeftEdge={point.x === 0}
+              onClick={() => this.props.handleBoardClick(point)}
               isStarPoint={
                 // E.g. if grid(19) -> x and y are in [3,9,15]
-                [3, Math.floor(this.props.size / 2), this.props.size - 4].indexOf(position.x) >= 0 &&
-                [3, Math.floor(this.props.size / 2), this.props.size - 4].indexOf(position.y) >= 0
+                [3, Math.floor(this.props.size / 2), this.props.size - 4].indexOf(point.x) >= 0 &&
+                [3, Math.floor(this.props.size / 2), this.props.size - 4].indexOf(point.y) >= 0
               }
           />
   }
@@ -83,10 +46,12 @@ class Board extends Component {
     //     gridTemplateColumns: `repeat(${this.size}, 1fr)`,
     //     gridTemplateRows: `repeat(${this.size}, 1fr)`
     // }
-    let stone = this.state.turn;
+    // console.log('board state', this.state)
+    // console.log('board props', this.props)
+    let stone = this.props.turn;
     return (
-      <div className="board" onClick={(e) => this.handleBoardClick(e)}>
-        { this.state.position.map( position => this.createPointJsx(position) )}
+      <div className="board">
+        { this.state.position.map( point => this.createPointJsx(point) )}
       </div>
     );
   }

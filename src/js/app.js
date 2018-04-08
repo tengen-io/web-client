@@ -6,5 +6,5 @@ import Game from './components/game';
 require('../stylesheets/app.scss');
 
 render(
-    <Game />, 
+    <Game size={BOARD.SIZE}/>, 
     document.getElementById('app'));

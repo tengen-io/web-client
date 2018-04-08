@@ -31,7 +31,7 @@ export default class Display extends React.Component {
     return (
       <div className="display card">
         <div className="card-content has-text-centered">
-          <p className="display__time title is-3">
+          <p className="display__time title is-2">
             {
               `${this.state.minutes}:${this.state.seconds}`
             }
@@ -42,7 +42,6 @@ export default class Display extends React.Component {
         </div>
         <footer className="card-footer">
           <a href="#" className="card-footer-item">Pass</a>
-          <a href="#" className="card-footer-item">Resign</a>
         </footer>
       </div>
     )
