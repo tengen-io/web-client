@@ -40,13 +40,14 @@ export default class Intersection extends React.Component {
     //   console.debug(response)
     // })
 
-    if (this.state.color) {
-      // stone already played here
+    if (this.state.color || this.props.gameIsOver) { 
       return;
+    } else {
+      this.setState({
+        color: this.props.turn
+      });
     }
-    this.setState({ 
-      color: this.props.turn
-    });
+
   }
 
   makeGridlineClassName(props) {

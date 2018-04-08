@@ -6,6 +6,7 @@ import { BOARD } from '../utils/constants';
 export default class Display extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       minutes: ('0' + (new Date().getMinutes())).slice(-2),
       seconds: ('0' + (new Date().getSeconds())).slice(-2)
@@ -28,21 +29,26 @@ export default class Display extends React.Component {
   }
 
   render() {
+
+    let turn = (this.props.turn === BOARD.BLACK) ? 'Black' : 'White';
+    let stone = (this.props.turn === BOARD.BLACK) ? '⚫️' : '⚪️';
+
+    let displayText = ( this.props.gameIsOver ) 
+                        ? 'Game over'
+                        : `${ stone } ${ turn } to play`
+
     return (
       <div className="display card">
         <div className="card-content has-text-centered">
           <p className="display__time title is-2">
-            {
-              `${this.state.minutes}:${this.state.seconds}`
-            }
+            { `${this.state.minutes}:${this.state.seconds}` }
           </p>
-          <p className="subtitle is-5">
-            Black to play
+          <p className="display__subtitle subtitle is-5">
+            { displayText }
           </p>
+          <button className="button"
+                  onClick={() => this.props.pass()}>Pass</button>
         </div>
-        <footer className="card-footer">
-          <a href="#" className="card-footer-item">Pass</a>
-        </footer>
       </div>
     )
   }
