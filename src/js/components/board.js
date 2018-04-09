@@ -3,17 +3,14 @@ import { render } from 'react-dom';
 import * as _ from 'ramda';
 import { BOARD } from '../utils/constants';
 
+import { getPointFromCoords, getNeighborsFromCoords } from '../utils/gameUtilities';
+
+
 import Intersection from './intersection';
 
 class Board extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      position: this.props.position
-    };
-
-    // this.myFunction = this.myFunction.bind(this);
   }
 
 
@@ -21,7 +18,8 @@ class Board extends Component {
   render() {
     return (
       <div className="board">
-        { this.state.position.map( point => {
+        { this.props.position.map( point => {
+
           return (
             <Intersection
               key={ point.x.toString() + ',' + point.y.toString() }

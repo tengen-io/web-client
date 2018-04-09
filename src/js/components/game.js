@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 // import * as _ from 'ramda';
 import { BOARD } from '../utils/constants';
+import { getPointFromCoords, getNeighborsFromCoords, isValidMove } from '../utils/gameUtilities';
 
 import Board from './board';
 import Display from './display';
@@ -37,22 +38,33 @@ export default class Game extends React.Component {
       : BOARD.BLACK
   }
 
+  // position + point -> position'
+  playStone(position, selectedPoint) {
+    return position.map((point) => {
+      if (point.x === selectedPoint.x && point.y === selectedPoint.y) {
+        point.color = this.state.turn
+        return point
+      } else {
+        return point
+      }
+    })
+  }
+
   handleClick(point) {
-    console.log('handleClick getNeighbors', this.getNeighbors(point))
+
+    // console.log('handleClick',point)
+    isValidMove(this.state, point);
+
+
     if (this.state.gameIsOver) {
       console.log('Game is over')
       return;
     } else {
       this.setState({ 
-        turn: this.switchPlayer(this.state.turn)
+        turn: this.switchPlayer(this.state.turn),
+        position: this.state.position
       });
     }
-  }
-
-  // Board state and changes in the form of
-  // [{x,y,color},...]
-  getNeighbors(point) {
-
   }
 
   handlePass() {
