@@ -2,26 +2,38 @@
 import * as _ from 'ramda';
 import { BOARD } from './constants';
 
+export const updatePosition = (position, point, turn) => {
+  return position.map( (i) => {
+    let isSelectedPoint = (i.x === point.x) && (i.y === point.y);
+    if (isSelectedPoint) {
+      return _.merge(i, {color: turn});
+    } else {
+      return i;
+    }
+  })
+}
+
 export const isValidMove = (gameState, point) => {
 
-    var neighbors = getNeighborsFromCoords(gameState.position, point.x, point.y)
-    console.log('neighbors',neighbors)
-    // console.log(_.filter( neighbor => neighbor.color === BOARD.EMPTY, neighbors))
-    // console.log(point.neighbors)
-    // var isSurrounded = _.reduce( (neighbor) => {
-    //     return neighbor.color ===
-    // }, false, neighbors )    
+  var noLiberties = getLiberties(gameState.position, point) === BOARD.EMPTY;
+  var pointNotEmpty = point.color !== BOARD.EMPTY;
 
-    return true;
+  if (noLiberties || pointNotEmpty) {
+    return false;
+  }
+
+  return true;
 }
 
 export const getLiberties = (position, point) => {
 
-    // console.log(point.neighbors)
-    // console.log('liberties', _.pluck('color', point.neighbors))
-    // console.log(
-    //     _.reduce( neighbor => console.log(neighbor), 0, _.pluck('color', point.neighbors))
-    // )
+    var count = _.countBy(
+        _.identity, 
+        _.pluck('color', 
+          getNeighborsFromPoint(position, point)
+        ));
+
+    return count[BOARD.EMPTY] || 0;
 
 }
 
@@ -42,6 +54,16 @@ export const getPointFromCoords = (position, xCoord, yCoord) => {
 }
 
 // position, coordinates -> point
+export const getColorFromPoint = (position, point) => {
+
+    return _.head(_.filter(
+        (i) => i.x === point.x 
+            && i.y === point.y
+    )(position))
+
+}
+
+// position, coordinates -> point
 export const getAdjacentLeftFromCoords = (position, xCoord, yCoord) => {
     return getPointFromCoords(position, xCoord - 1, yCoord) || null;
 }
@@ -51,31 +73,31 @@ export const getAdjacentRightFromCoords = (position, xCoord, yCoord) => {
 }
 // position, coordinates -> point
 export const getAdjacentTopFromCoords = (position, xCoord, yCoord) => {
-    return getPointFromCoords(position, xCoord - 1, yCoord) || null;
+    return getPointFromCoords(position, xCoord , yCoord - 1) || null;
 }
 // position, coordinates -> point
 export const getAdjacentBottomFromCoords = (position, xCoord, yCoord) => {
-    return getPointFromCoords(position, xCoord + 1, yCoord) || null;
+    return getPointFromCoords(position, xCoord, yCoord + 1) || null;
+}
+
+// position, coordinates -> neighbors list
+export const getNeighborsFromPoint = (position, point) => {
+    return [
+        getAdjacentTopFromCoords(position, point.x, point.y),
+        getAdjacentRightFromCoords(position, point.x, point.y),
+        getAdjacentBottomFromCoords(position, point.x, point.y),
+        getAdjacentLeftFromCoords(position, point.x, point.y),
+    ]
 }
 
 // position, coordinates -> neighbors list
 export const getNeighborsFromCoords = (position, xCoord, yCoord) => {
-
-    // console.log('getNeighborsFromCoords', xCoord, yCoord)
-
-    // return {
-    //     top: getAdjacentTopFromCoords(position, xCoord, yCoord),
-    //     right: getAdjacentRightFromCoords(position, xCoord, yCoord),
-    //     bottom: getAdjacentBottomFromCoords(position, xCoord, yCoord),
-    //     left: getAdjacentLeftFromCoords(position, xCoord, yCoord),
-    // }
     return [
         getAdjacentTopFromCoords(position, xCoord, yCoord),
         getAdjacentRightFromCoords(position, xCoord, yCoord),
         getAdjacentBottomFromCoords(position, xCoord, yCoord),
         getAdjacentLeftFromCoords(position, xCoord, yCoord),
     ]
-
 }
 
 

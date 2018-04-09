@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 // import * as _ from 'ramda';
 import { BOARD } from '../utils/constants';
-import { getPointFromCoords, getNeighborsFromCoords, isValidMove } from '../utils/gameUtilities';
+import { 
+  getPointFromCoords, 
+  getNeighborsFromCoords, 
+  isValidMove, 
+  updatePosition } from '../utils/gameUtilities';
 
 import Board from './board';
 import Display from './display';
@@ -51,19 +55,23 @@ export default class Game extends React.Component {
   }
 
   handleClick(point) {
-
-    // console.log('handleClick',point)
-    isValidMove(this.state, point);
-
-
     if (this.state.gameIsOver) {
+
       console.log('Game is over')
       return;
+
+    } else if (!isValidMove(this.state, point)) {
+
+      console.error('BZZZT: Illegal move!'); 
+      return;
+
     } else {
+
       this.setState({ 
         turn: this.switchPlayer(this.state.turn),
-        position: this.state.position
+        position: updatePosition(this.state.position, point, this.state.turn)
       });
+      
     }
   }
 
