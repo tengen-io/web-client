@@ -114,7 +114,6 @@ export default class Game extends React.Component {
   }
 
   handleNewGame() {
-    console.log('here')
     this.resetGame();
   }
 
