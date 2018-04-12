@@ -34,7 +34,6 @@ export default class Display extends React.Component {
     let stone = (this.props.turn === BOARD.BLACK) ? '⚫️' : '⚪️';
 
     let gameIsOver = this.props.gameIsOver;
-    console.log(gameIsOver);
 
     let displayText = ( gameIsOver ) 
                         ? 'Game over'
