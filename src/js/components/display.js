@@ -33,9 +33,16 @@ export default class Display extends React.Component {
     let turn = (this.props.turn === BOARD.BLACK) ? 'Black' : 'White';
     let stone = (this.props.turn === BOARD.BLACK) ? '⚫️' : '⚪️';
 
-    let displayText = ( this.props.gameIsOver ) 
+    let gameIsOver = this.props.gameIsOver;
+    console.log(gameIsOver);
+
+    let displayText = ( gameIsOver ) 
                         ? 'Game over'
                         : `${ stone } ${ turn } to play`
+
+    let buttonText = ( gameIsOver ) 
+                        ? 'New game'
+                        : 'Pass'
 
     return (
       <div className="display card">
@@ -46,8 +53,10 @@ export default class Display extends React.Component {
           <p className="display__subtitle subtitle is-5">
             { displayText }
           </p>
-          <button className="button"
-                  onClick={() => this.props.pass()}>Pass</button>
+          { !gameIsOver || <button className="button"
+                  onClick={() => this.props.newGame()}>New game</button> }
+          { gameIsOver || <button className="button"
+                  onClick={() => this.props.pass()}>Pass</button> }
         </div>
       </div>
     )

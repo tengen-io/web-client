@@ -21,19 +21,12 @@ export default class Game extends React.Component {
       inAtari: false,
       lastMovePassed: false,
       gameIsOver: false,
-      position: ([ ...Array( props.size * props.size ).keys() ])
-        .map( position => {
-
-          let row = position % props.size;
-          let column = Math.floor(position / props.size);
-
-          return { x: row, y: column, color: BOARD.EMPTY }
-        }
-      )
+      position: this.getCleanBoardPosition(props),
     }
 
     this.handleClick = this.handleClick.bind(this);
     this.handlePass = this.handlePass.bind(this);
+    this.handleNewGame = this.handleNewGame.bind(this);
   }
   
   switchPlayer(turn) {
@@ -52,6 +45,20 @@ export default class Game extends React.Component {
         return point
       }
     })
+  }
+
+  getCleanBoardPosition() {
+    const boardSize = 19;
+
+    return ([ ...Array( boardSize * boardSize ).keys() ])
+      .map( position => {
+
+        let row = position % boardSize;
+        let column = Math.floor(position / boardSize);
+
+        return { x: row, y: column, color: BOARD.EMPTY }
+      }
+    )
   }
 
   handleClick(point) {
@@ -91,7 +98,24 @@ export default class Game extends React.Component {
 
   endGame() {
     console.log('GAME OVER');
-    this.setState({ gameIsOver: true })
+    this.setState({ 
+      gameIsOver: true
+    });
+  }
+
+  resetGame() {
+    this.setState({
+      turn: BOARD.BLACK,
+      inAtari: false,
+      lastMovePassed: false,
+      gameIsOver: false,
+      position: this.getCleanBoardPosition(),
+    });
+  }
+
+  handleNewGame() {
+    console.log('here')
+    this.resetGame();
   }
 
   render() {
@@ -108,7 +132,8 @@ export default class Game extends React.Component {
         <div className="column is-one-third">
           <Display turn={this.state.turn}
                    gameIsOver={this.state.gameIsOver}
-                   pass={this.handlePass}/>
+                   pass={this.handlePass}
+                   newGame={this.handleNewGame}/>
         </div>
       </section>
     )
