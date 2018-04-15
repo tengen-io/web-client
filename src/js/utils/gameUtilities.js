@@ -13,28 +13,38 @@ export const updatePosition = (position, point, turn) => {
   })
 }
 
-export const isValidMove = (gameState, point) => {
+export const getCleanBoardPosition = () => {
+    const boardSize = 19;
+    return ([ ...Array( boardSize * boardSize ).keys() ])
+      .map( position => {
+        let row = position % boardSize;
+        let column = Math.floor(position / boardSize);
+        return { 
+          x: row, 
+          y: column, 
+          color: BOARD.EMPTY 
+        }
+      }
+    )
+  }
 
+export const isValidMove = (gameState, point) => {
   var noLiberties = getLiberties(gameState.position, point) === BOARD.EMPTY;
   var pointNotEmpty = point.color !== BOARD.EMPTY;
 
   if (noLiberties || pointNotEmpty) {
     return false;
   }
-
   return true;
 }
 
 export const getLiberties = (position, point) => {
-
     var count = _.countBy(
         _.identity, 
         _.pluck('color', 
           getNeighborsFromPoint(position, point)
         ));
-
     return count[BOARD.EMPTY] || 0;
-
 }
 
 export const getOppositeColor = (gameState) => {
@@ -43,9 +53,6 @@ export const getOppositeColor = (gameState) => {
 
 // position, coordinates -> point
 export const getPointFromCoords = (position, xCoord, yCoord) => {
-
-    // console.log('getPointFromCoords', xCoord, yCoord)
-
     return _.head(_.filter(
         (point) => point.x === xCoord 
                 && point.y === yCoord
@@ -55,12 +62,10 @@ export const getPointFromCoords = (position, xCoord, yCoord) => {
 
 // position, coordinates -> point
 export const getColorFromPoint = (position, point) => {
-
     return _.head(_.filter(
         (i) => i.x === point.x 
             && i.y === point.y
     )(position))
-
 }
 
 // position, coordinates -> point
