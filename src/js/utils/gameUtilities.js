@@ -13,6 +13,24 @@ export const updatePosition = (position, point, turn) => {
   })
 }
 
+export const getCleanBoardPosition = () => {
+    const boardSize = 19;
+
+    return ([ ...Array( boardSize * boardSize ).keys() ])
+      .map( position => {
+
+        let row = position % boardSize;
+        let column = Math.floor(position / boardSize);
+
+        return { 
+          x: row, 
+          y: column, 
+          color: BOARD.EMPTY 
+        }
+      }
+    )
+  }
+
 export const isValidMove = (gameState, point) => {
 
   var noLiberties = getLiberties(gameState.position, point) === BOARD.EMPTY;

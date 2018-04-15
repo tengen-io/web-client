@@ -6,7 +6,8 @@ import {
   getPointFromCoords, 
   getNeighborsFromCoords, 
   isValidMove, 
-  updatePosition } from '../utils/gameUtilities';
+  updatePosition,
+  getCleanBoardPosition } from '../utils/gameUtilities';
 
 import Board from './board';
 import Display from './display';
@@ -21,7 +22,7 @@ export default class Game extends React.Component {
       inAtari: false,
       lastMovePassed: false,
       gameIsOver: false,
-      position: this.getCleanBoardPosition(props),
+      position: getCleanBoardPosition(),
     }
 
     this.handleClick = this.handleClick.bind(this);
@@ -47,38 +48,17 @@ export default class Game extends React.Component {
     })
   }
 
-  getCleanBoardPosition() {
-    const boardSize = 19;
-
-    return ([ ...Array( boardSize * boardSize ).keys() ])
-      .map( position => {
-
-        let row = position % boardSize;
-        let column = Math.floor(position / boardSize);
-
-        return { x: row, y: column, color: BOARD.EMPTY }
-      }
-    )
-  }
-
   handleClick(point) {
     if (this.state.gameIsOver) {
-
-      console.log('Game is over')
-      return;
-
+      console.log('Game is over'); return;
     } else if (!isValidMove(this.state, point)) {
-
-      console.error('BZZZT: Illegal move!'); 
-      return;
-
+      console.error('BZZZT: Illegal move!');  return;
     } else {
-
       this.setState({ 
+        lastMovePassed: false,
         turn: this.switchPlayer(this.state.turn),
         position: updatePosition(this.state.position, point, this.state.turn)
       });
-      
     }
   }
 
@@ -109,7 +89,7 @@ export default class Game extends React.Component {
       inAtari: false,
       lastMovePassed: false,
       gameIsOver: false,
-      position: this.getCleanBoardPosition(),
+      position: getCleanBoardPosition(),
     });
   }
 
@@ -118,7 +98,6 @@ export default class Game extends React.Component {
   }
 
   render() {
-
     return (
       <section className="game columns">
         <div className="column is-two-thirds">
