@@ -5,16 +5,12 @@ import { BOARD } from './constants';
 export const updatePosition = (position, point, turn) => {
   return position.map( (i) => {
     let isSelectedPoint = (i.x === point.x) && (i.y === point.y);
-    if (isSelectedPoint) {
-      return _.merge(i, {color: turn});
-    } else {
-      return i;
-    }
+    return ( isSelectedPoint ? _.merge(i, {color: turn}) : i )
   })
 }
 
 export const getCleanBoardPosition = () => {
-    const boardSize = 19;
+    const boardSize = BOARD.SIZE; // Make this dynamic
     return ([ ...Array( boardSize * boardSize ).keys() ])
       .map( position => {
         let row = position % boardSize;
@@ -29,22 +25,20 @@ export const getCleanBoardPosition = () => {
   }
 
 export const isValidMove = (gameState, point) => {
-  var noLiberties = getLiberties(gameState.position, point) === BOARD.EMPTY;
-  var pointNotEmpty = point.color !== BOARD.EMPTY;
+  const { turn, position } = gameState;
+  const pointIsEmpty = point.color === BOARD.EMPTY;
+  const notSurrounded = getNeighborColors(position, point).includes(turn)
+                        || getNeighborColors(position, point).includes(BOARD.EMPTY)
 
-  if (noLiberties || pointNotEmpty) {
-    return false;
-  }
-  return true;
+  return pointIsEmpty && notSurrounded
 }
 
-export const getLiberties = (position, point) => {
-    var count = _.countBy(
-        _.identity, 
-        _.pluck('color', 
-          getNeighborsFromPoint(position, point)
-        ));
-    return count[BOARD.EMPTY] || 0;
+export const getNeighborColors = (position, point) => {
+    return _.pluck('color')(getNeighborsFromPoint(position, point))
+}
+
+export const hasLiberties = (position, point) => {
+    return getNeighborColors(position, point).includes(BOARD.EMPTY)
 }
 
 export const getOppositeColor = (gameState) => {
@@ -53,19 +47,16 @@ export const getOppositeColor = (gameState) => {
 
 // position, coordinates -> point
 export const getPointFromCoords = (position, xCoord, yCoord) => {
-    return _.head(_.filter(
-        (point) => point.x === xCoord 
-                && point.y === yCoord
-    )(position))
-
+    return _.head(_.filter( point => point.x === xCoord 
+                                  && point.y === yCoord
+                )(position))
 }
 
 // position, coordinates -> point
 export const getColorFromPoint = (position, point) => {
-    return _.head(_.filter(
-        (i) => i.x === point.x 
-            && i.y === point.y
-    )(position))
+    return _.head(_.filter( i => i.x === point.x 
+                              && i.y === point.y
+                )(position))
 }
 
 // position, coordinates -> point
@@ -105,10 +96,7 @@ export const getNeighborsFromCoords = (position, xCoord, yCoord) => {
     ]
 }
 
-
 // position, coordinates -> neighbors obj
 export const getColorFromCoords = (position, xCoord, yCoord) => {
-
     return (getPointFromCoords(position, xCoord, yCoord)).color
-
 }
