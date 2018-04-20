@@ -5,6 +5,8 @@ import { BOARD } from '../utils/constants';
 
 import { getPointFromCoords, getNeighborsFromCoords } from '../utils/gameUtilities';
 
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
 
 import Intersection from './intersection';
 
@@ -13,9 +15,7 @@ class Board extends Component {
     super(props);
   }
 
-
-
-  render() {
+  renderBoard() {
     return (
       <div className="board">
         { this.props.position.map( point => {
@@ -39,9 +39,44 @@ class Board extends Component {
                 [3, Math.floor(this.props.size / 2), this.props.size - 4].indexOf(point.y) >= 0
               }
             />
-          )} 
+          )}
         )}
       </div>
+    )
+  }
+
+  render() {
+    return (
+      <Query query={gql`
+        {
+          game(id: 6) {
+            id,
+            status,
+            playerTurnId,
+            players {
+              id,
+              color,
+              user {
+                username
+              }
+            },
+            stones {
+              x,
+              y,
+              color
+            }
+          }
+        }
+      `}>
+        {({ loading, error, data }) => {
+          if (loading) return <p>Loading...</p>;
+          if (error) return <p>Error :(</p>;
+
+          console.log(data);
+
+          return this.renderBoard();
+        }}
+      </Query>
     );
   }
 }
