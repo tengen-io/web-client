@@ -12,6 +12,34 @@ const client = new ApolloClient({
   //uri: process.env['API_URL']
 });
 
+// import Home from '../pages/Home';
+// import Isolog from '../pages/Isolog';
+// import Fireball from '../pages/Fireball';
+// import AllThePrimes from '../pages/AllThePrimes';
+// import NotTheWeb from '../pages/NotTheWeb';
+// import FourOhFour from '../pages/FourOhFour';
+
+// const PAGES = {
+//     '/': Home,
+//     '/isolog': Isolog,
+//     '/fireball': Fireball,
+//     '/all-the-primes': AllThePrimes,
+//     '/not-the-web': NotTheWeb,
+// };
+
+// class App extends Component {
+//   render() {
+//       const Handler = PAGES[this.props.pathname] || FourOhFour;
+
+//       return <Handler />;
+//   }
+// }
+
+// App.propTypes = {
+//     pathname: PropTypes.oneOf(Object.keys(PAGES)).isRequired,
+// };
+
+
 require('../stylesheets/app.scss');
 
 render(
