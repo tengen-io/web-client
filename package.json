@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "apollo-boost": "^0.1.4",
-    "bulma": "^0.6.2",
+    "bulma": "^0.7.1",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.1",
     "prettier": "^1.11.1",
