@@ -5,6 +5,15 @@ import React, {Component} from 'react';
 
 export default class AboutPage extends React.Component {
     render() {
-        return <p className="title">About: Learnin' bout thangs</p>;
+        return (
+            <section class="page page--home">
+                <div className="hero is-info hero--home">
+                    <div className="hero-body">
+                        <p className="title">About</p>
+                        <p className="subtitle">I'm the about page</p>
+                    </div>
+                </div>
+            </section>
+        );
     }
 }
