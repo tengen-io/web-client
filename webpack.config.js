@@ -6,10 +6,9 @@ const paths = {
     DIST: path.resolve(__dirname, 'dist'),
     SRC: path.resolve(__dirname, 'src'),
     JS: path.resolve(__dirname, 'src/js'),
-}
+};
 
 let config = {
-
     entry: path.join(paths.JS, 'app.js'),
 
     output: {
@@ -19,7 +18,6 @@ let config = {
 
     module: {
         rules: [
-
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
@@ -27,28 +25,29 @@ let config = {
             },
 
             {
-                test:/\.scss$/,
-                use:['style-loader', 'css-loader', 'sass-loader']
+                test: /\.scss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader'],
             },
-
         ],
     },
 
     devServer: {
-        hot: true
+        historyApiFallback: true,
+        contentBase: './',
+        hot: true,
     },
 
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.join(paths.SRC, 'index.html')
+            template: path.join(paths.SRC, 'index.html'),
         }),
         new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
     ],
 
     resolve: {
-        extensions: ['.js', '.jsx']
-    }
+        extensions: ['.js', '.jsx'],
+    },
 };
 
 module.exports = config;

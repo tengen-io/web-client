@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
+
 import {BOARD} from './utils/constants';
-// import Game from './components/game';
 
 import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from 'react-apollo';
 
 import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
 
-// Bootleg router
 import HomePage from './pages/Home';
 import AboutPage from './pages/About';
 import LobbyPage from './pages/Lobby';
@@ -41,6 +40,9 @@ class Header extends React.Component {
                     </Link>
                     <Link className="navbar-item" to="/register">
                         Register
+                    </Link>
+                    <Link className="navbar-item" to="/game">
+                        Game
                     </Link>
                 </nav>
             </header>
