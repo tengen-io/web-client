@@ -12,6 +12,13 @@ import {
 import Board from './board';
 import Display from './display';
 
+  // Setting up routes
+  //
+  // <Switch>
+  //   <Route exact path='/lobby' component={LobbyPage}/>
+  //   <Route path='/game/:number' component={GamePage}/>
+  // </Switch>
+
 export default class Game extends React.Component {
 
   constructor(props) {
