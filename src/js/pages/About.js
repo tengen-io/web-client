@@ -6,7 +6,7 @@ import React, {Component} from 'react';
 export default class AboutPage extends React.Component {
     render() {
         return (
-            <section class="page page--home">
+            <section className="page page--home">
                 <div className="hero is-info hero--home">
                     <div className="hero-body">
                         <p className="title">About</p>
