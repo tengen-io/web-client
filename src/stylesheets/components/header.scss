@@ -1,0 +1,11 @@
+
+.header {
+    // border: 1px solid red;
+    &__navbar {
+        min-height: 2rem;
+    }
+
+    &__navbar-item:last-of-type {
+        margin-left: auto;
+    }
+}

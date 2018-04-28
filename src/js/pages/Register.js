@@ -6,6 +6,14 @@ export default class RegisterPage extends React.Component {
     render() {
         return (
             <section className="page page--registration">
+
+                <div className="hero hero--home">
+                    <div className="hero-body">
+                        <p className="title">Register</p>
+                        <p className="subtitle">Sign up or sign in</p>
+                    </div>
+                </div>
+
                 <div className="field">
                     <label className="label">Username</label>
                     <div className="control">
@@ -22,16 +30,8 @@ export default class RegisterPage extends React.Component {
                         <input
                             className="input"
                             type="email"
-                            placeholder="baduk@example.com"
+                            placeholder="name@example.com"
                         />
-                    </div>
-                </div>
-                <div className="field">
-                    <div className="control">
-                        <label className="checkbox">
-                            <input type="checkbox" />
-                            I agree to the <a href="#">terms and conditions</a>
-                        </label>
                     </div>
                 </div>
                 <div className="field is-grouped">
