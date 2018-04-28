@@ -6,6 +6,8 @@
 @import 'base/global';
 @import 'base/z-index';
 
+@import 'components/app.scss';
+@import 'components/header.scss';
 @import 'components/game.scss';
 @import 'components/board.scss';
 @import 'components/display.scss';

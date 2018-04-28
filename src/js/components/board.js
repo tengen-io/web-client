@@ -1,12 +1,15 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
+import React, {Component} from 'react';
+import {render} from 'react-dom';
 import * as _ from 'ramda';
-import { BOARD } from '../utils/constants';
+import {BOARD} from '../utils/constants';
 
-import { getPointFromCoords, getNeighborsFromCoords } from '../utils/gameUtilities';
+import {
+  getPointFromCoords,
+  getNeighborsFromCoords,
+} from '../utils/gameUtilities';
 
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
+import {Query} from 'react-apollo';
+import gql from 'graphql-tag';
 
 import Intersection from './intersection';
 
@@ -18,11 +21,10 @@ class Board extends Component {
   renderBoard() {
     return (
       <div className="board">
-        { this.props.position.map( point => {
-
+        {this.props.position.map(point => {
           return (
             <Intersection
-              key={ point.x.toString() + ',' + point.y.toString() }
+              key={point.x.toString() + ',' + point.y.toString()}
               x={point.x}
               y={point.y}
               color={point.color}
@@ -35,40 +37,50 @@ class Board extends Component {
               handleClick={this.props.handleClick}
               isStarPoint={
                 // E.g. if grid(19) -> x and y are in [3,9,15]
-                [3, Math.floor(this.props.size / 2), this.props.size - 4].indexOf(point.x) >= 0 &&
-                [3, Math.floor(this.props.size / 2), this.props.size - 4].indexOf(point.y) >= 0
+                [
+                  3,
+                  Math.floor(this.props.size / 2),
+                  this.props.size - 4,
+                ].indexOf(point.x) >= 0 &&
+                [
+                  3,
+                  Math.floor(this.props.size / 2),
+                  this.props.size - 4,
+                ].indexOf(point.y) >= 0
               }
             />
-          )}
-        )}
+          );
+        })}
       </div>
-    )
+    );
   }
 
   render() {
     return (
-      <Query query={gql`
-        {
-          game(id: 6) {
-            id,
-            status,
-            playerTurnId,
-            players {
-              id,
-              color,
-              user {
-                username
+      <Query
+        query={gql`
+          {
+            game(id: 6) {
+              id
+              status
+              playerTurnId
+              players {
+                id
+                color
+                user {
+                  username
+                }
               }
-            },
-            stones {
-              x,
-              y,
-              color
+              stones {
+                x
+                y
+                color
+              }
             }
           }
-        }
-      `}>
-        {({ loading, error, data }) => {
+        `}
+      >
+        {({loading, error, data}) => {
           if (loading) return <p>Loading...</p>;
           if (error) return <p>Error :(</p>;
 
