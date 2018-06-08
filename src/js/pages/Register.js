@@ -40,27 +40,22 @@ class FormComponent extends React.Component {
       email: '',
       username: '',
       password: '',
-      passwordConfirm: ''
+      passwordConfirmation: ''
     }
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // combine these two
-  handleChange(field) {
-    console.log(field)
-    // this.setState(field);
+  handleChange(event) {
+    this.setState({[event.target.name]: event.target.value});
   }
 
-  handleSubmit() {
-    // createUser(URL, this.state)
-    //   .then(data => console.log(data)) // JSON from `response.json()` call
-    //   .catch(error => console.error(error))
-    console.log(this.state)
+  buildParams() {
+    return ({
+      variables: this.state
+    })
   }
 
-
-  renderForm() {
+  renderForm(createUser) {
     return( <section className="page page--registration">
       <RegisterHero />
 
@@ -68,28 +63,32 @@ class FormComponent extends React.Component {
         <form className="column is-one-third"
               onSubmit={e => {
                     e.preventDefault();
-                    addTodo(this.handleSubmit());
-                    input.value = "";
+                    console.log(this.state);
+                    createUser(this.buildParams());
                   }}>
-          <Input type="text" 
-                label="Username" 
-                value={this.state.username} 
-                onChange={this.handleChange} 
+          <input type="text"
+                label="Username"
+                name="username"
+                value={this.state.username}
+                onChange={this.handleChange}
                 placeholder="username" />
-          <Input type="email" 
-                label="Email" 
-                value={this.state.email} 
-                onChange={this.handleChange} 
+          <input type="email"
+                label="Email"
+                name="email"
+                value={this.state.email}
+                onChange={this.handleChange}
                 placeholder="name@example.com" />
-          <Input type="password" 
-                label="Password" 
-                value={this.state.password} 
-                onChange={this.handleChange} 
+          <input type="password"
+                label="Password"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleChange}
                 placeholder="" />
-          <Input type="password" 
-                label="Confirm password" 
-                value={this.state.passwordConfirm} 
-                onChange={this.handleChange} 
+          <input type="password"
+                label="Confirm password"
+                name="passwordConfirmation"
+                value={this.state.passwordConfirmation}
+                onChange={this.handleChange}
                 placeholder="" />
           <button className="button">Create account</button>
         </form>
@@ -99,27 +98,15 @@ class FormComponent extends React.Component {
   }
 
   render() {
-    return <div></div>
+    return (
+      <Mutation mutation={CREATE_USER}>
+        {(createUser, { data }) => (
+          this.renderForm(createUser)
+        )}
+      </Mutation>
+    );
   }
-
 };
-    // taken from the render() return 
-    //  <Mutation mutation={CREATE_USER}>
-    //   {(addTodo, { data }) => (
-    //     <div>
-    //       <form
-            
-    //       >
-    //         <input
-    //           ref={node => {
-    //             input = node;
-    //           }}
-    //         />
-    //         <button type="submit">Add Todo</button>
-    //       </form>
-    //     </div>
-    //   )}
-    // </Mutation>
 
 export default class RegisterPage extends React.Component {
   render() {
@@ -127,26 +114,11 @@ export default class RegisterPage extends React.Component {
   }
 }
 
-// mutation CreateUser {
-//   createUser(username: "ian", email: "ian@ian.ian", password: "tinkertaylor", passwordConfirmation: "tinkertaylor") {
-//     id
-//     token
-//   }
-// }
-
-// {
-//   "data": {
-//     "createUser": {
-//       "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJnb19zdG9wX3dlYiIsImV4cCI6MTUyOTY0MDg2OCwiaWF0IjoxNTI3MjIxNjY4LCJpc3MiOiJnb19zdG9wX3dlYiIsImp0aSI6ImVjMjdiODljLWIyZDgtNDkwZC05M2NmLTA1MjVmMjhiZTVlOCIsIm5iZiI6MTUyNzIyMTY2Nywic3ViIjoiMTciLCJ0eXAiOiJhY2Nlc3MifQ._0jNoqgZT174HhpAKN_-sB9DdWmusLl5t0moJ2PXd1_DW1rY8pu3z-K7YnwSI8BBBoJrRvyPYHQc862PsVD-cQ",
-//       "id": "17"
-//     }
-//   }
-// }
-
-// const CREATE_USER = gql`
-//   mutation CreateUser {
-//     createUser(${this.state}) {
-//       id
-//       token
-//     }
-//   }`
+const CREATE_USER =
+  gql`
+   mutation CreateUser($email: String!, $password: String!, $passwordConfirmation: String!, $username: String!) {
+     createUser(email: $email, password: $password, passwordConfirmation: $passwordConfirmation, username: $username) {
+       id
+       token
+     }
+   }`;
