@@ -42,84 +42,42 @@ class FormComponent extends React.Component {
       password: '',
       passwordConfirm: ''
     }
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  // combine these two
-  handleChange(field) {
-    console.log(field)
-    // this.setState(field);
-  }
-
-  handleSubmit() {
-    // createUser(URL, this.state)
-    //   .then(data => console.log(data)) // JSON from `response.json()` call
-    //   .catch(error => console.error(error))
-    console.log(this.state)
-  }
-
-
-  renderForm() {
-    return( <section className="page page--registration">
-      <RegisterHero />
-
-      <div className="columns is-centered">
-        <form className="column is-one-third"
-              onSubmit={e => {
-                    e.preventDefault();
-                    addTodo(this.handleSubmit());
-                    input.value = "";
-                  }}>
-          <Input type="text" 
-                label="Username" 
-                value={this.state.username} 
-                onChange={this.handleChange} 
-                placeholder="username" />
-          <Input type="email" 
-                label="Email" 
-                value={this.state.email} 
-                onChange={this.handleChange} 
-                placeholder="name@example.com" />
-          <Input type="password" 
-                label="Password" 
-                value={this.state.password} 
-                onChange={this.handleChange} 
-                placeholder="" />
-          <Input type="password" 
-                label="Confirm password" 
-                value={this.state.passwordConfirm} 
-                onChange={this.handleChange} 
-                placeholder="" />
-          <button className="button">Create account</button>
-        </form>
-      </div>
-    </section>
-    )
+    // this.handleChange = this.handleChange.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   render() {
-    return <div></div>
+    return (
+      <section className="page page--registration">
+        <RegisterHero />
+
+        <div className="columns is-centered">
+          <form className="column is-one-third">
+            <Input type="text" 
+                  label="Username" 
+                  value={this.state.username} 
+                  placeholder="username" />
+            <Input type="email" 
+                  label="Email" 
+                  value={this.state.email} 
+                  placeholder="name@example.com" />
+            <Input type="password" 
+                  label="Password" 
+                  value={this.state.password} 
+                  placeholder="" />
+            <Input type="password" 
+                  label="Confirm password" 
+                  value={this.state.passwordConfirm} 
+                  placeholder="" />
+            <button className="button">Create account</button>
+          </form>
+        </div>
+      </section>
+    )
   }
 
 };
-    // taken from the render() return 
-    //  <Mutation mutation={CREATE_USER}>
-    //   {(addTodo, { data }) => (
-    //     <div>
-    //       <form
-            
-    //       >
-    //         <input
-    //           ref={node => {
-    //             input = node;
-    //           }}
-    //         />
-    //         <button type="submit">Add Todo</button>
-    //       </form>
-    //     </div>
-    //   )}
-    // </Mutation>
+
 
 export default class RegisterPage extends React.Component {
   render() {
@@ -143,10 +101,12 @@ export default class RegisterPage extends React.Component {
 //   }
 // }
 
-// const CREATE_USER = gql`
-//   mutation CreateUser {
-//     createUser(${this.state}) {
-//       id
-//       token
-//     }
-//   }`
+const CREATE_USER = (state) => {
+  return gql`
+  mutation CreateUser {
+    createUser(${state}) {
+      id
+      token
+    }
+  }`
+}
