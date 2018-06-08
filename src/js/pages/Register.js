@@ -48,31 +48,27 @@ class FormComponent extends React.Component {
 
   render() {
     return (
-      <section className="page page--registration">
-        <RegisterHero />
-
-        <div className="columns is-centered">
-          <form className="column is-one-third">
-            <Input type="text" 
-                  label="Username" 
-                  value={this.state.username} 
-                  placeholder="username" />
-            <Input type="email" 
-                  label="Email" 
-                  value={this.state.email} 
-                  placeholder="name@example.com" />
-            <Input type="password" 
-                  label="Password" 
-                  value={this.state.password} 
-                  placeholder="" />
-            <Input type="password" 
-                  label="Confirm password" 
-                  value={this.state.passwordConfirm} 
-                  placeholder="" />
-            <button className="button">Create account</button>
-          </form>
-        </div>
-      </section>
+      <div className="columns is-centered">
+        <form className="column is-one-third">
+          <Input type="text" 
+                label="Username" 
+                value={this.state.username} 
+                placeholder="username" />
+          <Input type="email" 
+                label="Email" 
+                value={this.state.email} 
+                placeholder="name@example.com" />
+          <Input type="password" 
+                label="Password" 
+                value={this.state.password} 
+                placeholder="" />
+          <Input type="password" 
+                label="Confirm password" 
+                value={this.state.passwordConfirm} 
+                placeholder="" />
+          <button className="button">Create account</button>
+        </form>
+      </div>
     )
   }
 
@@ -81,7 +77,12 @@ class FormComponent extends React.Component {
 
 export default class RegisterPage extends React.Component {
   render() {
-    return <FormComponent />;
+    return (
+      <section className="page page--registration">
+        <RegisterHero />
+        <FormComponent />
+      </section>
+    );
   }
 }
 
