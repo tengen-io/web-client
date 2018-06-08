@@ -1,8 +1,11 @@
-
 .header {
     // border: 1px solid red;
     &__navbar {
         min-height: 2rem;
+    }
+
+    &__navbar-item {
+        font-size: 14px;
     }
 
     &__navbar-item:last-of-type {
