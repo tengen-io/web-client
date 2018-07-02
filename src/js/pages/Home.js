@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 export default class HomePage extends React.Component {
     render() {
         return (
-            <section class="page page--home">
+            <section className="page page--home">
                 <div className="hero hero--home">
                     <div className="hero-body">
                         <p className="title">GoStop</p>

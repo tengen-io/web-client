@@ -57,29 +57,7 @@ class Board extends Component {
 
   render() {
     return (
-      <Query
-        query={gql`
-          {
-            game(id: 6) {
-              id
-              status
-              playerTurnId
-              players {
-                id
-                color
-                user {
-                  username
-                }
-              }
-              stones {
-                x
-                y
-                color
-              }
-            }
-          }
-        `}
-      >
+      <Query query={GET_BOARD}>
         {({loading, error, data}) => {
           if (loading) return <p>Loading...</p>;
           if (error) return <p>Error :(</p>;
@@ -94,3 +72,25 @@ class Board extends Component {
 }
 
 export default Board;
+
+const GET_BOARD = gql`
+  {
+    game(id: 6) {
+      id
+      status
+      playerTurnId
+      players {
+        id
+        color
+        user {
+          username
+        }
+      }
+      stones {
+        x
+        y
+        color
+      }
+    }
+  }
+`;

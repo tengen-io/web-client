@@ -16,6 +16,4 @@ $board-size: 540;
   width: #{$board-size}px;
   border: 30px solid $wheat;
   box-sizing: border-box;
-  box-shadow: 0 14px 28px 0 rgba($stone-black, 0.15),
-    0 0 10px 0 rgba($stone-black, 0.08);
 }

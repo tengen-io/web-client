@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-// import * as _ from 'ramda';
+import * as R from 'ramda';
 import {BOARD} from '../utils/constants';
 import {
   getPointFromCoords,
@@ -12,13 +12,6 @@ import {
 
 import Board from './board';
 import Display from './display';
-
-// Setting up routes
-//
-// <Switch>
-//   <Route exact path='/lobby' component={LobbyPage}/>
-//   <Route path='/game/:number' component={GamePage}/>
-// </Switch>
 
 export default class Game extends React.Component {
   constructor(props) {
