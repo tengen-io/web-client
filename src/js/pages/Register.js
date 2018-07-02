@@ -1,8 +1,8 @@
 // Sign up, sign in
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Input from '../components/input';
-import { Mutation } from 'react-apollo';
+import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 
 const URL = 'http://example.com/answer';
@@ -26,11 +26,10 @@ function createUser(url, data) {
     credentials: 'same-origin', // include, same-origin, *omit
     headers: {
       'user-agent': 'Mozilla/4.0 MDN Example',
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
-  })
-  .then(response => response.json()) // parses response to JSON
+  }).then(response => response.json()); // parses response to JSON
 }
 
 class FormComponent extends React.Component {
@@ -40,40 +39,88 @@ class FormComponent extends React.Component {
       email: '',
       username: '',
       password: '',
-      passwordConfirm: ''
-    }
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
+      passwordConfirmation: '',
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  buildParams() {
+    return {
+      variables: this.state,
+    };
+  }
+
+  renderForm(createUser) {
+    return (
+      <section className="page page--registration">
+        <RegisterHero />
+
+        <div className="columns is-centered">
+          <form
+            className="column is-one-third"
+            onSubmit={e => {
+              e.preventDefault();
+              console.log(this.state);
+              createUser(this.buildParams());
+            }}
+          >
+            <Input
+              name="username"
+              label="Username"
+              inputType="text"
+              content={this.state.username}
+              controlFunc={this.handleChange}
+              placeholder="username"
+            />
+            <Input
+              name="email"
+              label="Email"
+              inputType="email"
+              content={this.state.email}
+              controlFunc={this.handleChange}
+              placeholder="name@example.com"
+            />
+            <Input
+              name="password"
+              label="Password"
+              inputType="password"
+              content={this.state.password}
+              controlFunc={this.handleChange}
+              placeholder=""
+            />
+            <Input
+              name="passwordConfirmation"
+              label="Confirm password"
+              inputType="password"
+              content={this.state.passwordConfirmation}
+              controlFunc={this.handleChange}
+              placeholder=""
+            />
+            <button className="button">Create account</button>
+          </form>
+        </div>
+      </section>
+    );
   }
 
   render() {
     return (
-      <div className="columns is-centered">
-        <form className="column is-one-third">
-          <Input type="text" 
-                label="Username" 
-                value={this.state.username} 
-                placeholder="username" />
-          <Input type="email" 
-                label="Email" 
-                value={this.state.email} 
-                placeholder="name@example.com" />
-          <Input type="password" 
-                label="Password" 
-                value={this.state.password} 
-                placeholder="" />
-          <Input type="password" 
-                label="Confirm password" 
-                value={this.state.passwordConfirm} 
-                placeholder="" />
-          <button className="button">Create account</button>
-        </form>
-      </div>
-    )
+      <Mutation mutation={CREATE_USER}>
+        {(createUser, {data}) => this.renderForm(createUser)}
+      </Mutation>
+    );
   }
-
-};
-
+}
 
 export default class RegisterPage extends React.Component {
   render() {
@@ -86,28 +133,21 @@ export default class RegisterPage extends React.Component {
   }
 }
 
-// mutation CreateUser {
-//   createUser(username: "ian", email: "ian@ian.ian", password: "tinkertaylor", passwordConfirmation: "tinkertaylor") {
-//     id
-//     token
-//   }
-// }
-
-// {
-//   "data": {
-//     "createUser": {
-//       "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJnb19zdG9wX3dlYiIsImV4cCI6MTUyOTY0MDg2OCwiaWF0IjoxNTI3MjIxNjY4LCJpc3MiOiJnb19zdG9wX3dlYiIsImp0aSI6ImVjMjdiODljLWIyZDgtNDkwZC05M2NmLTA1MjVmMjhiZTVlOCIsIm5iZiI6MTUyNzIyMTY2Nywic3ViIjoiMTciLCJ0eXAiOiJhY2Nlc3MifQ._0jNoqgZT174HhpAKN_-sB9DdWmusLl5t0moJ2PXd1_DW1rY8pu3z-K7YnwSI8BBBoJrRvyPYHQc862PsVD-cQ",
-//       "id": "17"
-//     }
-//   }
-// }
-
-const CREATE_USER = (state) => {
-  return gql`
-  mutation CreateUser {
-    createUser(${state}) {
+const CREATE_USER = gql`
+  mutation CreateUser(
+    $email: String!
+    $password: String!
+    $passwordConfirmation: String!
+    $username: String!
+  ) {
+    createUser(
+      email: $email
+      password: $password
+      passwordConfirmation: $passwordConfirmation
+      username: $username
+    ) {
       id
       token
     }
-  }`
-}
+  }
+`;

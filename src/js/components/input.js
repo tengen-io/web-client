@@ -1,18 +1,25 @@
 import React from 'react';
 
-const Input = ({type, label, placeholder}) => {
-  const inputType = type || 'type';
-  const inputLabel = label || 'Field';
-  const inputlaceholder = placeholder || 'Enter text';
+const Input = props => {
+  // const inputType = type || 'type';
+  // const inputLabel = label || 'Field';
+  // const inputValue = value;
+  // const inputlaceholder = placeholder || 'Enter text';
+  // const inputOnChange = onChange;
+
+  // console.log(props.content);
 
   return (
     <div className="field">
-      <label className="label">{inputLabel}</label>
+      <label className="label">{props.label}</label>
       <div className="control">
         <input
           className="input"
-          type={inputType}
-          placeholder={inputlaceholder}
+          name={props.name}
+          type={props.inputType}
+          placeholder={props.placeholder}
+          onChange={props.controlFunc}
+          value={props.content}
         />
       </div>
     </div>
