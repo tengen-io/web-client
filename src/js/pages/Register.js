@@ -12,8 +12,7 @@ import gql from 'graphql-tag';
 const RegisterHero = props => (
   <div className="hero has-text-centered">
     <div className="hero-body">
-      <p className="title">{props.title}</p>
-      <p className="subtitle">{props.subtitle}</p>
+      <p className="title is-2">{props.title}</p>
     </div>
   </div>
 );
@@ -42,6 +41,9 @@ export default class RegisterPage extends React.Component {
   render() {
     return (
       <section className="page page--registration">
+        <RegisterHero
+          title={this.state.isLoggingIn ? 'Welcome back' : 'Join GoStop'}
+        />
         <div className="columns is-centered">
           <div className="column is-one-third tabs is-centered is-fullwidth is-boxed">
             <ul>
@@ -54,15 +56,6 @@ export default class RegisterPage extends React.Component {
             </ul>
           </div>
         </div>
-
-        <RegisterHero
-          title={this.state.isLoggingIn ? 'Welcome back' : 'Welcome'}
-          subtitle={
-            this.state.isLoggingIn
-              ? 'Log in to your existing account'
-              : 'Create a new GoStop account and start playing'
-          }
-        />
 
         <FormComponent isLoggingIn={this.state.isLoggingIn} />
       </section>
