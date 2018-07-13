@@ -9,17 +9,13 @@ function logIn(url, data) {
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'user-agent': 'Mozilla/4.0 MDN Example',
       'content-type': 'application/json',
     },
     method: 'POST',
-  }).then(response => {
-    response.json();
-    console.log('the response', response.json());
   });
 }
 
-class LogInForm extends React.Component {
+export default class LogInForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -92,5 +88,3 @@ const LOG_IN = gql`
     }
   }
 `;
-
-export default LogInForm;

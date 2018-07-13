@@ -1,25 +1,25 @@
 import React, {Component} from 'react';
 import Input from '../components/input';
+import {AUTH_TOKEN} from '../utils/constants';
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 
+const URL = 'http://example.com/answer';
+
 function createUser(url, data) {
+  console.log('createUser', url, JSON.stringify(data));
   return fetch(url, {
     body: JSON.stringify(data),
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'user-agent': 'Mozilla/4.0 MDN Example',
       'content-type': 'application/json',
     },
     method: 'POST',
-  }).then(response => {
-    response.json();
-    console.log('the response', response.json());
   });
 }
 
-class SignUpForm extends React.Component {
+export default class SignUpForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -97,10 +97,41 @@ class SignUpForm extends React.Component {
   render() {
     return (
       <Mutation mutation={CREATE_USER}>
-        {(createUser, {data}) => this.renderSignUpForm(createUser)}
+        {(createUser, {loading, error, data}) =>
+          this.renderSignUpForm(createUser)
+        }
       </Mutation>
     );
   }
+
+  // _confirm = async () => {
+  //   const {name, email, password} = this.state;
+  //   if (this.state.login) {
+  //     const result = await this.props.loginMutation({
+  //       variables: {
+  //         email,
+  //         password,
+  //       },
+  //     });
+  //     const {token} = result.data.login;
+  //     this._saveUserData(token);
+  //   } else {
+  //     const result = await this.props.signupMutation({
+  //       variables: {
+  //         name,
+  //         email,
+  //         password,
+  //       },
+  //     });
+  //     const {token} = result.data.signup;
+  //     this._saveUserData(token);
+  //   }
+  //   this.props.history.push(`/`);
+  // };
+
+  // _saveUserData = token => {
+  //   localStorage.setItem(AUTH_TOKEN, token);
+  // };
 }
 
 const CREATE_USER = gql`
@@ -121,5 +152,3 @@ const CREATE_USER = gql`
     }
   }
 `;
-
-export default SignUpForm;

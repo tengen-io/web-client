@@ -9,8 +9,6 @@ import SignUpForm from '../components/signUpForm';
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 
-const URL = 'http://example.com/answer';
-
 const RegisterHero = props => (
   <div className="hero has-text-centered">
     <div className="hero-body">
@@ -48,14 +46,10 @@ export default class RegisterPage extends React.Component {
           <div className="column is-one-third tabs is-centered is-fullwidth is-boxed">
             <ul>
               <li className={this.state.isLoggingIn ? '' : 'is-active'}>
-                <a onClick={this.handleFormSwitch}>
-                  <span>Sign up</span>
-                </a>
+                <a onClick={this.handleFormSwitch}>Sign up</a>
               </li>
               <li className={this.state.isLoggingIn ? 'is-active' : ''}>
-                <a onClick={this.handleFormSwitch}>
-                  <span>Log in</span>
-                </a>
+                <a onClick={this.handleFormSwitch}>Log in</a>
               </li>
             </ul>
           </div>

@@ -1,11 +1,13 @@
 .header {
-    // border: 1px solid red;
     &__navbar {
-        min-height: 2rem;
+        min-height: 4rem;
     }
 
     &__navbar-item {
-        font-size: 14px;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-size: 18px;
+        line-height: 18px;
     }
 
     &__navbar-item:last-of-type {
