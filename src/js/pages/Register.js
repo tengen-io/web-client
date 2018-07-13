@@ -1,153 +1,77 @@
 // Sign up, sign in
 
 import React, {Component} from 'react';
+
 import Input from '../components/input';
+import LogInForm from '../components/logInForm';
+import SignUpForm from '../components/signUpForm';
+
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 
 const URL = 'http://example.com/answer';
 
-const RegisterHero = () => (
+const RegisterHero = props => (
   <div className="hero has-text-centered">
     <div className="hero-body">
-      <p className="title">Welcome</p>
-      <p className="subtitle">
-        Create an account or sign in to an existing one
-      </p>
+      <p className="title">{props.title}</p>
+      <p className="subtitle">{props.subtitle}</p>
     </div>
   </div>
 );
 
-function createUser(url, data) {
-  // Default options are marked with *
-  return fetch(url, {
-    body: JSON.stringify(data), // must match 'Content-Type' header
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, same-origin, *omit
-    headers: {
-      'user-agent': 'Mozilla/4.0 MDN Example',
-      'content-type': 'application/json',
-    },
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-  }).then(response => response.json()); // parses response to JSON
-}
+const FormComponent = props => {
+  return (
+    <div className="columns is-centered">
+      {props.isLoggingIn ? <LogInForm /> : <SignUpForm />}
+    </div>
+  );
+};
 
-class FormComponent extends React.Component {
+export default class RegisterPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      username: '',
-      password: '',
-      passwordConfirmation: '',
+      isLoggingIn: false,
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleFormSwitch = this.handleFormSwitch.bind(this);
   }
 
-  handleChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value,
-    });
+  handleFormSwitch(event) {
+    this.setState({isLoggingIn: !this.state.isLoggingIn});
   }
 
-  buildParams() {
-    return {
-      variables: this.state,
-    };
-  }
-
-  renderForm(createUser) {
+  render() {
     return (
       <section className="page page--registration">
-        <RegisterHero />
-
         <div className="columns is-centered">
-          <form
-            className="column is-one-third"
-            onSubmit={e => {
-              e.preventDefault();
-              console.log(this.state);
-              createUser(this.buildParams());
-            }}
-          >
-            <Input
-              name="username"
-              label="Username"
-              inputType="text"
-              content={this.state.username}
-              controlFunc={this.handleChange}
-              placeholder="username"
-            />
-            <Input
-              name="email"
-              label="Email"
-              inputType="email"
-              content={this.state.email}
-              controlFunc={this.handleChange}
-              placeholder="name@example.com"
-            />
-            <Input
-              name="password"
-              label="Password"
-              inputType="password"
-              content={this.state.password}
-              controlFunc={this.handleChange}
-              placeholder=""
-            />
-            <Input
-              name="passwordConfirmation"
-              label="Confirm password"
-              inputType="password"
-              content={this.state.passwordConfirmation}
-              controlFunc={this.handleChange}
-              placeholder=""
-            />
-            <button className="button">Create account</button>
-          </form>
+          <div className="column is-one-third tabs is-centered is-fullwidth is-boxed">
+            <ul>
+              <li className={this.state.isLoggingIn ? '' : 'is-active'}>
+                <a onClick={this.handleFormSwitch}>
+                  <span>Sign up</span>
+                </a>
+              </li>
+              <li className={this.state.isLoggingIn ? 'is-active' : ''}>
+                <a onClick={this.handleFormSwitch}>
+                  <span>Log in</span>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </section>
-    );
-  }
 
-  render() {
-    return (
-      <Mutation mutation={CREATE_USER}>
-        {(createUser, {data}) => this.renderForm(createUser)}
-      </Mutation>
-    );
-  }
-}
+        <RegisterHero
+          title={this.state.isLoggingIn ? 'Welcome back' : 'Welcome'}
+          subtitle={
+            this.state.isLoggingIn
+              ? 'Log in to your existing account'
+              : 'Create a new GoStop account and start playing'
+          }
+        />
 
-export default class RegisterPage extends React.Component {
-  render() {
-    return (
-      <section className="page page--registration">
-        <RegisterHero />
-        <FormComponent />
+        <FormComponent isLoggingIn={this.state.isLoggingIn} />
       </section>
     );
   }
 }
-
-const CREATE_USER = gql`
-  mutation CreateUser(
-    $email: String!
-    $password: String!
-    $passwordConfirmation: String!
-    $username: String!
-  ) {
-    createUser(
-      email: $email
-      password: $password
-      passwordConfirmation: $passwordConfirmation
-      username: $username
-    ) {
-      id
-      token
-    }
-  }
-`;
