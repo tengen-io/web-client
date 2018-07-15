@@ -12,7 +12,7 @@ import gql from 'graphql-tag';
 const RegisterHero = props => (
   <div className="hero has-text-centered">
     <div className="hero-body">
-      <p className="title is-2">{props.title}</p>
+      <p className="title is-3">{props.title}</p>
     </div>
   </div>
 );

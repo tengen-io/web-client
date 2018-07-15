@@ -1,13 +1,14 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Input from '../components/input';
-import {AUTH_TOKEN} from '../utils/constants';
-import {Mutation} from 'react-apollo';
+import Loading from '../components/loading';
+import { AUTH_TOKEN } from '../utils/constants';
+import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const URL = 'http://example.com/answer';
 
 function createUser(url, data) {
-  console.log('createUser', url, JSON.stringify(data));
+  console.log('HERE!');
   return fetch(url, {
     body: JSON.stringify(data),
     cache: 'no-cache',
@@ -19,14 +20,43 @@ function createUser(url, data) {
   });
 }
 
+// _confirm = async () => {
+//   const { name, email, password } = this.state;
+//   if (this.state.login) {
+//     const result = await this.props.loginMutation({
+//       variables: {
+//         email,
+//         password,
+//       },
+//     });
+//     const { token } = result.data.login;
+//     this._saveUserData(token);
+//   } else {
+//     const result = await this.props.signupMutation({
+//       variables: {
+//         name,
+//         email,
+//         password,
+//       },
+//     });
+//     const { token } = result.data.signup;
+//     this._saveUserData(token);
+//   }
+//   this.props.history.push(`/`);
+// };
+
+// _saveUserData = token => {
+//   localStorage.setItem(AUTH_TOKEN, token);
+// };
+
 export default class SignUpForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      username: '',
-      password: '',
-      passwordConfirmation: '',
+      email: 'examplekfpew@yahoo.com',
+      username: 'oqwieuqwioeuq',
+      password: 'qweqweqwe',
+      passwordConfirmation: 'qweqweqwe',
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -47,7 +77,20 @@ export default class SignUpForm extends React.Component {
     };
   }
 
-  renderSignUpForm() {
+  renderSuccess(data) {
+    return <p>You did it!</p>;
+  }
+
+  handleSuccess(data) {
+    const token = data.createUser.token;
+    localStorage.setItem(AUTH_TOKEN, token);
+  }
+
+  renderError() {
+    return <p>Error :(</p>;
+  }
+
+  renderSignUpForm(createUser, loading) {
     return (
       <form
         className="column is-one-third"
@@ -89,7 +132,16 @@ export default class SignUpForm extends React.Component {
           placeholder="Type your password again"
         />
         <br />
-        <button className="button is-fullwidth is-info">Create account</button>
+        {loading && (
+          <button disabled className="button is-fullwidth is-info is-loading">
+            Create account
+          </button>
+        )}
+        {!loading && (
+          <button className="button is-fullwidth is-info">
+            Create account
+          </button>
+        )}
       </form>
     );
   }
@@ -97,41 +149,17 @@ export default class SignUpForm extends React.Component {
   render() {
     return (
       <Mutation mutation={CREATE_USER}>
-        {(createUser, {loading, error, data}) =>
-          this.renderSignUpForm(createUser)
-        }
+        {(createUser, { loading, error, data }) => {
+          if (error) return this.renderError();
+          if (data) {
+            this.handleSuccess(data);
+            return this.renderSuccess(data);
+          }
+          return this.renderSignUpForm(createUser, loading);
+        }}
       </Mutation>
     );
   }
-
-  // _confirm = async () => {
-  //   const {name, email, password} = this.state;
-  //   if (this.state.login) {
-  //     const result = await this.props.loginMutation({
-  //       variables: {
-  //         email,
-  //         password,
-  //       },
-  //     });
-  //     const {token} = result.data.login;
-  //     this._saveUserData(token);
-  //   } else {
-  //     const result = await this.props.signupMutation({
-  //       variables: {
-  //         name,
-  //         email,
-  //         password,
-  //       },
-  //     });
-  //     const {token} = result.data.signup;
-  //     this._saveUserData(token);
-  //   }
-  //   this.props.history.push(`/`);
-  // };
-
-  // _saveUserData = token => {
-  //   localStorage.setItem(AUTH_TOKEN, token);
-  // };
 }
 
 const CREATE_USER = gql`

@@ -1,10 +1,15 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
+import React, { Component } from 'react';
+import { render } from 'react-dom';
 
 import ApolloClient from 'apollo-boost';
-import {ApolloProvider} from 'react-apollo';
+import { ApolloProvider } from 'react-apollo';
+import { ApolloLink } from 'apollo-client-preset';
+import { HttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
-import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+
+import { AUTH_TOKEN } from './utils/constants';
 
 import Header from './components/header';
 
@@ -14,10 +19,33 @@ import LobbyPage from './pages/Lobby';
 import GamePage from './pages/Game';
 import RegisterPage from './pages/Register';
 
+const httpLink = new HttpLink({
+  uri: `https://go-stop.live/api`,
+  // uri: `http://localhost:4000/api`,
+  //uri: process.env['API_URL']
+});
+
+const middlewareAuthLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem(AUTH_TOKEN);
+  const authorizationHeader = token ? `Bearer ${token}` : null;
+  operation.setContext({
+    headers: {
+      authorization: authorizationHeader,
+    },
+  });
+  return forward(operation);
+});
+
+const httpLinkWithAuthToken = middlewareAuthLink.concat(httpLink);
+// const httpLinkWithAuthToken = httpLink;
+
 const client = new ApolloClient({
   uri: 'https://go-stop.live/api',
   // uri: 'http://localhost:4000/api',
   //uri: process.env['API_URL']
+
+  link: httpLinkWithAuthToken,
+  cache: new InMemoryCache(),
 });
 
 class Main extends React.Component {

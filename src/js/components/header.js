@@ -1,14 +1,8 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {AUTH_TOKEN} from '../utils/constants';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { AUTH_TOKEN } from '../utils/constants';
 
 export default class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoggedIn: false,
-    };
-  }
   render() {
     const authToken = localStorage.getItem(AUTH_TOKEN);
     return (
