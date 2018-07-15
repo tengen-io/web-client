@@ -1,7 +1,7 @@
 // Simple text only page about the project
 
 // README, humans.txt, social links
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 export default class AboutPage extends React.Component {
   render() {
@@ -14,8 +14,8 @@ export default class AboutPage extends React.Component {
         </div>
         <div className="columns is-centered">
           <div className="content column is-half">
-            <p className="title is-2">About</p>
-            <p className="subtitle">Go, the world's most difficult game</p>
+            <p className="title is-2">About Go</p>
+            <p className="subtitle">The world's most difficult game</p>
             <p>
               Go is an abstract strategy board game for two players, in which
               the aim is to surround more territory than the opponent. The game
