@@ -20,9 +20,10 @@ import GamePage from './pages/Game';
 import RegisterPage from './pages/Register';
 
 const httpLink = new HttpLink({
-  uri: `https://go-stop.live/api`,
+  // uri: `https://go-stop.live/api`,
   // uri: `http://localhost:4000/api`,
-  //uri: process.env['API_URL']
+  //uri: process.env['API_URL'],
+  uri: `https://go-stop.herokuapp.com/api/graphiql`,
 });
 
 const middlewareAuthLink = new ApolloLink((operation, forward) => {
@@ -40,9 +41,10 @@ const httpLinkWithAuthToken = middlewareAuthLink.concat(httpLink);
 // const httpLinkWithAuthToken = httpLink;
 
 const client = new ApolloClient({
-  uri: 'https://go-stop.live/api',
+  // uri: 'https://go-stop.live/api',
   // uri: 'http://localhost:4000/api',
-  //uri: process.env['API_URL']
+  //uri: process.env['API_URL'],
+  uri: `https://go-stop.herokuapp.com/api/graphiql`,
 
   link: httpLinkWithAuthToken,
   cache: new InMemoryCache(),

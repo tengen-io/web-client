@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
+import React, { Component } from 'react';
+import { render } from 'react-dom';
 import * as R from 'ramda';
-import {BOARD} from '../utils/constants';
+import { BOARD } from '../utils/constants';
 import {
   getPointFromCoords,
   getNeighborsFromCoords,

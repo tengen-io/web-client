@@ -8,27 +8,27 @@ export default class Header extends React.Component {
     return (
       <header className="header">
         <nav
-          className="container navbar header__navbar"
+          className="container header__navbar"
           role="navigation"
           aria-label="main navigation"
         >
-          <Link className="navbar-item header__navbar-item" to="/">
+          <Link className="header__navbar-item" to="/">
             Home
           </Link>
-          <Link className="navbar-item header__navbar-item" to="/about">
+          <Link className="header__navbar-item" to="/about">
             About
           </Link>
-          <Link className="navbar-item header__navbar-item" to="/lobby">
+          <Link className="header__navbar-item" to="/lobby">
             Lobby
           </Link>
-          <Link className="navbar-item header__navbar-item" to="/game">
+          <Link className="header__navbar-item" to="/game">
             Game
           </Link>
 
           {authToken ? (
             <Link
               to="#"
-              className="navbar-item header__navbar-item"
+              className="header__navbar-item header__navbar-item--right"
               onClick={() => {
                 localStorage.removeItem(AUTH_TOKEN);
                 this.props.history.push(`/`);
@@ -37,7 +37,10 @@ export default class Header extends React.Component {
               Log out
             </Link>
           ) : (
-            <Link to="/register" className="navbar-item header__navbar-item">
+            <Link
+              to="/register"
+              className="header__navbar-item header__navbar-item--right"
+            >
               Sign in
             </Link>
           )}

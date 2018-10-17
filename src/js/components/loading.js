@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 export default class Loading extends React.Component {
     render() {
-        return <p>Loading...</p>;
+        return <a className="button is-loading">Loading</a>;
     }
 }

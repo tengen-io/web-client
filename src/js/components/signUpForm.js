@@ -8,7 +8,6 @@ import gql from 'graphql-tag';
 const URL = 'http://example.com/answer';
 
 function createUser(url, data) {
-  console.log('HERE!');
   return fetch(url, {
     body: JSON.stringify(data),
     cache: 'no-cache',

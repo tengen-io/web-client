@@ -38,12 +38,14 @@ export default class Display extends React.Component {
 
     let buttonText = gameIsOver ? 'New game' : 'Pass';
 
+    // <p className="display__time title is-2">
+    //   {`${this.state.minutes}:${this.state.seconds}`}
+    // </p>
+
     return (
       <div className="display card">
         <div className="card-content has-text-centered">
-          <p className="display__time title is-2">
-            {`${this.state.minutes}:${this.state.seconds}`}
-          </p>
+
           <p className="display__subtitle subtitle is-5">{displayText}</p>
           {!gameIsOver || (
             <button className="button" onClick={() => this.props.newGame()}>
