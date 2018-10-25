@@ -4,6 +4,7 @@ import Loading from '../components/loading';
 import { AUTH_TOKEN } from '../utils/constants';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import AuthContext from '../utils/AuthContext';
 
 const URL = 'http://example.com/answer';
 
@@ -52,10 +53,10 @@ export default class SignUpForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'examplekfpew@yahoo.com',
-      username: 'oqwieuqwioeuq',
-      password: 'qweqweqwe',
-      passwordConfirmation: 'qweqweqwe',
+      email: 'thisemailexists@yahoo.com',
+      username: 'thisnameexists',
+      password: 'thispasswordexists',
+      passwordConfirmation: 'thispasswordexists',
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -77,7 +78,14 @@ export default class SignUpForm extends React.Component {
   }
 
   renderSuccess(data) {
-    return <p>You did it!</p>;
+    <AuthContext.Consumer>
+      {context => {
+        // console.log(context);
+        // context ? context.state.currentUser : 'NOPE';
+        context.state.updateCurrentUser(data.username);
+        return <p>You did it!</p>;
+      }}
+    </AuthContext.Consumer>;
   }
 
   handleSuccess(data) {

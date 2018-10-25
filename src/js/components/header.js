@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { AUTH_TOKEN } from '../utils/constants';
 
+import AuthContext from '../utils/AuthContext';
+
 export default class Header extends React.Component {
   render() {
     const authToken = localStorage.getItem(AUTH_TOKEN);
@@ -34,7 +36,13 @@ export default class Header extends React.Component {
                 this.props.history.push(`/`);
               }}
             >
-              Log out
+              <AuthContext.Consumer>
+                {context => {
+                  return 'Log out';
+                  // console.log(context);
+                  // context ? context.state.currentUser : 'NOPE';
+                }}
+              </AuthContext.Consumer>
             </Link>
           ) : (
             <Link

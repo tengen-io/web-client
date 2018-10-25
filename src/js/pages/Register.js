@@ -1,12 +1,12 @@
 // Sign up, sign in
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import Input from '../components/input';
 import LogInForm from '../components/logInForm';
 import SignUpForm from '../components/signUpForm';
 
-import {Mutation} from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const RegisterHero = props => (
@@ -29,13 +29,13 @@ export default class RegisterPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggingIn: false,
+      isLoggingIn: true,
     };
     this.handleFormSwitch = this.handleFormSwitch.bind(this);
   }
 
   handleFormSwitch(event) {
-    this.setState({isLoggingIn: !this.state.isLoggingIn});
+    this.setState({ isLoggingIn: !this.state.isLoggingIn });
   }
 
   render() {

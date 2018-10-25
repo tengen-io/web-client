@@ -29,9 +29,6 @@ export default class LobbyPage extends React.Component {
           <a className="button is-black is-outlined" href="#">
             Join
           </a>{' '}
-          <a className="button is-secondary" href="#">
-            Spectate
-          </a>
         </td>
         <td>{game.id}</td>
         <td>{game.players[0].id}</td>

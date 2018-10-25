@@ -50,7 +50,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-class Main extends React.Component {
+class Main extends Component {
   render() {
     return (
       <main className="main container">
@@ -66,7 +66,36 @@ class Main extends React.Component {
   }
 }
 
-class App extends React.Component {
+import AuthContext from './utils/AuthContext';
+
+class AuthProvider extends Component {
+  constructor(props) {
+    super();
+    this.state = {
+      currentUser: null,
+      updateCurrentUser: this.updateCurrentUser,
+    };
+  }
+
+  updateCurrentUser(username) {
+    this.setState({ currentUser: username });
+    console.log(this.state);
+  }
+
+  render() {
+    return (
+      <AuthContext.Provider value={{ state: this.state }}>
+        {this.props.children}
+      </AuthContext.Provider>
+    );
+  }
+}
+
+class App extends Component {
+  // state {
+  //   currentUser: null,
+  // };
+
   render() {
     return (
       <div className="app">
@@ -82,7 +111,9 @@ require('../stylesheets/index.scss');
 render(
   <ApolloProvider client={client}>
     <BrowserRouter>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </BrowserRouter>
   </ApolloProvider>,
 
