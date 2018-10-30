@@ -14,6 +14,8 @@ $board-size: 540;
   background-color: $wheat;
   height: #{$board-size}px;
   width: #{$board-size}px;
-  border: 30px solid $wheat;
+  padding: 30px;
+  border: 1px solid rgba($color-grid-line, 0.75);
   box-sizing: border-box;
+  // box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
 }

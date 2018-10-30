@@ -32,6 +32,7 @@ export default class AboutPage extends React.Component {
                 board, but if I surround that stone, I may remove it.
               </p>
             </blockquote>
+            <p>Learn more: <a href="https://en.wikipedia.org/wiki/Go_(game)">Go (game) - Wikipedia</a></p>
           </div>
         </div>
       </section>

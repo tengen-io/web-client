@@ -23,10 +23,6 @@ export default class Header extends React.Component {
           <Link className="header__navbar-item" to="/lobby">
             Lobby
           </Link>
-          <Link className="header__navbar-item" to="/game">
-            Game
-          </Link>
-
           {authToken ? (
             <Link
               to="#"

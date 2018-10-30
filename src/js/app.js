@@ -78,7 +78,8 @@ class AuthProvider extends Component {
   }
 
   updateCurrentUser(username) {
-    this.setState({ currentUser: username });
+    // this.setState({ currentUser: username });
+    // console.log(state);
     console.log(this.state);
   }
 

@@ -4,6 +4,22 @@
 .intersection {
   position: relative;
   box-sizing: border-box;
+
+  // The pre-move shadow
+  &:hover {
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: calc($zIndex--stone - 1); // never cover stone
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+      box-sizing: border-box;
+      background: rgba($color-grid-line, 0.5);
+    }
+  }
 }
 
 .stone {
@@ -17,10 +33,10 @@
   box-sizing: border-box;
 
   &--black {
-    background-color: $stone-black;
+    background-color: $color-stone-black;
   }
   &--white {
-    background-color: $stone-white;
+    background-color: $color-stone-white;
   }
 }
 
@@ -33,7 +49,7 @@
   width: 5px;
   border-radius: 50%;
   transform: translate3d(-40%, -40%, 0);
-  background-color: darken($grid-line, 25%);
+  background-color: darken($color-grid-line, 25%);
 }
 
 .grid-line {
@@ -48,7 +64,7 @@
     position: absolute;
     display: block;
     content: '';
-    background: $grid-line;
+    background: $color-grid-line;
   }
 
   // horizontal
