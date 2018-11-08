@@ -18,6 +18,7 @@ import AboutPage from './pages/About';
 import LobbyPage from './pages/Lobby';
 import GamePage from './pages/Game';
 import RegisterPage from './pages/Register';
+import FourOhFourPage from './pages/FourOhFour';
 
 const httpLink = new HttpLink({
   // uri: `https://go-stop.live/api`,
@@ -57,9 +58,10 @@ class Main extends Component {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/about" component={AboutPage} />
-          <Route path="/game" component={GamePage} />
           <Route path="/lobby" component={LobbyPage} />
+          <Route path="/game/:id" component={GamePage} />
           <Route path="/register" component={RegisterPage} />
+          <Route component={FourOhFourPage} />
         </Switch>
       </main>
     );

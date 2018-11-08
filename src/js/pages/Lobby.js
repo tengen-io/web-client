@@ -12,7 +12,7 @@ export default class LobbyPage extends React.Component {
         <td>
           <a className="button is-outlined" href="#">
             Join
-          </a>{' '}
+          </a>
         </td>
         <td>{game.id}</td>
         <td>{game.players[0].id}</td>
@@ -84,28 +84,6 @@ const GET_GAMES = gql`
           id
           username
         }
-      }
-    }
-  }
-`;
-
-const GET_GAME = gql`
-  {
-    game($id: ID!) {
-      id,
-      status,
-      playerTurnId,
-      players {
-        id,
-        color,
-        user {
-          username
-        }
-      },
-      stones {
-        x,
-        y,
-        color
       }
     }
   }

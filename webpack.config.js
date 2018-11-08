@@ -14,6 +14,7 @@ let config = {
     output: {
         path: paths.DIST,
         filename: 'app.bundle.js',
+        publicPath: '/',
     },
 
     module: {

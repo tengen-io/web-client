@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import * as R from 'ramda';
 import { BOARD } from '../utils/constants';
+import Loading from '../components/loading';
+import { gql } from 'apollo-boost';
+import { Query } from 'react-apollo';
+
 import {
   getPointFromCoords,
   getNeighborsFromCoords,
@@ -97,27 +101,68 @@ export default class Game extends React.Component {
     this.resetGame();
   }
 
-  render() {
+  renderBoard() {
+    return (
+      <Board
+        size={this.props.size}
+        turn={this.state.turn}
+        position={this.state.position}
+        gameIsOver={this.state.gameIsOver}
+        handleClick={this.handleClick}
+      />
+    );
+  }
+
+  renderDisplay() {
+    return (
+      <Display
+        turn={this.state.turn}
+        gameIsOver={this.state.gameIsOver}
+        pass={this.handlePass}
+        newGame={this.handleNewGame}
+      />
+    );
+  }
+
+  renderGame(data) {
     return (
       <section className="game columns">
-        <div className="column is-two-thirds">
-          <Board
-            size={this.props.size}
-            turn={this.state.turn}
-            position={this.state.position}
-            gameIsOver={this.state.gameIsOver}
-            handleClick={this.handleClick}
-          />
-        </div>
-        <div className="column is-one-third">
-          <Display
-            turn={this.state.turn}
-            gameIsOver={this.state.gameIsOver}
-            pass={this.handlePass}
-            newGame={this.handleNewGame}
-          />
-        </div>
+        <div className="column is-two-thirds">{this.renderBoard()}</div>
+        <div className="column is-one-third">{this.renderDisplay()}</div>
       </section>
     );
   }
+
+  render() {
+    const id = this.props.id;
+    return (
+      <Query query={GET_GAME} variables={{ id }}>
+        {({ loading, error, data }) => {
+          if (loading) return <Loading />;
+          if (error) return <p>Error :(</p>;
+          return this.renderGame(data);
+        }}
+      </Query>
+    );
+  }
 }
+
+const GET_GAME = gql`
+  query Game($id: ID!) {
+    id
+    status
+    playerTurnId
+    players {
+      id
+      color
+      user {
+        username
+      }
+    }
+    stones {
+      x
+      y
+      color
+    }
+  }
+`;

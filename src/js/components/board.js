@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
+import React, { Component } from 'react';
+import { render } from 'react-dom';
 import * as _ from 'ramda';
-import {BOARD} from '../utils/constants';
+import { BOARD } from '../utils/constants';
 
 import {
   getPointFromCoords,
   getNeighborsFromCoords,
 } from '../utils/gameUtilities';
 
-import {Query} from 'react-apollo';
+import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import Intersection from './intersection';
@@ -58,7 +58,7 @@ class Board extends Component {
   render() {
     return (
       <Query query={GET_BOARD}>
-        {({loading, error, data}) => {
+        {({ loading, error, data }) => {
           if (loading) return <p>Loading...</p>;
           if (error) return <p>Error :(</p>;
 
