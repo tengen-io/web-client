@@ -140,12 +140,12 @@ export default class SignUpForm extends React.Component {
         />
         <br />
         {loading && (
-          <button disabled className="button is-fullwidth is-info is-loading">
+          <button disabled className="button is-fullwidth is-black is-outlined is-loading">
             Create account
           </button>
         )}
         {!loading && (
-          <button className="button is-fullwidth is-info">
+          <button className="button is-fullwidth is-black is-outlined">
             Create account
           </button>
         )}
