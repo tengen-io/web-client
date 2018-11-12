@@ -101,7 +101,7 @@ export default class Game extends React.Component {
     this.resetGame();
   }
 
-  renderBoard() {
+  renderBoard(data) {
     return (
       <Board
         size={this.props.size}
@@ -113,22 +113,24 @@ export default class Game extends React.Component {
     );
   }
 
-  renderDisplay() {
+  renderDisplay(data) {
     return (
       <Display
-        turn={this.state.turn}
+        turn={this.state.turn} // this should come from data, playerTurnId
         gameIsOver={this.state.gameIsOver}
         pass={this.handlePass}
         newGame={this.handleNewGame}
+        gameData={data}
       />
     );
   }
 
   renderGame(data) {
+    // console.log(data)
     return (
       <section className="game columns">
-        <div className="column is-two-thirds">{this.renderBoard()}</div>
-        <div className="column is-one-third">{this.renderDisplay()}</div>
+        <div className="column is-two-thirds">{this.renderBoard(data)}</div>
+        <div className="column is-one-third">{this.renderDisplay(data)}</div>
       </section>
     );
   }
@@ -140,6 +142,7 @@ export default class Game extends React.Component {
         {({ loading, error, data }) => {
           if (loading) return <Loading />;
           if (error) return <p>Error :(</p>;
+
           return this.renderGame(data);
         }}
       </Query>
@@ -149,20 +152,22 @@ export default class Game extends React.Component {
 
 const GET_GAME = gql`
   query Game($id: ID!) {
-    id
-    status
-    playerTurnId
-    players {
+    game(id: $id) {
       id
-      color
-      user {
-        username
+      status
+      playerTurnId
+      players {
+        id
+        color
+        user {
+          username
+        }
       }
-    }
-    stones {
-      x
-      y
-      color
+      stones {
+        x
+        y
+        color
+      }
     }
   }
 `;

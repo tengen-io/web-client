@@ -56,41 +56,40 @@ class Board extends Component {
   }
 
   render() {
-    return (
-      <Query query={GET_BOARD}>
-        {({ loading, error, data }) => {
-          if (loading) return <p>Loading...</p>;
-          if (error) return <p>Error :(</p>;
-
-          console.log(data);
-
-          return this.renderBoard();
-        }}
-      </Query>
-    );
+    return this.renderBoard();
+    // return (
+    //   <Query query={GET_BOARD}>
+    //     {({ loading, error, data }) => {
+    //       if (loading) return <p>Loading...</p>;
+    //       if (error) return <p>Error :(</p>;
+    //       console.log(data);
+    //       return this.renderBoard();
+    //     }}
+    //   </Query>
+    // );
   }
 }
 
 export default Board;
 
-const GET_BOARD = gql`
-  {
-    game(id: 6) {
-      id
-      status
-      playerTurnId
-      players {
-        id
-        color
-        user {
-          username
-        }
-      }
-      stones {
-        x
-        y
-        color
-      }
-    }
-  }
-`;
+// const GET_BOARD = gql`
+//   {
+//     game(id: 6) {
+//       id
+//       status
+//       playerTurnId
+//       players {
+//         id
+//         color
+//         user {
+//           username
+//         }
+//       }
+//       stones {
+//         x
+//         y
+//         color
+//       }
+//     }
+//   }
+// `;

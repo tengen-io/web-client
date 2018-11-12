@@ -4,15 +4,16 @@ import React, { Component } from 'react';
 import { gql } from 'apollo-boost';
 import { Query } from 'react-apollo';
 import Loading from '../components/loading';
+import { Link } from 'react-router-dom';
 
 export default class LobbyPage extends React.Component {
   createLobbyRow(game) {
     return (
       <tr key={game.id}>
         <td>
-          <a className="button is-outlined" href="#">
+          <Link className="button is-outlined" to={`/game/${game.id}`}>
             Join
-          </a>
+          </Link>
         </td>
         <td>{game.id}</td>
         <td>{game.players[0].id}</td>

@@ -85,7 +85,7 @@ export default class LogInForm extends React.Component {
                 placeholder="Must be at least 8 characters"
               />
               <br />
-              <button className="button is-fullwidth is-info">Log in</button>
+              <button className="button is-fullwidth is-black is-outlined">Log in</button>
             </form>
           );
         }}

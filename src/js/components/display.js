@@ -7,25 +7,6 @@ export default class Display extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      minutes: ('0' + new Date().getMinutes()).slice(-2),
-      seconds: ('0' + new Date().getSeconds()).slice(-2),
-    };
-  }
-
-  componentDidMount() {
-    this.timerID = setInterval(() => this.tick(), 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState({
-      minutes: ('0' + new Date().getMinutes()).slice(-2),
-      seconds: ('0' + new Date().getSeconds()).slice(-2),
-    });
   }
 
   render() {
@@ -35,29 +16,35 @@ export default class Display extends React.Component {
     let gameIsOver = this.props.gameIsOver;
 
     let displayText = gameIsOver ? 'Game over' : `${stone} ${turn} to play`;
-
     let buttonText = gameIsOver ? 'New game' : 'Pass';
 
-    // <p className="display__time title is-2">
-    //   {`${this.state.minutes}:${this.state.seconds}`}
-    // </p>
+    const playerBlack = this.props.gameData.game.players.filter(p => p.color === 'black')[0].user
+    const playerWhite = this.props.gameData.game.players.filter(p => p.color === 'white')[0].user
 
     return (
       <div className="display card">
-        <div className="card-content has-text-centered">
+        <div className="card-content">
 
-          <p className="display__subtitle subtitle is-5">{displayText}</p>
-          {!gameIsOver || (
-            <button className="button" onClick={() => this.props.newGame()}>
-              New game
-            </button>
-          )}
-          {gameIsOver || (
-            <button className="button" onClick={() => this.props.pass()}>
-              Pass
-            </button>
-          )}
+          <p className="display__subtitle title is-4">{displayText}</p>
+          
+          <p>⚫️ { playerBlack.username }</p>
+          <p>⚪️ { playerWhite.username }</p>
+          
         </div>
+        <footer className="card-footer">
+          <p className="card-footer-item">
+            {!gameIsOver || (
+              <button className="button is-black is-outlined is-fullwidth" onClick={() => this.props.newGame()}>
+                New game
+              </button>
+            )}
+            {gameIsOver || (
+              <button className="button is-black is-outlined is-fullwidth" onClick={() => this.props.pass()}>
+                Pass
+              </button>
+            )}
+          </p>
+        </footer>
       </div>
     );
   }
