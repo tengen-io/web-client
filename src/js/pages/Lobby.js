@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 
 export default class LobbyPage extends React.Component {
   createLobbyRow(game) {
+    console.log(game)
     return (
       <tr key={game.id}>
         <td>
@@ -16,8 +17,8 @@ export default class LobbyPage extends React.Component {
           </Link>
         </td>
         <td>{game.id}</td>
-        <td>{game.players[0].id}</td>
-        <td>{game.players[1].id}</td>
+        <td>{game.players[0].user.username}</td>
+        <td>{game.players[1].user.username}</td>
       </tr>
     );
   }
@@ -28,9 +29,9 @@ export default class LobbyPage extends React.Component {
         <thead>
           <tr>
             <th> </th>
-            <th>Game ID</th>
-            <th>⚫️ Player ID</th>
-            <th>⚪️ Player ID</th>
+            <th>Game</th>
+            <th>⚫️ Player</th>
+            <th>⚪️ Player</th>
           </tr>
         </thead>
         <tbody>{data.games.map(this.createLobbyRow)}</tbody>
@@ -41,33 +42,27 @@ export default class LobbyPage extends React.Component {
   render() {
     return (
       <section className="page page--home">
+
         <div className="hero hero--home">
           <div className="hero-body">
+
             <h3 className="title is-2">Lobby</h3>
-            <p className="subtitle">Create a game or find one to join</p>
+            <p className="subtitle">Join an existing game or create one</p>
+            <button className="button is-black is-outlined">Create game</button>
+
           </div>
         </div>
 
-        <div className="hero is-dark hero--home">
-          <div className="hero-body">
-            <h3 className="title is-2">New game</h3>
-            <button className="button is-white is-outlined">Create game</button>
-          </div>
-        </div>
-
-        <div className="hero hero--home">
-          <div className="hero-body">
-            <h3 className="title is-2">Current games</h3>
-          </div>
-        </div>
         <div className="columns">
-          <Query query={GET_GAMES}>
-            {({ loading, error, data }) => {
-              if (loading) return <Loading />;
-              if (error) return <p>Error!!!</p>;
-              return this.createLobbyTable(data);
-            }}
-          </Query>
+          <div className="column">
+            <Query query={GET_GAMES}>
+              {({ loading, error, data }) => {
+                if (loading) return <Loading />;
+                if (error) return <p>Error!!!</p>;
+                return this.createLobbyTable(data);
+              }}
+            </Query>
+          </div>
         </div>
       </section>
     );
