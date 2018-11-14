@@ -3,9 +3,11 @@
 
 [Server app](https://github.com/camirmas/go-stop-server)
 
-### Contribute
+[Go](https://en.wikipedia.org/wiki/Go_(game)) is the world's oldest and most popular board game. Yet it is still relatively niche in the United States and Europe. The goal of this project is to offer a simple, perfomant, delightful online experience to learn and play Go. 
 
-Go is the world's oldest and most popular board game. Yet it is still relatively niche in the United States and Europe. The goal of this project is to offer a simple, perfomant, delightful online experience to learn and play Go. We'd like to do to Go what [Lichess](https://lichess.org/) has done to internet chess.
+We'd like to do to Go what [Lichess](https://lichess.org/) has done to internet chess.
+
+### Contribute
 
 Jump in and check out [the issues page](https://github.com/ianwessen/go-stop-client/issues).
 
