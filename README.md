@@ -17,10 +17,7 @@ The frontend uses:
 * Ramda.js for data manipulation (similar to Underscore.js)
 * Jest + Enzyme for testing
 
-We have a live GraphQL API which you can interact with at: 
-
-* https://go-stop.herokuapp.com/api/graphiql 
-* (It is a free-tier Heroku app, so give it a moment to spool up)
+We have a live GraphQL API which you can interact with at https://go-stop.herokuapp.com/api/graphiql (It is a free-tier Heroku app, so give it a moment to spool up).
 
 The project is structured like this:
 
