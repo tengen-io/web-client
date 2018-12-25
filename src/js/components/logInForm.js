@@ -25,6 +25,7 @@ export default class LogInForm extends React.Component {
       password: 'thispasswordexists',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.updateCurrentUser = props.updateCurrentUser;
   }
 
   handleChange(event) {
@@ -37,59 +38,54 @@ export default class LogInForm extends React.Component {
     });
   }
 
-  buildParams() {
-    return {
-      variables: this.state,
-    };
-    // console.log(this.state);
-  }
-
+  // TODO: Use Context API
+  // <AuthContext.Consumer>
+  // </AuthContext.Consumer>
   renderSuccess(data) {
+    this.updateCurrentUser(data.logIn.username);
     return <p>You did it!</p>;
   }
 
   handleSuccess(data) {
-    console.log(data.logIn);
     const token = data.logIn.token;
     localStorage.setItem(AUTH_TOKEN, token);
   }
 
   renderLogInForm(logIn, loading) {
     return (
-      <AuthContext.Consumer>
-        {context => {
-          return (
-            <form
-              className="column is-one-third"
-              onSubmit={e => {
-                e.preventDefault();
-                // console.log(e);
-                context.state.updateCurrentUser();
-                logIn(this.buildParams());
-              }}
-            >
-              <Input
-                name="username"
-                label="Username"
-                inputType="text"
-                content={this.state.username}
-                controlFunc={this.handleChange}
-                placeholder="username"
-              />
-              <Input
-                name="password"
-                label="Password"
-                inputType="password"
-                content={this.state.password}
-                controlFunc={this.handleChange}
-                placeholder="Must be at least 8 characters"
-              />
-              <br />
-              <button className="button is-fullwidth is-black is-outlined">Log in</button>
-            </form>
-          );
+      <form
+        className="column is-one-third"
+        onSubmit={e => {
+          console.log('A');
+          e.preventDefault();
+          logIn({
+            variables: this.state,
+          }).then(res => {
+            console.log('res', res);
+          });
         }}
-      </AuthContext.Consumer>
+      >
+        <Input
+          name="username"
+          label="Username"
+          inputType="text"
+          content={this.state.username}
+          controlFunc={this.handleChange}
+          placeholder="username"
+        />
+        <Input
+          name="password"
+          label="Password"
+          inputType="password"
+          content={this.state.password}
+          controlFunc={this.handleChange}
+          placeholder="Must be at least 8 characters"
+        />
+        <br />
+        <button className="button is-fullwidth is-black is-outlined">
+          Log in
+        </button>
+      </form>
     );
   }
 
@@ -99,6 +95,7 @@ export default class LogInForm extends React.Component {
         {(logIn, { loading, error, data }) => {
           if (error) return this.renderError();
           if (data) {
+            console.log('A');
             this.handleSuccess(data);
             return this.renderSuccess(data);
           }

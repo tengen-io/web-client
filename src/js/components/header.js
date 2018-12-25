@@ -32,13 +32,7 @@ export default class Header extends React.Component {
                 this.props.history.push(`/`);
               }}
             >
-              <AuthContext.Consumer>
-                {context => {
-                  return 'Log out';
-                  // console.log(context);
-                  // context ? context.state.currentUser : 'NOPE';
-                }}
-              </AuthContext.Consumer>
+              Log out
             </Link>
           ) : (
             <Link

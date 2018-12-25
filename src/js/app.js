@@ -53,6 +53,7 @@ const client = new ApolloClient({
 
 class Main extends Component {
   render() {
+    // console.log('Main', this.props);
     return (
       <main className="main container">
         <Switch>
@@ -60,7 +61,15 @@ class Main extends Component {
           <Route path="/about" component={AboutPage} />
           <Route path="/lobby" component={LobbyPage} />
           <Route path="/game/:id" component={GamePage} />
-          <Route path="/register" component={RegisterPage} />
+          <Route
+            path="/register"
+            render={props => (
+              <RegisterPage
+                {...props}
+                updateCurrentUser={this.props.updateCurrentUser}
+              />
+            )}
+          />
           <Route component={FourOhFourPage} />
         </Switch>
       </main>
@@ -68,42 +77,31 @@ class Main extends Component {
   }
 }
 
-import AuthContext from './utils/AuthContext';
+// import AuthContext from './utils/AuthContext';
+// const AuthProvider = AuthContext.Provider;
 
-class AuthProvider extends Component {
+class App extends Component {
   constructor(props) {
-    super();
+    super(props);
+
     this.state = {
       currentUser: null,
-      updateCurrentUser: this.updateCurrentUser,
     };
   }
 
   updateCurrentUser(username) {
-    // this.setState({ currentUser: username });
-    // console.log(state);
-    console.log(this.state);
+    this.setState({ currentUser: username });
   }
 
   render() {
-    return (
-      <AuthContext.Provider value={{ state: this.state }}>
-        {this.props.children}
-      </AuthContext.Provider>
-    );
-  }
-}
-
-class App extends Component {
-  // state {
-  //   currentUser: null,
-  // };
-
-  render() {
+    console.log('D');
+    // TODO: Refactor using Context API
+    // <AuthProvider value={this.state}>
+    // </AuthProvider>
     return (
       <div className="app">
-        <Header />
-        <Main />
+        <Header currentUser={this.state.currentUser} />
+        <Main updateCurrentUser={this.updateCurrentUser} />
       </div>
     );
   }
@@ -114,9 +112,7 @@ require('../stylesheets/index.scss');
 render(
   <ApolloProvider client={client}>
     <BrowserRouter>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
+      <App />
     </BrowserRouter>
   </ApolloProvider>,
 

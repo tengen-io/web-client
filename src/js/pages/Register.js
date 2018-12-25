@@ -20,7 +20,11 @@ const RegisterHero = props => (
 const FormComponent = props => {
   return (
     <div className="columns is-centered">
-      {props.isLoggingIn ? <LogInForm /> : <SignUpForm />}
+      {props.shouldShowLogIn ? (
+        <LogInForm updateCurrentUser={props.updateCurrentUser} />
+      ) : (
+        <SignUpForm updateCurrentUser={props.updateCurrentUser} />
+      )}
     </div>
   );
 };
@@ -29,35 +33,38 @@ export default class RegisterPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggingIn: true,
+      shouldShowLogIn: true,
     };
     this.handleFormSwitch = this.handleFormSwitch.bind(this);
   }
 
   handleFormSwitch(event) {
-    this.setState({ isLoggingIn: !this.state.isLoggingIn });
+    this.setState({ shouldShowLogIn: !this.state.shouldShowLogIn });
   }
 
   render() {
     return (
       <section className="page page--registration">
         <RegisterHero
-          title={this.state.isLoggingIn ? 'Welcome back' : 'Join GoStop'}
+          title={this.state.shouldShowLogIn ? 'Welcome back' : 'Join GoStop'}
         />
         <div className="columns is-centered">
           <div className="column is-one-third tabs is-centered is-fullwidth is-boxed">
             <ul>
-              <li className={this.state.isLoggingIn ? '' : 'is-active'}>
+              <li className={this.state.shouldShowLogIn ? '' : 'is-active'}>
                 <a onClick={this.handleFormSwitch}>Sign up</a>
               </li>
-              <li className={this.state.isLoggingIn ? 'is-active' : ''}>
+              <li className={this.state.shouldShowLogIn ? 'is-active' : ''}>
                 <a onClick={this.handleFormSwitch}>Log in</a>
               </li>
             </ul>
           </div>
         </div>
 
-        <FormComponent isLoggingIn={this.state.isLoggingIn} />
+        <FormComponent
+          updateCurrentUser={this.props.updateCurrentUser}
+          shouldShowLogIn={this.state.shouldShowLogIn}
+        />
       </section>
     );
   }
