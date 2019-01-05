@@ -9,7 +9,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
-import { AUTH_TOKEN } from './utils/constants';
+import { AUTH_TOKEN, USERNAME } from './utils/constants';
 
 import Header from './components/header';
 import Footer from './components/footer';
@@ -83,8 +83,10 @@ class App extends Component {
       updateCurrentUser: this.updateCurrentUser,
     };
 
-    const authToken = localStorage.getItem(AUTH_TOKEN);
-    console.log('How do I use the auth-token', authToken);
+    const currentUsername = localStorage.getItem(USERNAME);
+    if (currentUsername) {
+      this.state.currentUser = currentUsername;
+    }
   }
 
   updateCurrentUser(username) {

@@ -78,14 +78,14 @@ export default class SignUpForm extends React.Component {
   }
 
   renderSuccess(data) {
-    <AuthContext.Consumer>
-      {context => {
-        // console.log(context);
-        // context ? context.state.currentUser : 'NOPE';
-        context.state.updateCurrentUser(data.username);
-        return <p>You did it!</p>;
-      }}
-    </AuthContext.Consumer>;
+    return <p>You did it!</p>;
+    // <AuthContext.Consumer>
+    //   {context => {
+    //     // console.log(context);
+    //     // context ? context.state.currentUser : 'NOPE';
+    //     context.state.updateCurrentUser(data.username);
+    //   }}
+    // </AuthContext.Consumer>;
   }
 
   handleSuccess(data) {

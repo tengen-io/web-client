@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import Input from '../components/input';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-import { AUTH_TOKEN } from '../utils/constants';
+import { AUTH_TOKEN, USERNAME } from '../utils/constants';
 import AuthContext from '../utils/AuthContext';
+
+import { Navigation } from 'react-router';
 
 function logIn(url, data, cb) {
   return fetch(url, {
@@ -18,7 +20,7 @@ function logIn(url, data, cb) {
 }
 
 export default class LogInForm extends React.Component {
-  constructor(props) {
+  constructor(props, context) {
     super(props);
     this.state = {
       username: 'thisnameexists',
@@ -38,6 +40,10 @@ export default class LogInForm extends React.Component {
   }
 
   renderSuccess(data) {
+    const token = data.logIn.token;
+    const username = data.logIn.username;
+    localStorage.setItem(AUTH_TOKEN, token);
+    localStorage.setItem(USERNAME, username);
     return <p>You did it!</p>;
   }
 
@@ -105,8 +111,6 @@ export default class LogInForm extends React.Component {
                   );
                 }
                 if (data) {
-                  const token = data.logIn.token;
-                  localStorage.setItem(AUTH_TOKEN, token);
                   return this.renderSuccess(data);
                 }
                 return this.renderLogInForm(logIn, loading, updateCurrentUser);

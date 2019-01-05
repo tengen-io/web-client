@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { AUTH_TOKEN } from '../utils/constants';
+import { AUTH_TOKEN, USERNAME } from '../utils/constants';
 
 import AuthContext from '../utils/AuthContext';
 
@@ -33,6 +33,7 @@ const LoggedInLink = ({ currentUser }) => {
               to="#"
               onClick={() => {
                 localStorage.removeItem(AUTH_TOKEN);
+                localStorage.removeItem(USERNAME);
                 this.props.history.push(`/`);
               }}
             >
