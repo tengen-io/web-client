@@ -88,7 +88,8 @@ class App extends Component {
       currentUser: null,
     };
 
-    // const authToken = localStorage.getItem(AUTH_TOKEN);
+    const authToken = localStorage.getItem(AUTH_TOKEN);
+    console.log('How do I use the auth-token', authToken);
 
     this.updateCurrentUser = this.updateCurrentUser.bind(this);
   }

@@ -20,13 +20,13 @@ const LoggedInLink = ({ currentUser }) => {
         <div className="dropdown-menu" role="menu">
           <div className="dropdown-content">
             <Link className="dropdown-item" to="#">
-              (🚧) Profile
+              🚧 Profile
             </Link>
             <Link className="dropdown-item" to="#">
-              (🚧) Inbox
+              🚧 Inbox
             </Link>
             <Link className="dropdown-item" to="#">
-              (🚧) Preferences
+              🚧 Preferences
             </Link>
             <Link
               className="dropdown-item"
