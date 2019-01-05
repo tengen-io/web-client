@@ -12,6 +12,7 @@ import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import { AUTH_TOKEN } from './utils/constants';
 
 import Header from './components/header';
+import Footer from './components/footer';
 
 import HomePage from './pages/Home';
 import AboutPage from './pages/About';
@@ -103,6 +104,7 @@ class App extends Component {
       <div className="app">
         <Header currentUser={this.state.currentUser} />
         <Main updateCurrentUser={this.updateCurrentUser} />
+        <Footer />
       </div>
     );
   }

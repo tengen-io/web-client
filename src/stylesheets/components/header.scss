@@ -1,6 +1,7 @@
 .header {
     &__navbar {
         display: flex;
+        border-bottom: 1px solid $grey-lighter;
     }
 
     &__navbar-item {
