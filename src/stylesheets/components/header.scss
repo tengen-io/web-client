@@ -5,7 +5,8 @@
     }
 
     &__navbar-item {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
         padding: 20px;
         font-size: 18px;
         line-height: 18px;
