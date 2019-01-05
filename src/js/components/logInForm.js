@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import { AUTH_TOKEN } from '../utils/constants';
 import AuthContext from '../utils/AuthContext';
 
-function logIn(url, data) {
+function logIn(url, data, cb) {
   return fetch(url, {
     body: JSON.stringify(data),
     cache: 'no-cache',
@@ -25,7 +25,6 @@ export default class LogInForm extends React.Component {
       password: 'thispasswordexists',
     };
     this.handleChange = this.handleChange.bind(this);
-    this.updateCurrentUser = props.updateCurrentUser;
   }
 
   handleChange(event) {
@@ -42,26 +41,21 @@ export default class LogInForm extends React.Component {
   // <AuthContext.Consumer>
   // </AuthContext.Consumer>
   renderSuccess(data) {
-    this.updateCurrentUser(data.logIn.username);
     return <p>You did it!</p>;
   }
 
-  handleSuccess(data) {
-    const token = data.logIn.token;
-    localStorage.setItem(AUTH_TOKEN, token);
-  }
-
-  renderLogInForm(logIn, loading) {
+  renderLogInForm(logIn, loading, cb) {
     return (
       <form
         className="column is-one-third"
         onSubmit={e => {
-          console.log('A');
           e.preventDefault();
           logIn({
             variables: this.state,
           }).then(res => {
             console.log('res', res);
+
+            cb(res.data.logIn.username);
           });
         }}
       >
@@ -95,11 +89,16 @@ export default class LogInForm extends React.Component {
         {(logIn, { loading, error, data }) => {
           if (error) return this.renderError();
           if (data) {
-            console.log('A');
-            this.handleSuccess(data);
+            const token = data.logIn.token;
+            localStorage.setItem(AUTH_TOKEN, token);
             return this.renderSuccess(data);
           }
-          return this.renderLogInForm(logIn, loading);
+          console.log(this.props);
+          return this.renderLogInForm(
+            logIn,
+            loading,
+            this.props.updateCurrentUser
+          );
         }}
       </Mutation>
     );

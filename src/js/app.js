@@ -53,7 +53,6 @@ const client = new ApolloClient({
 
 class Main extends Component {
   render() {
-    // console.log('Main', this.props);
     return (
       <main className="main container">
         <Switch>
@@ -87,14 +86,16 @@ class App extends Component {
     this.state = {
       currentUser: null,
     };
+
+    this.updateCurrentUser = this.updateCurrentUser.bind(this);
   }
 
   updateCurrentUser(username) {
+    console.log(this);
     this.setState({ currentUser: username });
   }
 
   render() {
-    console.log('D');
     // TODO: Refactor using Context API
     // <AuthProvider value={this.state}>
     // </AuthProvider>
