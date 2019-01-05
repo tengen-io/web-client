@@ -37,9 +37,6 @@ export default class LogInForm extends React.Component {
     });
   }
 
-  // TODO: Use Context API
-  // <AuthContext.Consumer>
-  // </AuthContext.Consumer>
   renderSuccess(data) {
     return <p>You did it!</p>;
   }
@@ -85,22 +82,24 @@ export default class LogInForm extends React.Component {
 
   render() {
     return (
-      <Mutation mutation={LOG_IN}>
-        {(logIn, { loading, error, data }) => {
-          if (error) return this.renderError();
-          if (data) {
-            const token = data.logIn.token;
-            localStorage.setItem(AUTH_TOKEN, token);
-            return this.renderSuccess(data);
-          }
-          console.log(this.props);
-          return this.renderLogInForm(
-            logIn,
-            loading,
-            this.props.updateCurrentUser
+      <AuthContext.Consumer>
+        {({ currentUser, updateCurrentUser }) => {
+          return (
+            <Mutation mutation={LOG_IN}>
+              {(logIn, { loading, error, data }) => {
+                if (error) return this.renderError();
+                if (data) {
+                  const token = data.logIn.token;
+                  localStorage.setItem(AUTH_TOKEN, token);
+                  return this.renderSuccess(data);
+                }
+                console.log(this.props);
+                return this.renderLogInForm(logIn, loading, updateCurrentUser);
+              }}
+            </Mutation>
           );
         }}
-      </Mutation>
+      </AuthContext.Consumer>
     );
   }
 }

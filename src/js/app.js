@@ -61,15 +61,7 @@ class Main extends Component {
           <Route path="/about" component={AboutPage} />
           <Route path="/lobby" component={LobbyPage} />
           <Route path="/game/:id" component={GamePage} />
-          <Route
-            path="/register"
-            render={props => (
-              <RegisterPage
-                {...props}
-                updateCurrentUser={this.props.updateCurrentUser}
-              />
-            )}
-          />
+          <Route path="/register" component={RegisterPage} />
           <Route component={FourOhFourPage} />
         </Switch>
       </main>
@@ -77,21 +69,22 @@ class Main extends Component {
   }
 }
 
-// import AuthContext from './utils/AuthContext';
-// const AuthProvider = AuthContext.Provider;
+import AuthContext from './utils/AuthContext';
+const AuthProvider = AuthContext.Provider;
 
 class App extends Component {
   constructor(props) {
     super(props);
 
+    this.updateCurrentUser = this.updateCurrentUser.bind(this);
+
     this.state = {
       currentUser: null,
+      updateCurrentUser: this.updateCurrentUser,
     };
 
     const authToken = localStorage.getItem(AUTH_TOKEN);
     console.log('How do I use the auth-token', authToken);
-
-    this.updateCurrentUser = this.updateCurrentUser.bind(this);
   }
 
   updateCurrentUser(username) {
@@ -100,14 +93,14 @@ class App extends Component {
 
   render() {
     // TODO: Refactor using Context API
-    // <AuthProvider value={this.state}>
-    // </AuthProvider>
     return (
-      <div className="app">
-        <Header currentUser={this.state.currentUser} />
-        <Main updateCurrentUser={this.updateCurrentUser} />
-        <Footer />
-      </div>
+      <AuthProvider value={this.state}>
+        <div className="app">
+          <Header currentUser={this.state.currentUser} />
+          <Main />
+          <Footer />
+        </div>
+      </AuthProvider>
     );
   }
 }

@@ -20,11 +20,7 @@ const RegisterHero = props => (
 const FormComponent = props => {
   return (
     <div className="columns is-centered">
-      {props.shouldShowLogIn ? (
-        <LogInForm updateCurrentUser={props.updateCurrentUser} />
-      ) : (
-        <SignUpForm updateCurrentUser={props.updateCurrentUser} />
-      )}
+      {props.shouldShowLogIn ? <LogInForm /> : <SignUpForm />}
     </div>
   );
 };
