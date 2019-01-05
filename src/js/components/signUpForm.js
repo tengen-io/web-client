@@ -93,11 +93,11 @@ export default class SignUpForm extends React.Component {
     localStorage.setItem(AUTH_TOKEN, token);
   }
 
-  renderError() {
-    return <p>Error :(</p>;
-  }
+  // renderError(error) {
+  //   return <div className="notification is-danger">{error.message}</div>;
+  // }
 
-  renderSignUpForm(createUser, loading) {
+  renderSignUpForm(createUser, loading, error) {
     return (
       <form
         className="column is-one-third"
@@ -139,9 +139,13 @@ export default class SignUpForm extends React.Component {
           placeholder="Type your password again"
         />
         <br />
+        {error && <div className="notification is-danger">{error.message}</div>}
         {loading && (
-          <button disabled className="button is-fullwidth is-black is-outlined is-loading">
-            Create account
+          <button
+            disabled
+            className="button is-fullwidth is-black is-outlined is-loading"
+          >
+            Creating account...
           </button>
         )}
         {!loading && (
@@ -157,7 +161,9 @@ export default class SignUpForm extends React.Component {
     return (
       <Mutation mutation={CREATE_USER}>
         {(createUser, { loading, error, data }) => {
-          if (error) return this.renderError();
+          if (error) {
+            return this.renderSignUpForm(createUser, loading, error);
+          }
           if (data) {
             this.handleSuccess(data);
             return this.renderSuccess(data);

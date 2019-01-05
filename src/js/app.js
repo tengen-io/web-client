@@ -92,7 +92,6 @@ class App extends Component {
   }
 
   render() {
-    // TODO: Refactor using Context API
     return (
       <AuthProvider value={this.state}>
         <div className="app">

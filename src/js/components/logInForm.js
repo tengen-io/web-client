@@ -41,7 +41,7 @@ export default class LogInForm extends React.Component {
     return <p>You did it!</p>;
   }
 
-  renderLogInForm(logIn, loading, cb) {
+  renderLogInForm(logIn, loading, updateCurrentUser, error) {
     return (
       <form
         className="column is-one-third"
@@ -50,9 +50,7 @@ export default class LogInForm extends React.Component {
           logIn({
             variables: this.state,
           }).then(res => {
-            console.log('res', res);
-
-            cb(res.data.logIn.username);
+            updateCurrentUser(res.data.logIn.username);
           });
         }}
       >
@@ -73,9 +71,20 @@ export default class LogInForm extends React.Component {
           placeholder="Must be at least 8 characters"
         />
         <br />
-        <button className="button is-fullwidth is-black is-outlined">
-          Log in
-        </button>
+        {error && <div className="notification is-danger">{error.message}</div>}
+        {loading && (
+          <button
+            disabled
+            className="button is-fullwidth is-black is-outlined is-loading"
+          >
+            Logging in...
+          </button>
+        )}
+        {!loading && (
+          <button className="button is-fullwidth is-black is-outlined">
+            Log in
+          </button>
+        )}
       </form>
     );
   }
@@ -87,13 +96,19 @@ export default class LogInForm extends React.Component {
           return (
             <Mutation mutation={LOG_IN}>
               {(logIn, { loading, error, data }) => {
-                if (error) return this.renderError();
+                if (error) {
+                  return this.renderLogInForm(
+                    logIn,
+                    loading,
+                    updateCurrentUser,
+                    error
+                  );
+                }
                 if (data) {
                   const token = data.logIn.token;
                   localStorage.setItem(AUTH_TOKEN, token);
                   return this.renderSuccess(data);
                 }
-                console.log(this.props);
                 return this.renderLogInForm(logIn, loading, updateCurrentUser);
               }}
             </Mutation>

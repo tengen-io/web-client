@@ -29,7 +29,7 @@ export default class RegisterPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      shouldShowLogIn: true,
+      shouldShowLogIn: false,
     };
     this.handleFormSwitch = this.handleFormSwitch.bind(this);
   }
@@ -56,11 +56,7 @@ export default class RegisterPage extends React.Component {
             </ul>
           </div>
         </div>
-
-        <FormComponent
-          updateCurrentUser={this.props.updateCurrentUser}
-          shouldShowLogIn={this.state.shouldShowLogIn}
-        />
+        <FormComponent shouldShowLogIn={this.state.shouldShowLogIn} />
       </section>
     );
   }
