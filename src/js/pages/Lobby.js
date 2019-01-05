@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 
 export default class LobbyPage extends React.Component {
   createLobbyRow(game) {
-    console.log(game)
     return (
       <tr key={game.id}>
         <td>
@@ -42,14 +41,11 @@ export default class LobbyPage extends React.Component {
   render() {
     return (
       <section className="page page--home">
-
         <div className="hero hero--home">
           <div className="hero-body">
-
-            <h3 className="title is-2">Lobby</h3>
-            <p className="subtitle">Join an existing game or create one</p>
+            <h3 className="title is-2">Play</h3>
+            <p className="subtitle">Create a game or join an existing game</p>
             <button className="button is-black is-outlined">Create game</button>
-
           </div>
         </div>
 

@@ -14,8 +14,10 @@ export default class AboutPage extends React.Component {
         </div>
         <div className="columns is-centered">
           <div className="content column is-half">
-            <p className="title is-2 is-bold">Go</p>
-            <p className="subtitle">The world's most difficult game</p>
+            <p className="title is-2 is-bold">About Go</p>
+            <p className="subtitle has-text-grey-light">
+              The world's oldest and most popular game
+            </p>
             <p>
               Go is an abstract strategy board game for two players, in which
               the aim is to surround more territory than the opponent. The game
@@ -32,7 +34,12 @@ export default class AboutPage extends React.Component {
                 board, but if I surround that stone, I may remove it.
               </p>
             </blockquote>
-            <p>Learn more: <a href="https://en.wikipedia.org/wiki/Go_(game)">Go (game) - Wikipedia</a></p>
+            <p>
+              Learn more:{' '}
+              <a href="https://en.wikipedia.org/wiki/Go_(game)">
+                Go (game) - Wikipedia
+              </a>
+            </p>
           </div>
         </div>
       </section>

@@ -66,14 +66,14 @@ const Header = ({ currentUser }) => (
       role="navigation"
       aria-label="main navigation"
     >
-      <Link className="header__navbar-item" to="/">
-        Home
+      <Link className="header__navbar-item" to="/lobby">
+        Play
       </Link>
       <Link className="header__navbar-item" to="/about">
-        About
+        Learn
       </Link>
       <Link className="header__navbar-item" to="/lobby">
-        Lobby
+        Watch
       </Link>
       {currentUser ? (
         <LoggedInLink currentUser={currentUser} />
