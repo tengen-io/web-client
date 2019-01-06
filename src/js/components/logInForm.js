@@ -7,18 +7,6 @@ import AuthContext from '../utils/AuthContext';
 
 import { Navigation } from 'react-router';
 
-function logIn(url, data, cb) {
-  return fetch(url, {
-    body: JSON.stringify(data),
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'content-type': 'application/json',
-    },
-    method: 'POST',
-  });
-}
-
 export default class LogInForm extends React.Component {
   constructor(props, context) {
     super(props);
