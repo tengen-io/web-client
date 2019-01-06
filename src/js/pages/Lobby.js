@@ -2,12 +2,89 @@
 
 import React, { Component } from 'react';
 import { gql } from 'apollo-boost';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import Loading from '../components/loading';
-import CreateGameModal from '../components/createGameModal';
+// import CreateGameModal from '../components/createGameModal';
 import { Link } from 'react-router-dom';
 
 import Input from '../components/input';
+
+const LobbyRow = props => {
+  return (
+    <tr key={props.game.id}>
+      <td>
+        <Link className="button is-fullwidth" to={`/game/${props.game.id}`}>
+          Join
+        </Link>
+      </td>
+      <td>{props.game.id}</td>
+      <td>{props.game.players[0].user.username}</td>
+      <td>{props.game.players[1].user.username}</td>
+    </tr>
+  );
+};
+
+const LobbyTable = props => {
+  return (
+    <table className="table card is-hoverable is-fullwidth">
+      <thead className="is-light">
+        <tr>
+          <th> </th>
+          <th>Game</th>
+          <th>⚫️ Player</th>
+          <th>⚪️ Player</th>
+        </tr>
+      </thead>
+      <tbody>
+        {props.games.map((game, index) => <LobbyRow key={index} game={game} />)}
+      </tbody>
+    </table>
+  );
+};
+
+const CreateGameCard = (props, children) => {
+  return (
+    <Mutation mutation={CREATE_GAME}>
+      {(createGame, { loading, error, data }) => {
+        if (data) {
+          console.log('createGame data', data);
+          props.history.push(`/game/${data.createGame.id}`);
+        }
+        return (
+          <div className="card">
+            <div className="card-content">
+              <p>Opponent ID</p>
+              <Input name="opponentId" inputType="text" placeholder="1738" />
+
+              {error && (
+                <div className="notification is-danger">{error.message}</div>
+              )}
+              {loading && (
+                <button
+                  disabled
+                  onClick={() => {}}
+                  className="button is-black is-outlined is-fullwidth is-loading"
+                >
+                  Create game
+                </button>
+              )}
+              {!loading && (
+                <button
+                  onClick={e => {
+                    createGame();
+                  }}
+                  className="button is-black is-outlined is-fullwidth"
+                >
+                  Create game
+                </button>
+              )}
+            </div>
+          </div>
+        );
+      }}
+    </Mutation>
+  );
+};
 
 export default class LobbyPage extends React.Component {
   constructor(props) {
@@ -24,21 +101,6 @@ export default class LobbyPage extends React.Component {
     this.setState({ createGameModalIsOpen: !this.state.createGameModalIsOpen });
   }
 
-  createLobbyRow(game) {
-    return (
-      <tr key={game.id}>
-        <td>
-          <Link className="button is-outlined" to={`/game/${game.id}`}>
-            Join
-          </Link>
-        </td>
-        <td>{game.id}</td>
-        <td>{game.players[0].user.username}</td>
-        <td>{game.players[1].user.username}</td>
-      </tr>
-    );
-  }
-
   createLobbyTable(data) {
     return (
       <table className="table is-hoverable is-fullwidth">
@@ -50,7 +112,11 @@ export default class LobbyPage extends React.Component {
             <th>⚪️ Player</th>
           </tr>
         </thead>
-        <tbody>{data.games.map(this.createLobbyRow)}</tbody>
+        <tbody>
+          {data.games.map((game, index) => (
+            <LobbyRow key={index} game={game} />
+          ))}
+        </tbody>
       </table>
     );
   }
@@ -64,24 +130,11 @@ export default class LobbyPage extends React.Component {
           </div>
         </div>
 
-        <CreateGameModal
-          createGameModalIsOpen={this.state.createGameModalIsOpen}
-          toggleCreateGameModal={this.toggleCreateGameModal}
-        >
-          <p>Enter your opponent’s user ID</p>
-          <Input name="opponentId" inputType="text" placeholder="1738" />
-        </CreateGameModal>
-
         <div className="columns is-centered">
           <div className="column is-one-quarter">
             <h4 className="title is-4">New game</h4>
-            <p className="subtitle has-text-grey">Choose an opponent</p>
-            <button
-              onClick={this.toggleCreateGameModal}
-              className="button is-black is-outlined"
-            >
-              Create game
-            </button>
+            <p className="subtitle has-text-grey">Select an opponent</p>
+            <CreateGameCard />
           </div>
           <div className="column is-three-quarters">
             <h4 className="title is-4">Current games</h4>
@@ -90,7 +143,7 @@ export default class LobbyPage extends React.Component {
               {({ loading, error, data }) => {
                 if (loading) return <Loading />;
                 if (error) return <p>Error!!!</p>;
-                return this.createLobbyTable(data);
+                return <LobbyTable games={data.games} />;
               }}
             </Query>
           </div>
@@ -112,6 +165,14 @@ const GET_GAMES = gql`
           username
         }
       }
+    }
+  }
+`;
+
+const CREATE_GAME = gql`
+  mutation CreateGame($opponentId: ID!) {
+    createGame(opponentId: $opponentId) {
+      id
     }
   }
 `;
