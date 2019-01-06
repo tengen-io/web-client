@@ -19,14 +19,14 @@ const LoggedInLink = ({ currentUser }) => {
         </div>
         <div className="dropdown-menu" role="menu">
           <div className="dropdown-content">
-            <Link className="dropdown-item" to="#">
-              🚧 Profile
+            <Link className="dropdown-item has-text-grey-lighter" to="#">
+              Profile
             </Link>
-            <Link className="dropdown-item" to="#">
-              🚧 Inbox
+            <Link className="dropdown-item has-text-grey-lighter" to="#">
+              Inbox
             </Link>
-            <Link className="dropdown-item" to="#">
-              🚧 Preferences
+            <Link className="dropdown-item has-text-grey-lighter" to="#">
+              Preferences
             </Link>
             <Link
               className="dropdown-item"
@@ -72,9 +72,6 @@ const Header = ({ currentUser }) => (
       </Link>
       <Link className="header__navbar-item" to="/about">
         Learn
-      </Link>
-      <Link className="header__navbar-item" to="/lobby">
-        Watch
       </Link>
       {currentUser ? (
         <LoggedInLink currentUser={currentUser} />

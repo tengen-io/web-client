@@ -141,7 +141,7 @@ export default class Game extends React.Component {
       <Query query={GET_GAME} variables={{ id }}>
         {({ loading, error, data }) => {
           if (loading) return <Loading />;
-          if (error) return <p>Error :(</p>;
+          if (error) return <p>No game loaded</p>;
 
           return this.renderGame(data);
         }}

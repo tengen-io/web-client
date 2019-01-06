@@ -102,18 +102,15 @@ export default class LogInForm extends React.Component {
           return (
             <Mutation mutation={LOG_IN}>
               {(logIn, { loading, error, data }) => {
-                if (error) {
-                  return this.renderLogInForm(
-                    logIn,
-                    loading,
-                    updateCurrentUser,
-                    error
-                  );
-                }
                 if (data) {
                   return this.renderSuccess(data);
                 }
-                return this.renderLogInForm(logIn, loading, updateCurrentUser);
+                return this.renderLogInForm(
+                  logIn,
+                  loading,
+                  updateCurrentUser,
+                  error
+                );
               }}
             </Mutation>
           );
