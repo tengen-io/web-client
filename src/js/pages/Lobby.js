@@ -60,14 +60,7 @@ export default class LobbyPage extends React.Component {
       <section className="page page--home">
         <div className="hero hero--home">
           <div className="hero-body">
-            <h3 className="title is-2">Play</h3>
-            <p className="subtitle">Create a game or join an existing game</p>
-            <button
-              onClick={this.toggleCreateGameModal}
-              className="button is-black is-outlined"
-            >
-              Create game
-            </button>
+            <h1 className="title is-1">Play</h1>
           </div>
         </div>
 
@@ -79,8 +72,20 @@ export default class LobbyPage extends React.Component {
           <Input name="opponentId" inputType="text" placeholder="1738" />
         </CreateGameModal>
 
-        <div className="columns">
-          <div className="column">
+        <div className="columns is-centered">
+          <div className="column is-one-quarter">
+            <h4 className="title is-4">New game</h4>
+            <p className="subtitle has-text-grey">Choose an opponent</p>
+            <button
+              onClick={this.toggleCreateGameModal}
+              className="button is-black is-outlined"
+            >
+              Create game
+            </button>
+          </div>
+          <div className="column is-three-quarters">
+            <h4 className="title is-4">Current games</h4>
+            <p className="subtitle has-text-grey">Join an existing game</p>
             <Query query={GET_GAMES}>
               {({ loading, error, data }) => {
                 if (loading) return <Loading />;
