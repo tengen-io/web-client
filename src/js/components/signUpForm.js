@@ -50,23 +50,12 @@ export default class SignUpForm extends React.Component {
 
   renderSuccess(data) {
     return <p>You did it!</p>;
-    // <AuthContext.Consumer>
-    //   {context => {
-    //     // console.log(context);
-    //     // context ? context.state.currentUser : 'NOPE';
-    //     context.state.updateCurrentUser(data.username);
-    //   }}
-    // </AuthContext.Consumer>;
   }
 
   handleSuccess(data) {
     const token = data.createUser.token;
     localStorage.setItem(AUTH_TOKEN, token);
   }
-
-  // renderError(error) {
-  //   return <div className="notification is-danger">{error.message}</div>;
-  // }
 
   renderSignUpForm(createUser, loading, error) {
     return (
