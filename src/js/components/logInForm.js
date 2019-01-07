@@ -11,8 +11,8 @@ export default class LogInForm extends React.Component {
   constructor(props, context) {
     super(props);
     this.state = {
-      username: 'thisnameexists',
-      password: 'thispasswordexists',
+      username: '',
+      password: '',
     };
     this.handleChange = this.handleChange.bind(this);
   }
