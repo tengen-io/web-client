@@ -29,7 +29,7 @@ export default class LogInForm extends React.Component {
 
   renderSuccess(data) {
     const token = data.logIn.token;
-    const username = data.logIn.username;
+    const username = data.logIn.user.username;
     localStorage.setItem(AUTH_TOKEN, token);
     localStorage.setItem(USERNAME, username);
     return <p>You did it!</p>;
@@ -112,7 +112,9 @@ const LOG_IN = gql`
   mutation LogIn($username: String!, $password: String!) {
     logIn(username: $username, password: $password) {
       token
-      username
+      user {
+        username
+      }
     }
   }
 `;
