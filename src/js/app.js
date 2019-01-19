@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 
-import ApolloClient from 'apollo-boost';
+// import ApolloClient from 'apollo-boost';
+import ApolloClient from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloLink } from 'apollo-client-preset';
 import { setContext } from 'apollo-link-context';
@@ -42,30 +43,30 @@ const httpLink = new createHttpLink({
 //   return forward(operation);
 // });
 
-// const authLink = setContext((_, { headers }) => {
-//   // get the authentication token from local storage if it exists
-//   const token = localStorage.getItem(AUTH_TOKEN);
-//   // return the headers to the context so httpLink can read them
-//   console.log('AUTHLINK!!!');
-//   console.log(headers);
-//   return {
-//     headers: {
-//       ...headers,
-//       authorization: token ? `Bearer ${token}` : '',
-//     },
-//   };
-// });
-
-const authHandler = operation => {
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
   const token = localStorage.getItem(AUTH_TOKEN);
-  const authorizationHeader = token ? `Bearer ${token}` : null;
-  operation.setContext({
+  // return the headers to the context so httpLink can read them
+  console.log('AUTHLINK!!!');
+  console.log(headers);
+  return {
     headers: {
       ...headers,
-      Authorization: authorizationHeader,
+      authorization: token ? `Bearer ${token}` : '',
     },
-  });
-};
+  };
+});
+
+// const authHandler = operation => {
+//   const token = localStorage.getItem(AUTH_TOKEN);
+//   const authorizationHeader = token ? `Bearer ${token}` : null;
+//   operation.setContext({
+//     headers: {
+//       ...headers,
+//       Authorization: authorizationHeader,
+//     },
+//   });
+// };
 
 // const httpLinkWithAuthToken = middlewareAuthLink.concat(httpLink);
 // const httpLinkWithAuthToken = httpLink;
@@ -75,7 +76,7 @@ const client = new ApolloClient({
   // uri: 'http://localhost:4000/api',
   //uri: process.env['API_URL'],
   uri: `https://go-stop.herokuapp.com/api/graphiql`,
-  request: authHandler,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
