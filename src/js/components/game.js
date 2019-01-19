@@ -41,7 +41,10 @@ export default class Game extends React.Component {
   // position + point -> position'
   playStone(position, selectedPoint) {
     return position.map(point => {
-      if (point.x === selectedPoint.x && point.y === selectedPoint.y) {
+      if (
+        point.x === selectedPoint.x &&
+        point.y === selectedPoint.y
+      ) {
         point.color = this.state.turn;
         return point;
       } else {
@@ -61,7 +64,11 @@ export default class Game extends React.Component {
       this.setState({
         lastMovePassed: false,
         turn: this.switchPlayer(this.state.turn),
-        position: updatePosition(this.state.position, point, this.state.turn),
+        position: updatePosition(
+          this.state.position,
+          point,
+          this.state.turn,
+        ),
       });
     }
   }
@@ -129,8 +136,12 @@ export default class Game extends React.Component {
     // console.log(data)
     return (
       <section className="game columns">
-        <div className="column is-two-thirds">{this.renderBoard(data)}</div>
-        <div className="column is-one-third">{this.renderDisplay(data)}</div>
+        <div className="column is-two-thirds">
+          {this.renderBoard(data)}
+        </div>
+        <div className="column is-one-third">
+          {this.renderDisplay(data)}
+        </div>
       </section>
     );
   }
@@ -163,10 +174,12 @@ const GET_GAME = gql`
           username
         }
       }
-      stones {
-        x
-        y
-        color
+      board {
+        stones {
+          x
+          y
+          color
+        }
       }
     }
   }

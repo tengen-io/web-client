@@ -25,10 +25,10 @@ const httpLink = new HttpLink({
   // uri: `https://go-stop.live/api`,
   // uri: `http://localhost:8000/graphql`,
   //uri: process.env['API_URL'],
-  uri: `https://go-stop.herokuapp.com/api/graphiql`,
+  uri: `http://9ec16049.ngrok.io/graphql`,
 });
 
-const authHandler = (operation) => {
+const authHandler = operation => {
   const token = localStorage.getItem(AUTH_TOKEN);
   const authorizationHeader = token ? `Bearer ${token}` : null;
   operation.setContext({
@@ -45,7 +45,7 @@ const client = new ApolloClient({
   // uri: 'https://go-stop.live/api',
   // uri: 'http://localhost:8000/graphql',
   //uri: process.env['API_URL'],
-  uri: `https://go-stop.herokuapp.com/api/graphiql`,
+  uri: `http://9ec16049.ngrok.io/graphql`,
 
   request: authHandler,
   cache: new InMemoryCache(),
@@ -114,5 +114,5 @@ render(
     </BrowserRouter>
   </ApolloProvider>,
 
-  document.getElementById('root')
+  document.getElementById('root'),
 );

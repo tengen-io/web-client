@@ -5,6 +5,7 @@ import { gql } from 'apollo-boost';
 import { Query, Mutation } from 'react-apollo';
 import Loading from '../components/loading';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
 
 import Input from '../components/input';
 
@@ -54,6 +55,7 @@ class CreateGameCard extends Component {
 
     this.state = {
       opponentId: '',
+      newGameId: null,
     };
 
     this.handleOpponentIDChange = this.handleOpponentIDChange.bind(
@@ -66,12 +68,14 @@ class CreateGameCard extends Component {
   }
 
   render() {
+    if (this.state.newGameId) {
+      return <Redirect to={`/game/${this.state.newGameId}`} />;
+    }
     return (
       <Mutation mutation={CREATE_GAME}>
         {(createGame, { loading, error, data }) => {
           if (data) {
-            console.log('SUCCESS!!', data);
-            // this.props.history.push(`/game/${data.createGame.id}`);
+            this.setState({ newGameId: data.createGame.id });
           }
           return (
             <div className="card">
@@ -159,7 +163,7 @@ export default class LobbyPage extends Component {
                 {({ loading, error, data }) => {
                   if (loading) return <Loading />;
                   if (error) return <p>Error!!!</p>;
-                  return <LobbyTable games={data.games} />;
+                  return <LobbyTable games={data.lobby} />;
                 }}
               </Query>
             </div>
@@ -172,7 +176,7 @@ export default class LobbyPage extends Component {
 
 const GET_GAMES = gql`
   {
-    games {
+    lobby {
       id
       status
       players {
