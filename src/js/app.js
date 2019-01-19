@@ -61,6 +61,7 @@ const authHandler = operation => {
   const authorizationHeader = token ? `Bearer ${token}` : null;
   operation.setContext({
     headers: {
+      ...headers,
       Authorization: authorizationHeader,
     },
   });
