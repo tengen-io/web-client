@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 
-// import ApolloClient from 'apollo-boost';
 import ApolloClient from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloLink } from 'apollo-client-preset';
@@ -30,25 +29,10 @@ const httpLink = new createHttpLink({
   uri: `https://go-stop.herokuapp.com/api/graphiql`,
 });
 
-// const middlewareAuthLink = new ApolloLink((operation, forward) => {
-//   const token = localStorage.getItem(AUTH_TOKEN);
-//   console.log('token', token);
-//   const authorizationHeader = token ? `Bearer ${token}` : null;
-//   console.log('authorizationHeader', authorizationHeader);
-//   operation.setContext({
-//     headers: {
-//       authorization: authorizationHeader,
-//     },
-//   });
-//   return forward(operation);
-// });
-
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
   const token = localStorage.getItem(AUTH_TOKEN);
   // return the headers to the context so httpLink can read them
-  console.log('AUTHLINK!!!');
-  console.log(headers);
   return {
     headers: {
       ...headers,
@@ -56,20 +40,6 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
-
-// const authHandler = operation => {
-//   const token = localStorage.getItem(AUTH_TOKEN);
-//   const authorizationHeader = token ? `Bearer ${token}` : null;
-//   operation.setContext({
-//     headers: {
-//       ...headers,
-//       Authorization: authorizationHeader,
-//     },
-//   });
-// };
-
-// const httpLinkWithAuthToken = middlewareAuthLink.concat(httpLink);
-// const httpLinkWithAuthToken = httpLink;
 
 const client = new ApolloClient({
   // uri: 'https://go-stop.live/api',
