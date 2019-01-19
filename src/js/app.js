@@ -4,7 +4,8 @@ import { render } from 'react-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloLink } from 'apollo-client-preset';
-import { HttpLink } from 'apollo-link-http';
+import { setContext } from 'apollo-link-context';
+import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
@@ -21,25 +22,51 @@ import GamePage from './pages/Game';
 import RegisterPage from './pages/Register';
 import FourOhFourPage from './pages/FourOhFour';
 
-const httpLink = new HttpLink({
+const httpLink = new createHttpLink({
   // uri: `https://go-stop.live/api`,
   // uri: `http://localhost:4000/api`,
   //uri: process.env['API_URL'],
   uri: `https://go-stop.herokuapp.com/api/graphiql`,
 });
 
-const middlewareAuthLink = new ApolloLink((operation, forward) => {
+// const middlewareAuthLink = new ApolloLink((operation, forward) => {
+//   const token = localStorage.getItem(AUTH_TOKEN);
+//   console.log('token', token);
+//   const authorizationHeader = token ? `Bearer ${token}` : null;
+//   console.log('authorizationHeader', authorizationHeader);
+//   operation.setContext({
+//     headers: {
+//       authorization: authorizationHeader,
+//     },
+//   });
+//   return forward(operation);
+// });
+
+// const authLink = setContext((_, { headers }) => {
+//   // get the authentication token from local storage if it exists
+//   const token = localStorage.getItem(AUTH_TOKEN);
+//   // return the headers to the context so httpLink can read them
+//   console.log('AUTHLINK!!!');
+//   console.log(headers);
+//   return {
+//     headers: {
+//       ...headers,
+//       authorization: token ? `Bearer ${token}` : '',
+//     },
+//   };
+// });
+
+const authHandler = operation => {
   const token = localStorage.getItem(AUTH_TOKEN);
   const authorizationHeader = token ? `Bearer ${token}` : null;
   operation.setContext({
     headers: {
-      authorization: authorizationHeader,
+      Authorization: authorizationHeader,
     },
   });
-  return forward(operation);
-});
+};
 
-const httpLinkWithAuthToken = middlewareAuthLink.concat(httpLink);
+// const httpLinkWithAuthToken = middlewareAuthLink.concat(httpLink);
 // const httpLinkWithAuthToken = httpLink;
 
 const client = new ApolloClient({
@@ -47,8 +74,7 @@ const client = new ApolloClient({
   // uri: 'http://localhost:4000/api',
   //uri: process.env['API_URL'],
   uri: `https://go-stop.herokuapp.com/api/graphiql`,
-
-  link: httpLinkWithAuthToken,
+  request: authHandler,
   cache: new InMemoryCache(),
 });
 
@@ -115,5 +141,5 @@ render(
     </BrowserRouter>
   </ApolloProvider>,
 
-  document.getElementById('root')
+  document.getElementById('root'),
 );
