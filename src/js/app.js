@@ -23,32 +23,31 @@ import FourOhFourPage from './pages/FourOhFour';
 
 const httpLink = new HttpLink({
   // uri: `https://go-stop.live/api`,
-  // uri: `http://localhost:4000/api`,
+  // uri: `http://localhost:8000/graphql`,
   //uri: process.env['API_URL'],
   uri: `https://go-stop.herokuapp.com/api/graphiql`,
 });
 
-const middlewareAuthLink = new ApolloLink((operation, forward) => {
+const authHandler = (operation) => {
   const token = localStorage.getItem(AUTH_TOKEN);
   const authorizationHeader = token ? `Bearer ${token}` : null;
   operation.setContext({
     headers: {
-      authorization: authorizationHeader,
+      Authorization: authorizationHeader,
     },
   });
-  return forward(operation);
-});
+};
 
-const httpLinkWithAuthToken = middlewareAuthLink.concat(httpLink);
+// const httpLinkWithAuthToken = middlewareAuthLink.concat(httpLink);
 // const httpLinkWithAuthToken = httpLink;
 
 const client = new ApolloClient({
   // uri: 'https://go-stop.live/api',
-  // uri: 'http://localhost:4000/api',
+  // uri: 'http://localhost:8000/graphql',
   //uri: process.env['API_URL'],
   uri: `https://go-stop.herokuapp.com/api/graphiql`,
 
-  link: httpLinkWithAuthToken,
+  request: authHandler,
   cache: new InMemoryCache(),
 });
 
