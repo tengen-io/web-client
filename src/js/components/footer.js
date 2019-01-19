@@ -6,7 +6,9 @@ const Footer = () => (
     <div className="container footer__container">
       <p>
         <strong>GoStop</strong> Open Source Go &nbsp; · &nbsp;
-        <a href="https://github.com/ianwessen/go-stop-client">GitHub Source</a>
+        <a href="https://github.com/ianwessen/go-stop-client">
+          GitHub Source
+        </a>
       </p>
     </div>
   </footer>

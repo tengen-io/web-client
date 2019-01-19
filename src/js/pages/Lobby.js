@@ -12,7 +12,10 @@ const LobbyRow = props => {
   return (
     <tr key={props.game.id}>
       <td>
-        <Link className="button is-fullwidth" to={`/game/${props.game.id}`}>
+        <Link
+          className="button is-fullwidth"
+          to={`/game/${props.game.id}`}
+        >
           Watch
         </Link>
       </td>
@@ -53,7 +56,9 @@ class CreateGameCard extends Component {
       opponentId: '',
     };
 
-    this.handleOpponentIDChange = this.handleOpponentIDChange.bind(this);
+    this.handleOpponentIDChange = this.handleOpponentIDChange.bind(
+      this,
+    );
   }
 
   handleOpponentIDChange(event) {
@@ -80,7 +85,9 @@ class CreateGameCard extends Component {
                   controlFunc={this.handleOpponentIDChange}
                 />
                 {error && (
-                  <div className="notification is-danger">{error.message}</div>
+                  <div className="notification is-danger">
+                    {error.message}
+                  </div>
                 )}
               </div>
               <div className="card-footer">
@@ -96,9 +103,11 @@ class CreateGameCard extends Component {
                   {!loading && (
                     <button
                       onClick={e => {
-                        createGamePost({ variables: this.state }).then(res => {
-                          console.log('createGamePost');
-                        });
+                        createGame({ variables: this.state }).then(
+                          res => {
+                            console.log('createGame', res);
+                          },
+                        );
                       }}
                       className="button is-black is-outlined is-fullwidth"
                     >
@@ -135,13 +144,17 @@ export default class LobbyPage extends Component {
           <div className="columns is-centered">
             <div className="column is-one-quarter">
               <h4 className="title is-4">New game</h4>
-              <p className="subtitle has-text-grey">Select an opponent</p>
+              <p className="subtitle has-text-grey">
+                Select an opponent
+              </p>
               <CreateGameCard />
             </div>
 
             <div className="column is-three-quarters">
               <h4 className="title is-4">Current games</h4>
-              <p className="subtitle has-text-grey">Join an existing game</p>
+              <p className="subtitle has-text-grey">
+                Join an existing game
+              </p>
               <Query query={GET_GAMES}>
                 {({ loading, error, data }) => {
                   if (loading) return <Loading />;
