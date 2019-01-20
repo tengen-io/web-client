@@ -124,6 +124,7 @@ export default class Game extends React.Component {
     return (
       <Display
         turn={this.state.turn} // this should come from data, playerTurnId
+        gameId={this.props.id}
         gameIsOver={this.state.gameIsOver}
         pass={this.handlePass}
         newGame={this.handleNewGame}

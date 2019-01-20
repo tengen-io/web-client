@@ -9,6 +9,8 @@ const paths = {
 };
 
 let config = {
+    mode: 'development',
+
     entry: path.join(paths.JS, 'app.js'),
 
     output: {
