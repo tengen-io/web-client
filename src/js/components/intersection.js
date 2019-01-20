@@ -2,7 +2,6 @@ import React from 'react';
 import { BOARD } from '../utils/constants';
 import * as _ from 'ramda';
 
-
 export default class Intersection extends React.Component {
   constructor(props) {
     super(props);
@@ -12,14 +11,16 @@ export default class Intersection extends React.Component {
     };
 
     this.handleClick = this.handleClick.bind(this);
-    this.makeGridlineClassName = this.makeGridlineClassName.bind(this);
+    this.makeGridlineClassName = this.makeGridlineClassName.bind(
+      this,
+    );
   }
 
   handleClick(e) {
-    if (this.state.color || this.props.gameIsOver) { 
+    if (this.state.color || this.props.gameIsOver) {
       return;
     } else {
-      this.props.handleClick(this.props)
+      this.props.handleClick(this.props);
     }
   }
 
@@ -44,10 +45,18 @@ export default class Intersection extends React.Component {
     if (props.isTopEdge && !props.isRightEdge && !props.isLeftEdge) {
       className += ' grid-line--edge-top';
     }
-    if (props.isRightEdge && !props.isBottomEdge && !props.isTopEdge) {
+    if (
+      props.isRightEdge &&
+      !props.isBottomEdge &&
+      !props.isTopEdge
+    ) {
       className += ' grid-line--edge-right';
     }
-    if (props.isBottomEdge && !props.isRightEdge && !props.isLeftEdge) {
+    if (
+      props.isBottomEdge &&
+      !props.isRightEdge &&
+      !props.isLeftEdge
+    ) {
       className += ' grid-line--edge-bottom';
     }
     if (props.isLeftEdge && !props.isBottomEdge && !props.isTopEdge) {
@@ -66,17 +75,20 @@ export default class Intersection extends React.Component {
     }
 
     let clickable = {
-      'cursor': 'pointer',
-    }
+      cursor: 'pointer',
+    };
 
     return (
-      <div 
+      <div
         className="intersection"
-        style={ (this.props.color === BOARD.EMPTY) ? clickable : {}}
-        onClick={this.handleClick}>
+        style={this.props.color === BOARD.EMPTY ? clickable : {}}
+        onClick={e => this.props.addStone(this.props.x, this.props.y)}
+      >
         {stone}
         <div className={this.makeGridlineClassName(this.props)} />
-        {this.props.isStarPoint ? <div className="star-point" /> : null}
+        {this.props.isStarPoint ? (
+          <div className="star-point" />
+        ) : null}
       </div>
     );
   }
