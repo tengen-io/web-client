@@ -67,12 +67,21 @@ class CreateGameCard extends Component {
     this.setState({ opponentId: event.target.value });
   }
 
+  // submitCreateGame(createGame) {
+  //   createGame({ variables: this.state }).then(res => {
+  //     console.log('createGame', res);
+  //   });
+  // }
+
   render() {
     if (this.state.newGameId) {
       return <Redirect to={`/game/${this.state.newGameId}`} />;
     }
     return (
-      <Mutation mutation={CREATE_GAME}>
+      <Mutation
+        mutation={CREATE_GAME}
+        variables={{ opponentId: this.state.opponentId }}
+      >
         {(createGame, { loading, error, data }) => {
           if (data) {
             this.setState({ newGameId: data.createGame.id });
@@ -106,13 +115,7 @@ class CreateGameCard extends Component {
                   )}
                   {!loading && (
                     <button
-                      onClick={e => {
-                        createGame({ variables: this.state }).then(
-                          res => {
-                            console.log('createGame', res);
-                          },
-                        );
-                      }}
+                      onClick={createGame}
                       className="button is-black is-outlined is-fullwidth"
                     >
                       Create game

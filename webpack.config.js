@@ -9,7 +9,10 @@ const paths = {
 };
 
 let config = {
-    mode: 'development',
+    mode:
+        process.env.NODE_ENV === 'production'
+            ? 'production'
+            : 'development',
 
     entry: path.join(paths.JS, 'app.js'),
 
@@ -24,7 +27,10 @@ let config = {
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                use: ['babel-loader'],
+                loader: 'babel-loader',
+                query: {
+                    presets: ['es2015', 'react', 'stage-2'],
+                },
             },
 
             {
