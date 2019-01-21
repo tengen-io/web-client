@@ -34,7 +34,7 @@ class Board extends Component {
               isRightEdge={point.x === this.props.size - 1}
               isBottomEdge={point.y === this.props.size - 1}
               isLeftEdge={point.x === 0}
-              handleClick={this.props.handleClick}
+              addStone={this.props.addStone}
               isStarPoint={
                 // E.g. if grid(19) -> x and y are in [3,9,15]
                 [

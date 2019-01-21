@@ -148,8 +148,10 @@ const CREATE_USER = gql`
       passwordConfirmation: $passwordConfirmation
       username: $username
     ) {
-      id
       token
+      user {
+        id
+      }
     }
   }
 `;

@@ -3,7 +3,8 @@ import { render } from 'react-dom';
 import * as R from 'ramda';
 import { BOARD } from '../utils/constants';
 import Loading from '../components/loading';
-import { gql } from 'apollo-boost';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 import {
@@ -29,56 +30,80 @@ export default class Game extends React.Component {
       position: getCleanBoardPosition(),
     };
 
-    this.handleClick = this.handleClick.bind(this);
-    this.handlePass = this.handlePass.bind(this);
+    // this.handleClick = this.handleClick.bind(this);
+    // this.handlePass = this.handlePass.bind(this);
     this.handleNewGame = this.handleNewGame.bind(this);
+    this.handleAddStone = this.handleAddStone.bind(this);
   }
 
   switchPlayer(turn) {
     return turn === BOARD.BLACK ? BOARD.WHITE : BOARD.BLACK;
   }
 
+  handleAddStone(addStoneFn) {
+    // return (x, y) => {
+    //   console.log(x, y);
+    //   console.log(this.state.turn);
+    //   console.log(this.props.id);
+    // };
+    const playStone = (x, y) => {
+      // console.log('click!', addStoneFn);
+      // console.log(x, y);
+      // console.log(this.state.turn);
+      console.log(this.props.id);
+      addStoneFn({ variables: { gameId: this.props.id, x, y } });
+    };
+    return playStone;
+  }
+
   // position + point -> position'
-  playStone(position, selectedPoint) {
-    return position.map(point => {
-      if (point.x === selectedPoint.x && point.y === selectedPoint.y) {
-        point.color = this.state.turn;
-        return point;
-      } else {
-        return point;
-      }
-    });
-  }
+  // playStone(position, selectedPoint) {
+  //   return position.map(point => {
+  //     if (
+  //       point.x === selectedPoint.x &&
+  //       point.y === selectedPoint.y
+  //     ) {
+  //       point.color = this.state.turn;
+  //       return point;
+  //     } else {
+  //       return point;
+  //     }
+  //   });
+  // }
 
-  handleClick(point) {
-    if (this.state.gameIsOver) {
-      console.log('Game is over');
-      return;
-    } else if (!isValidMove(this.state, point)) {
-      console.error('BZZZT: Illegal move!');
-      return;
-    } else {
-      this.setState({
-        lastMovePassed: false,
-        turn: this.switchPlayer(this.state.turn),
-        position: updatePosition(this.state.position, point, this.state.turn),
-      });
-    }
-  }
+  // handleClick(point) {
+  //   if (this.state.gameIsOver) {
+  //     console.log('Game is over');
+  //     return;
+  //   } else if (!isValidMove(this.state, point)) {
+  //     console.error('BZZZT: Illegal move!');
+  //     return;
+  //   } else {
+  //     this.setState({
+  //       lastMovePassed: false,
+  //       turn: this.switchPlayer(this.state.turn),
+  //       position: updatePosition(
+  //         this.state.position,
+  //         point,
+  //         this.state.turn,
+  //       ),
+  //     });
+  //   }
+  // }
 
-  handlePass() {
-    this.pass();
-  }
+  // handlePass() {
+  //   this.pass();
+  // }
 
-  pass() {
-    if (this.state.lastMovePassed) {
-      this.endGame();
-    }
-    this.setState({
-      turn: this.switchPlayer(this.state.turn),
-      lastMovePassed: true,
-    });
-  }
+  // pass() {
+  //   if (this.state.lastMovePassed) {
+  //     this.endGame();
+  //   }
+  //   this.setState({
+  //     turn: this.switchPlayer(this.state.turn),
+  //     lastMovePassed: true,
+  //   });
+  // }
 
   endGame() {
     console.log('GAME OVER');
@@ -103,13 +128,22 @@ export default class Game extends React.Component {
 
   renderBoard(data) {
     return (
-      <Board
-        size={this.props.size}
-        turn={this.state.turn}
-        position={this.state.position}
-        gameIsOver={this.state.gameIsOver}
-        handleClick={this.handleClick}
-      />
+      <Mutation mutation={ADD_STONE}>
+        {(addStone, { loading, error, data }) => {
+          console.log('loading.', loading);
+          console.log('error', error);
+          console.log('data', data);
+          return (
+            <Board
+              size={this.props.size}
+              turn={this.state.turn}
+              position={this.state.position}
+              gameIsOver={this.state.gameIsOver}
+              addStone={this.handleAddStone(addStone)}
+            />
+          );
+        }}
+      </Mutation>
     );
   }
 
@@ -117,6 +151,7 @@ export default class Game extends React.Component {
     return (
       <Display
         turn={this.state.turn} // this should come from data, playerTurnId
+        gameId={this.props.id}
         gameIsOver={this.state.gameIsOver}
         pass={this.handlePass}
         newGame={this.handleNewGame}
@@ -129,8 +164,12 @@ export default class Game extends React.Component {
     // console.log(data)
     return (
       <section className="game columns">
-        <div className="column is-two-thirds">{this.renderBoard(data)}</div>
-        <div className="column is-one-third">{this.renderDisplay(data)}</div>
+        <div className="column is-two-thirds">
+          {this.renderBoard(data)}
+        </div>
+        <div className="column is-one-third">
+          {this.renderDisplay(data)}
+        </div>
       </section>
     );
   }
@@ -150,6 +189,20 @@ export default class Game extends React.Component {
   }
 }
 
+const ADD_STONE = gql`
+  mutation AddStone($gameId: ID!, $x: Int!, $y: Int!) {
+    addStone(gameId: $gameId, x: $x, y: $y) {
+      board {
+        stones {
+          x
+          y
+          color
+        }
+      }
+    }
+  }
+`;
+
 const GET_GAME = gql`
   query Game($id: ID!) {
     game(id: $id) {
@@ -163,10 +216,12 @@ const GET_GAME = gql`
           username
         }
       }
-      stones {
-        x
-        y
-        color
+      board {
+        stones {
+          x
+          y
+          color
+        }
       }
     }
   }

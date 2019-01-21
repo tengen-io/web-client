@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 
-import ApolloClient from 'apollo-client';
+import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloLink } from 'apollo-client-preset';
-import { setContext } from 'apollo-link-context';
-import { createHttpLink } from 'apollo-link-http';
+import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
@@ -22,31 +21,33 @@ import GamePage from './pages/Game';
 import RegisterPage from './pages/Register';
 import FourOhFourPage from './pages/FourOhFour';
 
-const httpLink = new createHttpLink({
+const httpLink = new HttpLink({
   // uri: `https://go-stop.live/api`,
-  // uri: `http://localhost:4000/api`,
+  // uri: `http://localhost:8000/graphql`,
   //uri: process.env['API_URL'],
-  uri: `https://go-stop.herokuapp.com/api/graphiql`,
+  uri: `http://18.223.97.75/graphql`,
 });
 
-const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
+const authHandler = operation => {
   const token = localStorage.getItem(AUTH_TOKEN);
-  // return the headers to the context so httpLink can read them
-  return {
+  const authorizationHeader = token ? `Bearer ${token}` : null;
+  operation.setContext({
     headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
+      Authorization: authorizationHeader,
     },
-  };
-});
+  });
+};
+
+// const httpLinkWithAuthToken = middlewareAuthLink.concat(httpLink);
+// const httpLinkWithAuthToken = httpLink;
 
 const client = new ApolloClient({
   // uri: 'https://go-stop.live/api',
-  // uri: 'http://localhost:4000/api',
+  // uri: 'http://localhost:8000/graphql',
   //uri: process.env['API_URL'],
-  uri: `https://go-stop.herokuapp.com/api/graphiql`,
-  link: authLink.concat(httpLink),
+  uri: `http://18.223.97.75/graphql`,
+
+  request: authHandler,
   cache: new InMemoryCache(),
 });
 
