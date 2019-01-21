@@ -64,7 +64,7 @@ export default class Display extends React.Component {
                       onClick={e =>
                         pass({
                           variables: { gameId: this.props.gameId },
-                        })
+                        }).then(game => console.log('game', game))
                       }
                     >
                       Pass
@@ -83,7 +83,7 @@ export default class Display extends React.Component {
 const PASS = gql`
   mutation Pass($gameId: ID!) {
     pass(gameId: $gameId) {
-      id
+      game
     }
   }
 `;

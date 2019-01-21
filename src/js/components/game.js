@@ -47,10 +47,11 @@ export default class Game extends React.Component {
     //   console.log(this.props.id);
     // };
     const playStone = (x, y) => {
-      console.log('click!', addStoneFn);
-      console.log(x, y);
-      console.log(this.state.turn);
+      // console.log('click!', addStoneFn);
+      // console.log(x, y);
+      // console.log(this.state.turn);
       console.log(this.props.id);
+      addStoneFn({ variables: { gameId: this.props.id, x, y } });
     };
     return playStone;
   }
@@ -129,16 +130,15 @@ export default class Game extends React.Component {
     return (
       <Mutation mutation={ADD_STONE}>
         {(addStone, { loading, error, data }) => {
-          console.log('ok...', loading);
-          console.log('fuck', error);
-          console.log('MONEY!', data);
+          console.log('loading.', loading);
+          console.log('error', error);
+          console.log('data', data);
           return (
             <Board
               size={this.props.size}
               turn={this.state.turn}
               position={this.state.position}
               gameIsOver={this.state.gameIsOver}
-              handleClick={this.handleClick}
               addStone={this.handleAddStone(addStone)}
             />
           );
