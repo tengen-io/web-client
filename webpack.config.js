@@ -19,7 +19,7 @@ let config = {
     output: {
         path: paths.DIST,
         filename: 'app.bundle.js',
-        publicPath: '/',
+        publicPath: '',
     },
 
     module: {
@@ -36,6 +36,11 @@ let config = {
             {
                 test: /\.scss$/,
                 use: ['style-loader', 'css-loader', 'sass-loader'],
+            },
+            {
+                test: /\.mjs$/,
+                include: /node_modules/,
+                type: 'javascript/auto'
             },
         ],
     },
