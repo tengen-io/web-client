@@ -6,6 +6,7 @@ import { BOARD } from '../utils/constants';
 import {
   getPointFromCoords,
   getNeighborsFromCoords,
+  getCleanBoardPosition,
 } from '../utils/gameUtilities';
 
 import { Query } from 'react-apollo';
@@ -16,12 +17,24 @@ import Intersection from './intersection';
 class Board extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      // Placeholder for now
+      initialPosition: getCleanBoardPosition()
+    }
+
+    const emptyPosition = getCleanBoardPosition();
+    const computedBoardPosition = emptyPosition.map( position => {
+      // Fill me out
+    })
+
   }
 
   renderBoard() {
+    // Need to loop over position, not stones
     return (
       <div className="board">
-        {this.props.position.map(point => {
+        {this.state.initialPosition.map(point => {
           return (
             <Intersection
               key={point.x.toString() + ',' + point.y.toString()}

@@ -22,6 +22,8 @@ export default class Game extends React.Component {
   constructor(props) {
     super(props);
 
+    // console.log('game props', props)
+
     this.state = {
       turn: BOARD.BLACK,
       inAtari: false,
@@ -34,13 +36,14 @@ export default class Game extends React.Component {
     // this.handlePass = this.handlePass.bind(this);
     this.handleNewGame = this.handleNewGame.bind(this);
     this.handleAddStone = this.handleAddStone.bind(this);
+    this.updateBoard = this.updateBoard.bind(this);
   }
 
   switchPlayer(turn) {
     return turn === BOARD.BLACK ? BOARD.WHITE : BOARD.BLACK;
   }
 
-  handleAddStone(addStoneFn) {
+  handleAddStone(data, addStoneFn) {
     // return (x, y) => {
     //   console.log(x, y);
     //   console.log(this.state.turn);
@@ -50,8 +53,8 @@ export default class Game extends React.Component {
       // console.log('click!', addStoneFn);
       // console.log(x, y);
       // console.log(this.state.turn);
-      console.log(this.props.id);
       addStoneFn({ variables: { gameId: this.props.id, x, y } });
+      this.setState({ position: data.addStone.board.stones })
     };
     return playStone;
   }
@@ -126,20 +129,29 @@ export default class Game extends React.Component {
     this.resetGame();
   }
 
-  renderBoard(data) {
+  updateBoard(data) {
+    this.setState({position: data.addStone.board.stones})
+  }
+
+  renderBoard(boardData) {
+    // console.log(boardData.game)
     return (
       <Mutation mutation={ADD_STONE}>
         {(addStone, { loading, error, data }) => {
-          console.log('loading.', loading);
-          console.log('error', error);
-          console.log('data', data);
+          // console.log('loading.', loading);
+          // console.log('error', error);
+          // console.log('data', data);
+          // console.log(currentPosition)
+          // const currentPosition = boardData.game.board.stones;
+          // console.log(this.state.position)
+          // console.log(currentPosition)
           return (
             <Board
               size={this.props.size}
               turn={this.state.turn}
-              position={this.state.position}
+              stones={boardData.game.board.stones}
               gameIsOver={this.state.gameIsOver}
-              addStone={this.handleAddStone(addStone)}
+              addStone={this.handleAddStone(data, addStone)}
             />
           );
         }}
