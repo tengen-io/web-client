@@ -54,17 +54,17 @@ class CreateGameCard extends Component {
     super(props);
 
     this.state = {
-      opponentId: '',
+      opponentUsername: '',
       newGameId: null,
     };
 
-    this.handleOpponentIDChange = this.handleOpponentIDChange.bind(
+    this.handleOpponentUsernameChange = this.handleOpponentUsernameChange.bind(
       this,
     );
   }
 
-  handleOpponentIDChange(event) {
-    this.setState({ opponentId: event.target.value });
+  handleOpponentUsernameChange(event) {
+    this.setState({ opponentUsername: event.target.value });
   }
 
   // submitCreateGame(createGame) {
@@ -80,7 +80,7 @@ class CreateGameCard extends Component {
     return (
       <Mutation
         mutation={CREATE_GAME}
-        variables={{ opponentId: this.state.opponentId }}
+        variables={{ opponentUsername: this.state.opponentUsername }}
       >
         {(createGame, { loading, error, data }) => {
           if (data) {
@@ -89,13 +89,13 @@ class CreateGameCard extends Component {
           return (
             <div className="card">
               <div className="card-content">
-                <p>Opponent ID</p>
+                <p>Opponent Username</p>
                 <Input
-                  name="opponentId"
+                  name="opponentUsername"
                   inputType="text"
-                  placeholder="1738"
-                  content={this.state.opponentId}
-                  controlFunc={this.handleOpponentIDChange}
+                  placeholder="leesedol"
+                  content={this.state.opponentUsername}
+                  controlFunc={this.handleOpponentUsernameChange}
                 />
                 {error && (
                   <div className="notification is-danger">
@@ -194,8 +194,8 @@ const GET_GAMES = gql`
 `;
 
 const CREATE_GAME = gql`
-  mutation CreateGame($opponentId: ID!) {
-    createGame(opponentId: $opponentId) {
+  mutation CreateGame($opponentUsername: String!) {
+    createGame(opponentUsername: $opponentUsername) {
       id
     }
   }
