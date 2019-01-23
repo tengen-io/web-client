@@ -7,6 +7,7 @@
     "test": "jest",
     "build": "webpack",
     "dev": "webpack-dev-server",
+    "prod": "webpack && node ./src/js/server.js",
     "watch": "webpack --watch",
     "format": "prettier --write --single-quote --print-width=120 --parser=flow --tab-width=2 \"src/**/*.{js,jsx}\""
   },
@@ -54,6 +55,7 @@
     "apollo-client-preset": "^1.0.8",
     "apollo-link-context": "^1.0.12",
     "bulma": "^0.7.1",
+    "express": "^4.16.4",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.1",
     "react": "^16.6.0",

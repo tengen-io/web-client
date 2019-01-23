@@ -1,11 +1,20 @@
 # GoStop
 :black_circle: Frontend of the open source Go server
 
-[Server app](https://github.com/camirmas/go-stop-server)
+[Server app](https://github.com/camirmas/go-stop-go)
 
 [Go](https://en.wikipedia.org/wiki/Go_(game)) is the world's oldest and most popular board game. Yet it is still relatively niche in the United States and Europe. The goal of this project is to offer a simple, perfomant, delightful online experience to learn and play Go. 
 
 We'd like to do to Go what [Lichess](https://lichess.org/) has done to internet chess.
+
+### Running the App with Docker
+
+```bash
+docker pull formomosan/go_stop_client
+
+docker run -p 8080:8080 -d formomosan/go_stop_client
+```
+Then visit http://localhost:8080 to view the app.
 
 ### Contribute
 
