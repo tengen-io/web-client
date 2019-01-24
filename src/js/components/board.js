@@ -14,27 +14,51 @@ import gql from 'graphql-tag';
 
 import Intersection from './intersection';
 
+class Stone {
+  constructor(x, y, color) {
+    this.x = x;
+    this.y = y;
+    this.color = color;
+  }
+}
+
 class Board extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      // Placeholder for now
-      initialPosition: getCleanBoardPosition()
+    this.size = props.size;
+    this.stones = [];
+
+    this.buildBoard(props.stones)
+  }
+
+  buildBoard(stones) {
+    let stonesObj = {};
+    for (let s of stones) {
+      stonesObj[[s.x, s.y]] = s;
     }
 
-    const emptyPosition = getCleanBoardPosition();
-    const computedBoardPosition = emptyPosition.map( position => {
-      // Fill me out
-    })
+    let res = [];
 
+    for (let y = 0; y < this.size; y++) {
+      for (let x = 0; x < this.size; x++) {
+        let stone = stonesObj[[x, y]];
+        if (stone) {
+          res.push(stone)
+        } else {
+          res.push(new Stone(x, y, null));
+        }
+      }
+    }
+
+    this.stones = res;
   }
 
   renderBoard() {
     // Need to loop over position, not stones
     return (
       <div className="board">
-        {this.state.initialPosition.map(point => {
+        {this.stones.map(point => {
           return (
             <Intersection
               key={point.x.toString() + ',' + point.y.toString()}
@@ -70,39 +94,7 @@ class Board extends Component {
 
   render() {
     return this.renderBoard();
-    // return (
-    //   <Query query={GET_BOARD}>
-    //     {({ loading, error, data }) => {
-    //       if (loading) return <p>Loading...</p>;
-    //       if (error) return <p>Error :(</p>;
-    //       console.log(data);
-    //       return this.renderBoard();
-    //     }}
-    //   </Query>
-    // );
   }
 }
 
 export default Board;
-
-// const GET_BOARD = gql`
-//   {
-//     game(id: 6) {
-//       id
-//       status
-//       playerTurnId
-//       players {
-//         id
-//         color
-//         user {
-//           username
-//         }
-//       }
-//       stones {
-//         x
-//         y
-//         color
-//       }
-//     }
-//   }
-// `;
