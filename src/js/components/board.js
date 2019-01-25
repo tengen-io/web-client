@@ -26,10 +26,10 @@ class Board extends Component {
   constructor(props) {
     super(props);
 
-    this.size = props.size;
+    this.size = props.game.board.size;
     this.stones = [];
 
-    this.buildBoard(props.stones)
+    this.buildBoard(props.game.board.stones)
   }
 
   buildBoard(stones) {
@@ -65,24 +65,24 @@ class Board extends Component {
               x={point.x}
               y={point.y}
               color={point.color}
-              turn={this.props.turn}
-              gameIsOver={this.props.gameIsOver}
+              turn={this.props.playerTurnId}
+              gameIsOver={this.props.status == "complete"}
               isTopEdge={point.y === 0}
-              isRightEdge={point.x === this.props.size - 1}
-              isBottomEdge={point.y === this.props.size - 1}
+              isRightEdge={point.x === this.size - 1}
+              isBottomEdge={point.y === this.size - 1}
               isLeftEdge={point.x === 0}
-              addStone={this.props.addStone}
+              // addStone={this.props.addStone}
               isStarPoint={
                 // E.g. if grid(19) -> x and y are in [3,9,15]
                 [
                   3,
-                  Math.floor(this.props.size / 2),
-                  this.props.size - 4,
+                  Math.floor(this.size / 2),
+                  this.size - 4,
                 ].indexOf(point.x) >= 0 &&
                 [
                   3,
-                  Math.floor(this.props.size / 2),
-                  this.props.size - 4,
+                  Math.floor(this.size / 2),
+                  this.size - 4,
                 ].indexOf(point.y) >= 0
               }
             />
