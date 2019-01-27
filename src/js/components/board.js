@@ -26,15 +26,13 @@ class Board extends Component {
   constructor(props) {
     super(props);
 
-    this.size = props.game.board.size;
-    this.stones = [];
-
-    this.buildBoard(props.game.board.stones)
+    this.size = props.game.boardSize;
+    this.buildBoard = this.buildBoard.bind(this);
   }
 
-  buildBoard(stones) {
+  buildBoard() {
     let stonesObj = {};
-    for (let s of stones) {
+    for (let s of this.props.game.stones) {
       stonesObj[[s.x, s.y]] = s;
     }
 
@@ -44,21 +42,22 @@ class Board extends Component {
       for (let x = 0; x < this.size; x++) {
         let stone = stonesObj[[x, y]];
         if (stone) {
-          res.push(stone)
+          res.push(stone);
         } else {
           res.push(new Stone(x, y, null));
         }
       }
     }
 
-    this.stones = res;
+    return res;
   }
 
   renderBoard() {
-    // Need to loop over position, not stones
+    let stones = this.buildBoard();
+
     return (
       <div className="board">
-        {this.stones.map(point => {
+        {stones.map(point => {
           return (
             <Intersection
               key={point.x.toString() + ',' + point.y.toString()}
@@ -71,7 +70,7 @@ class Board extends Component {
               isRightEdge={point.x === this.size - 1}
               isBottomEdge={point.y === this.size - 1}
               isLeftEdge={point.x === 0}
-              // addStone={this.props.addStone}
+              addStone={this.props.addStone}
               isStarPoint={
                 // E.g. if grid(19) -> x and y are in [3,9,15]
                 [

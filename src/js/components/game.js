@@ -14,24 +14,27 @@ export default class Game extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleAddStone = this.handleAddStone.bind(this);
+    this.state = {
+      stones: []
+    }
   }
 
-  switchPlayer(turn) {
-    return turn === BOARD.BLACK ? BOARD.WHITE : BOARD.BLACK;
-  }
-
-  handleAddStone(data, addStoneFn) {
+  handleAddStone(addStoneFn) {
     const playStone = (x, y) => {
       addStoneFn({ variables: { gameId: this.props.id, x, y } });
-      this.setState({ position: data.addStone.board.stones })
     };
     return playStone;
   }
 
   renderBoard(game) {
     return (
-      <Board game={game} />
+      <Mutation
+        mutation={ADD_STONE}
+      >
+        {(addStone, { loading, error, data }) => {
+          return <Board game={game} addStone={this.handleAddStone(addStone)} error={error} />
+        }}
+      </Mutation>
     );
   }
 
@@ -64,7 +67,7 @@ export default class Game extends React.Component {
   render() {
     const id = this.props.id;
     return (
-      <Query query={GET_GAME} variables={{ id }}>
+      <Query query={GET_GAME} variables={{ id }} pollInterval={500} partialRefetch={true}>
         {({ loading, error, data }) => {
           if (loading) return <Loading />;
           if (error) return <p>No game loaded</p>;
@@ -79,8 +82,25 @@ export default class Game extends React.Component {
 const ADD_STONE = gql`
   mutation AddStone($gameId: ID!, $x: Int!, $y: Int!) {
     addStone(gameId: $gameId, x: $x, y: $y) {
-      board {
+      id
+      x
+      y
+      color
+      game {
+        id
+        status
+        playerTurnId
+        players {
+          id
+          color
+          user {
+            id
+            username
+          }
+        }
+        boardSize
         stones {
+          id
           x
           y
           color
@@ -104,13 +124,12 @@ const GET_GAME = gql`
           username
         }
       }
-      board {
-        size
-        stones {
-          x
-          y
-          color
-        }
+      boardSize
+      stones {
+        id
+        x
+        y
+        color
       }
     }
   }
