@@ -3,6 +3,7 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { render } from 'react-dom';
 import { BOARD } from '../utils/constants';
+import { PASS } from '../graphql/mutations';
 
 export default class Display extends React.Component {
   constructor(props) {
@@ -81,11 +82,3 @@ export default class Display extends React.Component {
     );
   }
 }
-
-const PASS = gql`
-  mutation Pass($gameId: ID!) {
-    pass(gameId: $gameId) {
-      game
-    }
-  }
-`;

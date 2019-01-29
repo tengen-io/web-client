@@ -4,8 +4,9 @@ import * as R from 'ramda';
 import { BOARD } from '../utils/constants';
 import Loading from '../components/loading';
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { GET_GAME } from '../graphql/queries';
+import { ADD_STONE } from '../graphql/mutations';
 
 import Board from './board';
 import Display from './display';
@@ -78,59 +79,3 @@ export default class Game extends React.Component {
     );
   }
 }
-
-const ADD_STONE = gql`
-  mutation AddStone($gameId: ID!, $x: Int!, $y: Int!) {
-    addStone(gameId: $gameId, x: $x, y: $y) {
-      id
-      x
-      y
-      color
-      game {
-        id
-        status
-        playerTurnId
-        players {
-          id
-          color
-          user {
-            id
-            username
-          }
-        }
-        boardSize
-        stones {
-          id
-          x
-          y
-          color
-        }
-      }
-    }
-  }
-`;
-
-const GET_GAME = gql`
-  query Game($id: ID!) {
-    game(id: $id) {
-      id
-      status
-      playerTurnId
-      players {
-        id
-        color
-        user {
-          id
-          username
-        }
-      }
-      boardSize
-      stones {
-        id
-        x
-        y
-        color
-      }
-    }
-  }
-`;

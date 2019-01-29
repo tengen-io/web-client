@@ -6,6 +6,8 @@ import { Query, Mutation } from 'react-apollo';
 import Loading from '../components/loading';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
+import { GET_GAMES } from '../graphql/queries';
+import { CREATE_GAME } from '../graphql/mutations';
 
 import Input from '../components/input';
 
@@ -171,27 +173,3 @@ export default class LobbyPage extends Component {
     );
   }
 }
-
-const GET_GAMES = gql`
-  {
-    lobby {
-      id
-      status
-      players {
-        id
-        user {
-          id
-          username
-        }
-      }
-    }
-  }
-`;
-
-const CREATE_GAME = gql`
-  mutation CreateGame($opponentUsername: String!) {
-    createGame(opponentUsername: $opponentUsername) {
-      id
-    }
-  }
-`;
