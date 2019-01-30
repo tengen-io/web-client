@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import * as R from 'ramda';
-import { BOARD } from '../utils/constants';
-import Loading from '../components/loading';
 import { Mutation } from 'react-apollo';
 import { Query } from 'react-apollo';
+import { BOARD } from '../utils/constants';
+import Loading from '../components/loading';
+
 import { GET_GAME } from '../graphql/queries';
 import { ADD_STONE } from '../graphql/mutations';
+import AuthContext from '../utils/AuthContext';
 
 import Board from './board';
 import Display from './display';
@@ -29,13 +31,20 @@ export default class Game extends React.Component {
 
   renderBoard(game) {
     return (
-      <Mutation
-        mutation={ADD_STONE}
-      >
-        {(addStone, { loading, error, data }) => {
-          return <Board game={game} addStone={this.handleAddStone(addStone)} error={error} />
+      <AuthContext.Consumer>
+        {({ token }) => {
+          return (
+            <Mutation
+              mutation={ADD_STONE}
+              context={{ token }}
+            >
+              {(addStone, { loading, error, data }) => {
+                return <Board game={game} addStone={this.handleAddStone(addStone)} error={error} />
+              }}
+            </Mutation>
+          );
         }}
-      </Mutation>
+      </AuthContext.Consumer>
     );
   }
 

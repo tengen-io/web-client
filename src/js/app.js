@@ -3,7 +3,6 @@ import { render } from 'react-dom';
 
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
-import { ApolloLink } from 'apollo-client-preset';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
@@ -29,17 +28,15 @@ const httpLink = new HttpLink({
 });
 
 const authHandler = operation => {
-  const token = localStorage.getItem(AUTH_TOKEN);
-  const authorizationHeader = token ? `Bearer ${token}` : null;
+  // const token = localStorage.getItem(AUTH_TOKEN);
+  const { token } = operation.getContext();
+  const authHeader = token ? `Bearer ${token}` : null;
   operation.setContext({
     headers: {
-      Authorization: authorizationHeader,
+      Authorization: authHeader,
     },
   });
 };
-
-// const httpLinkWithAuthToken = middlewareAuthLink.concat(httpLink);
-// const httpLinkWithAuthToken = httpLink;
 
 const client = new ApolloClient({
   // uri: 'https://go-stop.live/api',
@@ -75,28 +72,31 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.updateCurrentUser = this.updateCurrentUser.bind(this);
-
-    this.state = {
-      currentUser: null,
-      updateCurrentUser: this.updateCurrentUser,
+    this.logIn = (username, token) => {
+      localStorage.setItem(USERNAME, username);
+      localStorage.setItem(AUTH_TOKEN, token);
+      this.setState({username, token});
     };
 
-    const currentUsername = localStorage.getItem(USERNAME);
-    if (currentUsername) {
-      this.state.currentUser = currentUsername;
+    this.logOut = () => {
+      localStorage.removeItem(USERNAME);
+      localStorage.removeItem(AUTH_TOKEN);
+      this.setState({ username, token });
     }
-  }
 
-  updateCurrentUser(username) {
-    this.setState({ currentUser: username });
+    this.state = {
+      username: localStorage.getItem(USERNAME),
+      token: localStorage.getItem(AUTH_TOKEN),
+      logIn: this.logIn,
+      logOut: this.logOut,
+    };
   }
 
   render() {
     return (
       <AuthProvider value={this.state}>
         <div className="app">
-          <Header currentUser={this.state.currentUser} />
+          <Header />
           <Main />
           <Footer />
         </div>

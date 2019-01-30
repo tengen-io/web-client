@@ -5,6 +5,8 @@ import gql from 'graphql-tag';
 import { AUTH_TOKEN, USERNAME } from '../utils/constants';
 import AuthContext from '../utils/AuthContext';
 
+import { LOG_IN } from '../graphql/mutations';
+
 import { Navigation } from 'react-router';
 
 export default class LogInForm extends React.Component {
@@ -28,10 +30,6 @@ export default class LogInForm extends React.Component {
   }
 
   renderSuccess(data) {
-    const token = data.logIn.token;
-    const username = data.logIn.user.username;
-    localStorage.setItem(AUTH_TOKEN, token);
-    localStorage.setItem(USERNAME, username);
     return <p>You did it!</p>;
   }
 
@@ -43,8 +41,8 @@ export default class LogInForm extends React.Component {
           e.preventDefault();
           logIn({
             variables: this.state,
-          }).then(res => {
-            updateCurrentUser(res.data.logIn.username);
+          }).then(({ data }) => {
+            updateCurrentUser(data.logIn.user.username, data.logIn.token);
           });
         }}
       >
@@ -86,17 +84,17 @@ export default class LogInForm extends React.Component {
   render() {
     return (
       <AuthContext.Consumer>
-        {({ currentUser, updateCurrentUser }) => {
+        {({ logIn }) => {
           return (
             <Mutation mutation={LOG_IN}>
-              {(logIn, { loading, error, data }) => {
+              {(logInMutation, { loading, error, data }) => {
                 if (data) {
                   return this.renderSuccess(data);
                 }
                 return this.renderLogInForm(
-                  logIn,
+                  logInMutation,
                   loading,
-                  updateCurrentUser,
+                  logIn,
                   error
                 );
               }}
@@ -107,14 +105,3 @@ export default class LogInForm extends React.Component {
     );
   }
 }
-
-const LOG_IN = gql`
-  mutation LogIn($username: String!, $password: String!) {
-    logIn(username: $username, password: $password) {
-      token
-      user {
-        username
-      }
-    }
-  }
-`;
