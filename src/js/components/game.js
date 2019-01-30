@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import * as R from 'ramda';
 import { Mutation } from 'react-apollo';
 import { Query } from 'react-apollo';
 import { BOARD } from '../utils/constants';

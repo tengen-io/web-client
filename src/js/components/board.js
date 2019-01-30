@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import * as _ from 'ramda';
 import { BOARD } from '../utils/constants';
-
-import {
-  getPointFromCoords,
-  getNeighborsFromCoords,
-  getCleanBoardPosition,
-} from '../utils/gameUtilities';
 
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
