@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { render } from 'react-dom';
-// import * as _ from 'ramda';
 import { BOARD } from '../utils/constants';
+import { PASS } from '../graphql/mutations';
 
 export default class Display extends React.Component {
   constructor(props) {
@@ -11,8 +11,17 @@ export default class Display extends React.Component {
   }
 
   render() {
-    let turn = this.props.turn === BOARD.BLACK ? 'Black' : 'White';
-    let stone = this.props.turn === BOARD.BLACK ? '⚫️' : '⚪️';
+    const playerBlack = this.props.game.players.filter(
+      p => p.color === 'black',
+    )[0];
+    const playerWhite = this.props.game.players.filter(
+      p => p.color === 'white',
+    )[0];
+
+    // We can use loose equality here because ids are unique
+    // and playerTurnId comes back as an int rather than string.
+    let turn = this.props.turn == playerBlack.id ? 'Black' : 'White';
+    let stone = this.props.turn == playerBlack.id ? '⚫️' : '⚪️';
 
     let gameIsOver = this.props.gameIsOver;
 
@@ -21,12 +30,6 @@ export default class Display extends React.Component {
       : `${stone} ${turn} to play`;
     let buttonText = gameIsOver ? 'New game' : 'Pass';
 
-    const playerBlack = this.props.gameData.game.players.filter(
-      p => p.color === 'black',
-    )[0].user;
-    const playerWhite = this.props.gameData.game.players.filter(
-      p => p.color === 'white',
-    )[0].user;
 
     return (
       <div className="display card">
@@ -35,8 +38,8 @@ export default class Display extends React.Component {
             {displayText}
           </p>
 
-          <p>⚫️ {playerBlack.username}</p>
-          <p>⚪️ {playerWhite.username}</p>
+          <p>⚫️ {playerBlack.user.username}</p>
+          <p>⚪️ {playerWhite.user.username}</p>
         </div>
         <footer className="card-footer">
           <p className="card-footer-item">
@@ -79,11 +82,3 @@ export default class Display extends React.Component {
     );
   }
 }
-
-const PASS = gql`
-  mutation Pass($gameId: ID!) {
-    pass(gameId: $gameId) {
-      game
-    }
-  }
-`;

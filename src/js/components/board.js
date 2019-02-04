@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import * as _ from 'ramda';
 import { BOARD } from '../utils/constants';
-
-import {
-  getPointFromCoords,
-  getNeighborsFromCoords,
-  getCleanBoardPosition,
-} from '../utils/gameUtilities';
 
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -26,15 +19,13 @@ class Board extends Component {
   constructor(props) {
     super(props);
 
-    this.size = props.size;
-    this.stones = [];
-
-    this.buildBoard(props.stones)
+    this.size = props.game.boardSize;
+    this.buildBoard = this.buildBoard.bind(this);
   }
 
-  buildBoard(stones) {
+  buildBoard() {
     let stonesObj = {};
-    for (let s of stones) {
+    for (let s of this.props.game.stones) {
       stonesObj[[s.x, s.y]] = s;
     }
 
@@ -44,45 +35,46 @@ class Board extends Component {
       for (let x = 0; x < this.size; x++) {
         let stone = stonesObj[[x, y]];
         if (stone) {
-          res.push(stone)
+          res.push(stone);
         } else {
           res.push(new Stone(x, y, null));
         }
       }
     }
 
-    this.stones = res;
+    return res;
   }
 
   renderBoard() {
-    // Need to loop over position, not stones
+    let stones = this.buildBoard();
+
     return (
       <div className="board">
-        {this.stones.map(point => {
+        {stones.map(point => {
           return (
             <Intersection
               key={point.x.toString() + ',' + point.y.toString()}
               x={point.x}
               y={point.y}
               color={point.color}
-              turn={this.props.turn}
-              gameIsOver={this.props.gameIsOver}
+              turn={this.props.playerTurnId}
+              gameIsOver={this.props.status == "complete"}
               isTopEdge={point.y === 0}
-              isRightEdge={point.x === this.props.size - 1}
-              isBottomEdge={point.y === this.props.size - 1}
+              isRightEdge={point.x === this.size - 1}
+              isBottomEdge={point.y === this.size - 1}
               isLeftEdge={point.x === 0}
               addStone={this.props.addStone}
               isStarPoint={
                 // E.g. if grid(19) -> x and y are in [3,9,15]
                 [
                   3,
-                  Math.floor(this.props.size / 2),
-                  this.props.size - 4,
+                  Math.floor(this.size / 2),
+                  this.size - 4,
                 ].indexOf(point.x) >= 0 &&
                 [
                   3,
-                  Math.floor(this.props.size / 2),
-                  this.props.size - 4,
+                  Math.floor(this.size / 2),
+                  this.size - 4,
                 ].indexOf(point.y) >= 0
               }
             />

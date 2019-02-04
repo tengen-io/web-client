@@ -6,7 +6,9 @@ import { Query, Mutation } from 'react-apollo';
 import Loading from '../components/loading';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
-
+import { GET_GAMES } from '../graphql/queries';
+import { CREATE_GAME } from '../graphql/mutations';
+import AuthContext from '../utils/AuthContext';
 import Input from '../components/input';
 
 const LobbyRow = props => {
@@ -55,7 +57,6 @@ class CreateGameCard extends Component {
 
     this.state = {
       opponentUsername: '',
-      newGameId: null,
     };
 
     this.handleOpponentUsernameChange = this.handleOpponentUsernameChange.bind(
@@ -67,66 +68,69 @@ class CreateGameCard extends Component {
     this.setState({ opponentUsername: event.target.value });
   }
 
-  // submitCreateGame(createGame) {
-  //   createGame({ variables: this.state }).then(res => {
-  //     console.log('createGame', res);
-  //   });
-  // }
-
   render() {
-    if (this.state.newGameId) {
-      return <Redirect to={`/game/${this.state.newGameId}`} />;
-    }
     return (
-      <Mutation
-        mutation={CREATE_GAME}
-        variables={{ opponentUsername: this.state.opponentUsername }}
-      >
-        {(createGame, { loading, error, data }) => {
-          if (data) {
-            this.setState({ newGameId: data.createGame.id });
-          }
+      <AuthContext.Consumer>
+        {({token}) => {
           return (
-            <div className="card">
-              <div className="card-content">
-                <p>Opponent Username</p>
-                <Input
-                  name="opponentUsername"
-                  inputType="text"
-                  placeholder="leesedol"
-                  content={this.state.opponentUsername}
-                  controlFunc={this.handleOpponentUsernameChange}
-                />
-                {error && (
-                  <div className="notification is-danger">
-                    {error.message}
+            <Mutation
+              mutation={CREATE_GAME}
+              variables={{ opponentUsername: this.state.opponentUsername }}
+              context={{ token }}
+            >
+              {(createGame, { loading, error, data }) => {
+                if (data) {
+                  return <Redirect
+                    to={{
+                      pathname: `/game/${data.createGame.id}`,
+                      state: { game: data.createGame }
+                    }}
+                  />;
+                }
+                return (
+                  <div className="card">
+                    <div className="card-content">
+                      <p>Opponent Username</p>
+                      <Input
+                        name="opponentUsername"
+                        inputType="text"
+                        placeholder="leesedol"
+                        content={this.state.opponentUsername}
+                        controlFunc={this.handleOpponentUsernameChange}
+                      />
+                      {error && (
+                        <div className="notification is-danger">
+                          {error.message}
+                        </div>
+                      )}
+                    </div>
+                    <div className="card-footer">
+                      <p className="card-footer-item">
+                        {loading && (
+                          <button
+                            disabled
+                            className="button is-black is-outlined is-fullwidth is-loading"
+                          >
+                            Create game
+                          </button>
+                        )}
+                        {!loading && (
+                          <button
+                            onClick={createGame}
+                            className="button is-black is-outlined is-fullwidth"
+                          >
+                            Create game
+                          </button>
+                        )}
+                      </p>
+                    </div>
                   </div>
-                )}
-              </div>
-              <div className="card-footer">
-                <p className="card-footer-item">
-                  {loading && (
-                    <button
-                      disabled
-                      className="button is-black is-outlined is-fullwidth is-loading"
-                    >
-                      Create game
-                    </button>
-                  )}
-                  {!loading && (
-                    <button
-                      onClick={createGame}
-                      className="button is-black is-outlined is-fullwidth"
-                    >
-                      Create game
-                    </button>
-                  )}
-                </p>
-              </div>
-            </div>
+                );
+              }}
+            </Mutation>
           );
         }}
-      </Mutation>
+      </AuthContext.Consumer>
     );
   }
 }
@@ -176,27 +180,3 @@ export default class LobbyPage extends Component {
     );
   }
 }
-
-const GET_GAMES = gql`
-  {
-    lobby {
-      id
-      status
-      players {
-        id
-        user {
-          id
-          username
-        }
-      }
-    }
-  }
-`;
-
-const CREATE_GAME = gql`
-  mutation CreateGame($opponentUsername: String!) {
-    createGame(opponentUsername: $opponentUsername) {
-      id
-    }
-  }
-`;

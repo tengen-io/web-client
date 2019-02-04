@@ -6,6 +6,8 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import AuthContext from '../utils/AuthContext';
 
+import { CREATE_USER } from '../graphql/mutations';
+
 const URL = 'http://example.com/answer';
 
 function createUser(url, data) {
@@ -52,18 +54,17 @@ export default class SignUpForm extends React.Component {
     return <p>You did it!</p>;
   }
 
-  handleSuccess(data) {
-    const token = data.createUser.token;
-    localStorage.setItem(AUTH_TOKEN, token);
-  }
-
-  renderSignUpForm(createUser, loading, error) {
+  renderSignUpForm(createUser, loading, logIn, error) {
     return (
       <form
         className="column is-one-third"
         onSubmit={e => {
           e.preventDefault();
-          createUser(this.buildParams());
+          createUser(this.buildParams())
+          .then(({ data }) => {
+            console.log(data)
+            logIn(data.createUser.user.username, data.createUser.token);
+          });
         }}
       >
         <Input
@@ -119,39 +120,23 @@ export default class SignUpForm extends React.Component {
 
   render() {
     return (
-      <Mutation mutation={CREATE_USER}>
-        {(createUser, { loading, error, data }) => {
-          if (error) {
-            return this.renderSignUpForm(createUser, loading, error);
-          }
-          if (data) {
-            this.handleSuccess(data);
-            return this.renderSuccess(data);
-          }
-          return this.renderSignUpForm(createUser, loading);
+      <AuthContext.Consumer>
+        {({ logIn }) => {
+          return (
+            <Mutation mutation={CREATE_USER}>
+              {(createUser, { loading, error, data }) => {
+                if (error) {
+                  return this.renderSignUpForm(createUser, loading, logIn, error);
+                }
+                if (data) {
+                  return this.renderSuccess(data);
+                }
+                return this.renderSignUpForm(createUser, loading, logIn);
+              }}
+            </Mutation>
+          );
         }}
-      </Mutation>
+      </AuthContext.Consumer>
     );
   }
 }
-
-const CREATE_USER = gql`
-  mutation CreateUser(
-    $email: String!
-    $password: String!
-    $passwordConfirmation: String!
-    $username: String!
-  ) {
-    createUser(
-      email: $email
-      password: $password
-      passwordConfirmation: $passwordConfirmation
-      username: $username
-    ) {
-      token
-      user {
-        id
-      }
-    }
-  }
-`;

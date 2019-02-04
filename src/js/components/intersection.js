@@ -1,6 +1,5 @@
 import React from 'react';
 import { BOARD } from '../utils/constants';
-import * as _ from 'ramda';
 
 export default class Intersection extends React.Component {
   constructor(props) {

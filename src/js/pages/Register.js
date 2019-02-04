@@ -7,7 +7,6 @@ import LogInForm from '../components/logInForm';
 import SignUpForm from '../components/signUpForm';
 
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
 
 const RegisterHero = props => (
   <div className="hero has-text-centered">

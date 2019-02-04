@@ -4,7 +4,7 @@ import { AUTH_TOKEN, USERNAME } from '../utils/constants';
 
 import AuthContext from '../utils/AuthContext';
 
-const LoggedInLink = ({ currentUser }) => {
+const LoggedInLink = ({ currentUser, logOut }) => {
   return (
     <div className="header__navbar-item header__navbar-item--right">
       <div className="dropdown is-hoverable">
@@ -31,11 +31,7 @@ const LoggedInLink = ({ currentUser }) => {
             <Link
               className="dropdown-item"
               to="#"
-              onClick={() => {
-                localStorage.removeItem(AUTH_TOKEN);
-                localStorage.removeItem(USERNAME);
-                this.props.history.push(`/`);
-              }}
+              onClick={logOut}
             >
               Log out
             </Link>
@@ -60,26 +56,30 @@ const LoggedOutLink = () => {
   );
 };
 
-const Header = ({ currentUser }) => (
-  <header className="header">
-    <nav
-      className="container header__navbar"
-      role="navigation"
-      aria-label="main navigation"
-    >
-      <Link className="header__navbar-item" to="/lobby">
-        Play
-      </Link>
-      <Link className="header__navbar-item" to="/about">
-        Learn
-      </Link>
-      {currentUser ? (
-        <LoggedInLink currentUser={currentUser} />
-      ) : (
-        <LoggedOutLink />
-      )}
-    </nav>
-  </header>
+const Header = () => (
+  <AuthContext.Consumer>
+    {({ username, logOut }) =>
+      <header className="header">
+        <nav
+          className="container header__navbar"
+          role="navigation"
+          aria-label="main navigation"
+        >
+          <Link className="header__navbar-item" to="/lobby">
+            Play
+          </Link>
+          <Link className="header__navbar-item" to="/about">
+            Learn
+          </Link>
+          {username ? (
+            <LoggedInLink currentUser={username} logOut={logOut} />
+          ) : (
+            <LoggedOutLink />
+          )}
+        </nav>
+      </header>
+    }
+  </AuthContext.Consumer>
 );
 
 export default Header;
