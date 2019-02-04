@@ -32,25 +32,6 @@ The frontend uses:
 
 We have a live GraphQL API which you can interact with at https://go-stop.herokuapp.com/api/graphiql (It is a free-tier Heroku app, so give it a moment to spool up).
 
-The project is structured like this:
-
-```
-- ApolloClient
-    + Router/App
-        * Home
-        * Register
-            - SignUpForm
-            - LogInForm
-        * About
-        * Lobby
-            - Game (page)
-                * Game (component)
-                    + Display
-                    + Board
-                        * Intersection
-        * 404
-```
-
 Some dev app conventions:
 
 * We use ESLint and AirBnB styleguide for JS
