@@ -1,12 +1,11 @@
-FROM node:10
+FROM node:10 as build
 
 WORKDIR /usr/src/go_stop
 COPY package*.json ./
 
 RUN npm install --silent
-
 COPY . .
+RUN npm run-script build
 
-EXPOSE 8080
-
-CMD ["npm", "run", "prod"]
+FROM nginx:stable
+COPY --from=build /usr/src/go_stop/dist/ /usr/share/nginx/html
