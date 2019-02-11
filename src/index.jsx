@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import ApolloClient from 'apollo-boost';
+import AuthContext from './utils/AuthContext';
 import { ApolloProvider } from 'react-apollo';
-import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 import { AUTH_TOKEN, USERNAME } from './utils/constants';
 
@@ -19,13 +18,6 @@ import LobbyPage from './pages/Lobby';
 import GamePage from './pages/Game';
 import RegisterPage from './pages/Register';
 import FourOhFourPage from './pages/FourOhFour';
-
-const httpLink = new HttpLink({
-  // uri: `https://go-stop.live/api`,
-  // uri: `http://localhost:8000/graphql`,
-  //uri: process.env['API_URL'],
-  uri: `http://18.223.97.75/graphql`,
-});
 
 const authHandler = operation => {
   // const token = localStorage.getItem(AUTH_TOKEN);
@@ -41,15 +33,14 @@ const authHandler = operation => {
 const client = new ApolloClient({
   // uri: 'https://go-stop.live/api',
   // uri: 'http://localhost:8000/graphql',
-  //uri: process.env['API_URL'],
+  // uri: process.env['API_URL'],
   uri: `http://18.223.97.75/graphql`,
 
   request: authHandler,
   cache: new InMemoryCache(),
 });
 
-class Main extends Component {
-  render() {
+const Main = () => {
     return (
       <main className="main container">
         <Switch>
@@ -62,10 +53,8 @@ class Main extends Component {
         </Switch>
       </main>
     );
-  }
 }
 
-import AuthContext from './utils/AuthContext';
 const AuthProvider = AuthContext.Provider;
 
 class App extends Component {
@@ -78,7 +67,7 @@ class App extends Component {
       this.setState({username, token});
     };
 
-    this.logOut = () => {
+    this.logOut = (username, token) => {
       localStorage.removeItem(USERNAME);
       localStorage.removeItem(AUTH_TOKEN);
       this.setState({ username, token });
@@ -105,7 +94,7 @@ class App extends Component {
   }
 }
 
-require('../stylesheets/index.scss');
+require('./stylesheets/index.scss');
 
 render(
   <ApolloProvider client={client}>

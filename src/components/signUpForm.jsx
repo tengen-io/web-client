@@ -1,28 +1,30 @@
-import React, { Component } from 'react';
-import Input from '../components/input';
-import Loading from '../components/loading';
-import { AUTH_TOKEN } from '../utils/constants';
+import React from 'react';
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
+import Input from './input';
 import AuthContext from '../utils/AuthContext';
 
 import { CREATE_USER } from '../graphql/mutations';
 
-const URL = 'http://example.com/answer';
+// TODO(eac): figure out how this is used
 
-function createUser(url, data) {
-  return fetch(url, {
-    body: JSON.stringify(data),
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'content-type': 'application/json',
-    },
-    method: 'POST',
-  });
+// const URL = 'http://example.com/answer';
+// function createUser(url, data) {
+//   return fetch(url, {
+//     body: JSON.stringify(data),
+//     cache: 'no-cache',
+//     credentials: 'same-origin',
+//     headers: {
+//       'content-type': 'application/json',
+//     },
+//     method: 'POST',
+//   });
+// }
+
+function renderSuccess() {
+  return <p>You did it!</p>;
 }
 
-export default class SignUpForm extends React.Component {
+export default class SignUpForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,9 +37,9 @@ export default class SignUpForm extends React.Component {
   }
 
   handleChange(event) {
-    const target = event.target;
+    const { target } = event;
+    const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
 
     this.setState({
       [name]: value,
@@ -50,11 +52,8 @@ export default class SignUpForm extends React.Component {
     };
   }
 
-  renderSuccess(data) {
-    return <p>You did it!</p>;
-  }
-
   renderSignUpForm(createUser, loading, logIn, error) {
+    const { username, email, password, passwordConfirmation } = this.state;
     return (
       <form
         className="column is-one-third"
@@ -71,7 +70,7 @@ export default class SignUpForm extends React.Component {
           name="username"
           label="Username"
           inputType="text"
-          content={this.state.username}
+          content={username}
           controlFunc={this.handleChange}
           placeholder="username"
         />
@@ -79,7 +78,7 @@ export default class SignUpForm extends React.Component {
           name="email"
           label="Email"
           inputType="email"
-          content={this.state.email}
+          content={email}
           controlFunc={this.handleChange}
           placeholder="name@example.com"
         />
@@ -87,7 +86,7 @@ export default class SignUpForm extends React.Component {
           name="password"
           label="Password"
           inputType="password"
-          content={this.state.password}
+          content={password}
           controlFunc={this.handleChange}
           placeholder="Must be at least 8 characters"
         />
@@ -95,7 +94,7 @@ export default class SignUpForm extends React.Component {
           name="passwordConfirmation"
           label="Confirm password"
           inputType="password"
-          content={this.state.passwordConfirmation}
+          content={passwordConfirmation}
           controlFunc={this.handleChange}
           placeholder="Type your password again"
         />
@@ -103,6 +102,7 @@ export default class SignUpForm extends React.Component {
         {error && <div className="notification is-danger">{error.message}</div>}
         {loading && (
           <button
+            type="button"
             disabled
             className="button is-fullwidth is-black is-outlined is-loading"
           >
@@ -110,7 +110,7 @@ export default class SignUpForm extends React.Component {
           </button>
         )}
         {!loading && (
-          <button className="button is-fullwidth is-black is-outlined">
+          <button type="button" className="button is-fullwidth is-black is-outlined">
             Create account
           </button>
         )}
@@ -129,7 +129,7 @@ export default class SignUpForm extends React.Component {
                   return this.renderSignUpForm(createUser, loading, logIn, error);
                 }
                 if (data) {
-                  return this.renderSuccess(data);
+                  return renderSuccess(data);
                 }
                 return this.renderSignUpForm(createUser, loading, logIn);
               }}

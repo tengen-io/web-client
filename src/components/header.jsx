@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import { Link } from 'react-router-dom';
-import { AUTH_TOKEN, USERNAME } from '../utils/constants';
 
 import AuthContext from '../utils/AuthContext';
 
