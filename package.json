@@ -6,8 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "webpack",
-    "dev": "webpack-dev-server",
-    "prod": "webpack && node ./src/js/server.js",
+    "run": "webpack-dev-server",
     "watch": "webpack --watch",
     "format": "prettier --write --single-quote --print-width=120 --parser=flow --tab-width=2 \"src/**/*.{js,jsx}\""
   },
@@ -38,6 +37,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
+    "express": "^4.16.4",
     "extract-text-webpack-plugin": "^3.0.2",
     "html-webpack-plugin": "^3.1.0",
     "jest": "^22.4.3",
@@ -54,7 +54,6 @@
     "apollo-client-preset": "^1.0.8",
     "apollo-link-context": "^1.0.12",
     "bulma": "^0.7.1",
-    "express": "^4.16.4",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.1",
     "react": "^16.6.0",
