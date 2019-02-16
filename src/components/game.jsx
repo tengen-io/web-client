@@ -1,9 +1,6 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
-import { Mutation } from 'react-apollo';
-import { Query } from 'react-apollo';
-import { BOARD } from '../utils/constants';
-import Loading from '../components/loading';
+import React from 'react';
+import { Mutation, Query } from 'react-apollo';
+import Loading from './loading';
 
 import { GET_GAME } from '../graphql/queries';
 import { ADD_STONE } from '../graphql/mutations';
@@ -52,7 +49,7 @@ export default class Game extends React.Component {
       <Display
         turn={game.playerTurnId}
         gameId={game.id}
-        gameIsOver={game.status == "complete"}
+        gameIsOver={game.status === "complete"}
         pass={this.handlePass}
         newGame={this.handleNewGame}
         game={game}
@@ -74,7 +71,7 @@ export default class Game extends React.Component {
   }
 
   render() {
-    const id = this.props.id;
+    const { id } = this.props;
     return (
       <Query query={GET_GAME} variables={{ id }} pollInterval={500} partialRefetch={true}>
         {({ loading, error, data }) => {

@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import Input from '../components/input';
+import React from 'react';
+import Input from './input';
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
-import { AUTH_TOKEN, USERNAME } from '../utils/constants';
 import AuthContext from '../utils/AuthContext';
 
 import { LOG_IN } from '../graphql/mutations';
 
-import { Navigation } from 'react-router';
+function renderSuccess() {
+  return <p>You did it!</p>;
+}
 
-export default class LogInForm extends React.Component {
-  constructor(props, context) {
+export default class LogInForm extends React.PureComponent {
+  constructor(props) {
     super(props);
     this.state = {
       username: '',
@@ -20,20 +20,17 @@ export default class LogInForm extends React.Component {
   }
 
   handleChange(event) {
-    const target = event.target;
+    const { target } = event;
+    const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
 
     this.setState({
       [name]: value,
     });
   }
 
-  renderSuccess(data) {
-    return <p>You did it!</p>;
-  }
-
   renderLogInForm(logIn, loading, updateCurrentUser, error) {
+    const { username, password } = this.state;
     return (
       <form
         className="column is-one-third"
@@ -50,7 +47,7 @@ export default class LogInForm extends React.Component {
           name="username"
           label="Username"
           inputType="text"
-          content={this.state.username}
+          content={username}
           controlFunc={this.handleChange}
           placeholder="username"
         />
@@ -58,7 +55,7 @@ export default class LogInForm extends React.Component {
           name="password"
           label="Password"
           inputType="password"
-          content={this.state.password}
+          content={password}
           controlFunc={this.handleChange}
           placeholder="Must be at least 8 characters"
         />
@@ -66,6 +63,7 @@ export default class LogInForm extends React.Component {
         {error && <div className="notification is-danger">{error.message}</div>}
         {loading && (
           <button
+            type="button"
             disabled
             className="button is-fullwidth is-black is-outlined is-loading"
           >
@@ -73,7 +71,7 @@ export default class LogInForm extends React.Component {
           </button>
         )}
         {!loading && (
-          <button className="button is-fullwidth is-black is-outlined">
+          <button type="button" className="button is-fullwidth is-black is-outlined">
             Log in
           </button>
         )}
@@ -89,7 +87,7 @@ export default class LogInForm extends React.Component {
             <Mutation mutation={LOG_IN}>
               {(logInMutation, { loading, error, data }) => {
                 if (data) {
-                  return this.renderSuccess(data);
+                  return renderSuccess(data);
                 }
                 return this.renderLogInForm(
                   logInMutation,
