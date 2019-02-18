@@ -4,5 +4,18 @@
   }
   &__player-information {
     height: 50px;
+    flex: 1;
   }
 }
+
+@media (max-width: $desktop) {
+  .display {
+    width: 540px;
+  }
+  .display__content {
+    display: flex;
+  }
+}
+
+// @media (min-width: $desktop) {
+// }

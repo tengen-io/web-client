@@ -63,12 +63,8 @@ export default class Game extends React.Component {
   renderGame(game) {
     return (
       <section className="game columns">
-        <div className="column is-two-thirds">
-          {this.renderBoard(game)}
-        </div>
-        <div className="column is-one-third">
-          {this.renderDisplay(game)}
-        </div>
+        <div className="column">{this.renderBoard(game)}</div>
+        <div className="column">{this.renderDisplay(game)}</div>
       </section>
     );
   }

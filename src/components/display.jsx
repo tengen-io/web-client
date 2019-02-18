@@ -45,7 +45,7 @@ const Display = ({
   return (
     <section className="display">
       <div className="card">
-        <div className="card-content">
+        <div className="card-content display__content">
           <PlayerInformation
             player={playerBlack}
             playerTurnId={playerTurnId}
@@ -57,13 +57,14 @@ const Display = ({
           />
         </div>
         <footer className="card-footer">
-          <p className="card-footer-item">
-            <AuthContext.Consumer>
-              {({ token }) => {
-                return (
-                  <Mutation mutation={PASS} context={{ token }}>
-                    {(pass, { loading, error, data }) => {
-                      return (
+          <AuthContext.Consumer>
+            {({ token }) => {
+              return (
+                <Mutation mutation={PASS} context={{ token }}>
+                  {(pass, { loading, error, data }) => {
+                    return (
+                      <section className="card-footer-item">
+                        {error && <code>{error.message}</code>}
                         <button
                           type="button"
                           className={`button is-black is-outlined is-fullwidth ${loading &&
@@ -76,13 +77,13 @@ const Display = ({
                         >
                           Pass
                         </button>
-                      );
-                    }}
-                  </Mutation>
-                );
-              }}
-            </AuthContext.Consumer>
-          </p>
+                      </section>
+                    );
+                  }}
+                </Mutation>
+              );
+            }}
+          </AuthContext.Consumer>
         </footer>
       </div>
     </section>

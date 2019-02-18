@@ -1,6 +1,14 @@
 .game {
-    display: flex;
-    justify-content: space-between;
-    width: 900px;
-    margin: 30px auto;
+  display: flex;
+  justify-content: space-between;
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+@media (max-width: $desktop) {
+  .game {
+    flex-direction: column-reverse;
+    align-items: center;
+    margin: 0 auto;
+  }
 }

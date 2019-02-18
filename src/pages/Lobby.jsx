@@ -14,10 +14,7 @@ const LobbyRow = ({ game }) => {
   return (
     <tr key={game.id}>
       <td>
-        <Link
-          className="button is-fullwidth"
-          to={`/game/${game.id}`}
-        >
+        <Link className="button is-fullwidth" to={`/game/${game.id}`}>
           Watch
         </Link>
       </td>
@@ -59,7 +56,7 @@ class CreateGameCard extends React.PureComponent {
     };
   }
 
-  handleOpponentUsernameChange = (event) => {
+  handleOpponentUsernameChange = event => {
     this.setState({ opponentUsername: event.target.value });
   };
 
@@ -67,7 +64,7 @@ class CreateGameCard extends React.PureComponent {
     const { opponentUsername } = this.state;
     return (
       <AuthContext.Consumer>
-        {({token}) => {
+        {({ token }) => {
           return (
             <Mutation
               mutation={CREATE_GAME}
@@ -76,12 +73,14 @@ class CreateGameCard extends React.PureComponent {
             >
               {(createGame, { loading, error, data }) => {
                 if (data) {
-                  return <Redirect
-                    to={{
-                      pathname: `/game/${data.createGame.id}`,
-                      state: { game: data.createGame }
-                    }}
-                  />;
+                  return (
+                    <Redirect
+                      to={{
+                        pathname: `/game/${data.createGame.id}`,
+                        state: { game: data.createGame },
+                      }}
+                    />
+                  );
                 }
                 return (
                   <div className="card">
@@ -92,7 +91,9 @@ class CreateGameCard extends React.PureComponent {
                         inputType="text"
                         placeholder="leesedol"
                         content={opponentUsername}
-                        controlFunc={this.handleOpponentUsernameChange}
+                        controlFunc={
+                          this.handleOpponentUsernameChange
+                        }
                       />
                       {error && (
                         <div className="notification is-danger">
@@ -169,7 +170,6 @@ const LobbyPage = () => {
       </div>
     </section>
   );
-
-}
+};
 
 export default LobbyPage;

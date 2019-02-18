@@ -39,7 +39,8 @@ export default class SignUpForm extends React.PureComponent {
   handleChange(event) {
     const { target } = event;
     const { name } = target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value =
+      target.type === 'checkbox' ? target.checked : target.value;
 
     this.setState({
       [name]: value,
@@ -53,16 +54,22 @@ export default class SignUpForm extends React.PureComponent {
   }
 
   renderSignUpForm(createUser, loading, logIn, error) {
-    const { username, email, password, passwordConfirmation } = this.state;
+    const {
+      username,
+      email,
+      password,
+      passwordConfirmation,
+    } = this.state;
     return (
       <form
         className="column is-one-third"
         onSubmit={e => {
           e.preventDefault();
-          createUser(this.buildParams())
-          .then(({ data }) => {
-            console.log(data)
-            logIn(data.createUser.user.username, data.createUser.token);
+          createUser(this.buildParams()).then(({ data }) => {
+            logIn(
+              data.createUser.user.username,
+              data.createUser.token,
+            );
           });
         }}
       >
@@ -99,7 +106,11 @@ export default class SignUpForm extends React.PureComponent {
           placeholder="Type your password again"
         />
         <br />
-        {error && <div className="notification is-danger">{error.message}</div>}
+        {error && (
+          <div className="notification is-danger">
+            {error.message}
+          </div>
+        )}
         {loading && (
           <button
             type="button"
@@ -110,7 +121,10 @@ export default class SignUpForm extends React.PureComponent {
           </button>
         )}
         {!loading && (
-          <button type="button" className="button is-fullwidth is-black is-outlined">
+          <button
+            type="button"
+            className="button is-fullwidth is-black is-outlined"
+          >
             Create account
           </button>
         )}
@@ -126,12 +140,21 @@ export default class SignUpForm extends React.PureComponent {
             <Mutation mutation={CREATE_USER}>
               {(createUser, { loading, error, data }) => {
                 if (error) {
-                  return this.renderSignUpForm(createUser, loading, logIn, error);
+                  return this.renderSignUpForm(
+                    createUser,
+                    loading,
+                    logIn,
+                    error,
+                  );
                 }
                 if (data) {
                   return renderSuccess(data);
                 }
-                return this.renderSignUpForm(createUser, loading, logIn);
+                return this.renderSignUpForm(
+                  createUser,
+                  loading,
+                  logIn,
+                );
               }}
             </Mutation>
           );
