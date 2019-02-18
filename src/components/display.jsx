@@ -1,75 +1,91 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
 import { PASS } from '../graphql/mutations';
+import AuthContext from '../utils/AuthContext';
 
-const Display = ({ game, gameId, turnId, gameIsOver, newGame }) => {
-  const playerBlack = game.players.filter(
-    p => p.color === 'black',
-  )[0];
-  const playerWhite = game.players.filter(
-    p => p.color === 'white',
-  )[0];
-
-  // We can use loose equality here because ids are unique
-  // and playerTurnId comes back as an int rather than string.
-  const turn = turnId == playerBlack.id ? 'Black' : 'White';
-  const stone = turnId == playerBlack.id ? '⚫️' : '⚪️';
-
-  const displayText = gameIsOver
-    ? 'Game over'
-    : `${stone} ${turn} to play`;
-  // const buttonText = gameIsOver ? 'New game' : 'Pass';
+const PlayerInformation = ({ player, playerTurnId }) => {
+  const isTurn = player.id == playerTurnId;
 
   return (
-    <div className="display card">
-      <div className="card-content">
-        <p className="display__subtitle title is-4">
-          {displayText}
-        </p>
-
-        <p>⚫️ {playerBlack.user.username}</p>
-        <p>⚪️ {playerWhite.user.username}</p>
-      </div>
-      <footer className="card-footer">
-        <p className="card-footer-item">
-          {!gameIsOver || (
-            <button
-              type='button'
-              className="button is-black is-outlined is-fullwidth"
-              onClick={() => newGame()}
-            >
-              New game
-              </button>
+    <div className="display__player-information">
+      <div className="media">
+        <div className="media-left">
+          <figure className="image">
+            <p className="title is-3">
+              {player.color === 'black' ? '⚫️' : '⚪️'}
+            </p>
+          </figure>
+        </div>
+        <div className="media-content">
+          <p className="title is-5">{player.user.username}</p>
+          {isTurn && (
+            <p className="subtitle is-6 has-text-grey-light">
+              Your move
+            </p>
           )}
-          {gameIsOver || (
-            <Mutation mutation={PASS}>
-              {(pass, { loading, error, data }) => {
-                if (loading) {
-                  return (
-                    <button type='button' className="button is-black is-outlined is-fullwidth is-loading">
-                      Pass
-                    </button>
-                  );
-                }
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Display = ({
+  game,
+  gameId,
+  playerTurnId,
+  gameIsOver,
+  newGame,
+  showCoordinates,
+}) => {
+  const playerIsColor = color => player => player.color === color;
+
+  const playerBlack = game.players.find(playerIsColor('black'));
+  const playerWhite = game.players.find(playerIsColor('white'));
+
+  return (
+    <section className="display">
+      <div className="card">
+        <div className="card-content">
+          <PlayerInformation
+            player={playerBlack}
+            playerTurnId={playerTurnId}
+          />
+          <br />
+          <PlayerInformation
+            player={playerWhite}
+            playerTurnId={playerTurnId}
+          />
+        </div>
+        <footer className="card-footer">
+          <p className="card-footer-item">
+            <AuthContext.Consumer>
+              {({ token }) => {
                 return (
-                  <button
-                    type='button'
-                    className="button is-black is-outlined is-fullwidth"
-                    onClick={() =>
-                      pass({
-                        variables: { gameId },
-                      }).then(g => console.log('game', g))
-                    }
-                  >
-                    Pass
-                    </button>
+                  <Mutation mutation={PASS} context={{ token }}>
+                    {(pass, { loading, error, data }) => {
+                      return (
+                        <button
+                          type="button"
+                          className={`button is-black is-outlined is-fullwidth ${loading &&
+                            ' is-loading'}`}
+                          onClick={() =>
+                            pass({
+                              variables: { gameId },
+                            }).then(g => console.log('game', g))
+                          }
+                        >
+                          Pass
+                        </button>
+                      );
+                    }}
+                  </Mutation>
                 );
               }}
-            </Mutation>
-          )}
-        </p>
-      </footer>
-    </div>
+            </AuthContext.Consumer>
+          </p>
+        </footer>
+      </div>
+    </section>
   );
 };
 

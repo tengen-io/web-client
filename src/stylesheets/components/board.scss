@@ -1,12 +1,5 @@
 $board-size: 540;
 
-// body {
-//   display: flex;
-//   // height: 100vh;
-//   align-items: center;
-//   justify-content: center;
-// }
-
 .board {
   display: grid;
   grid-template-columns: repeat(19, 1fr);
@@ -14,8 +7,9 @@ $board-size: 540;
   background-color: $wheat;
   height: #{$board-size}px;
   width: #{$board-size}px;
-  padding: 30px;
+  padding: 20px;
   border: 1px solid rgba($color-grid-line, 0.75);
   box-sizing: border-box;
-  // box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1),
+    0 0 0 1px rgba(10, 10, 10, 0.1);
 }

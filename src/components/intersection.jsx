@@ -6,13 +6,17 @@ export default class Intersection extends React.PureComponent {
     const { color, gameIsOver, handleClick } = this.props;
     if (color || gameIsOver) {
       return;
-    } else {
-      handleClick(this.props);
     }
+    handleClick(this.props);
   };
 
   makeGridlineClassName = () => {
-    const { isTopEdge, isLeftEdge, isRightEdge, isBottomEdge } = this.props;
+    const {
+      isTopEdge,
+      isLeftEdge,
+      isRightEdge,
+      isBottomEdge,
+    } = this.props;
     let className = 'grid-line';
 
     // corners
@@ -33,18 +37,10 @@ export default class Intersection extends React.PureComponent {
     if (isTopEdge && !isRightEdge && !isLeftEdge) {
       className += ' grid-line--edge-top';
     }
-    if (
-      isRightEdge &&
-      !isBottomEdge &&
-      !isTopEdge
-    ) {
+    if (isRightEdge && !isBottomEdge && !isTopEdge) {
       className += ' grid-line--edge-right';
     }
-    if (
-      isBottomEdge &&
-      !isRightEdge &&
-      !isLeftEdge
-    ) {
+    if (isBottomEdge && !isRightEdge && !isLeftEdge) {
       className += ' grid-line--edge-bottom';
     }
     if (isLeftEdge && !isBottomEdge && !isTopEdge) {
@@ -54,7 +50,16 @@ export default class Intersection extends React.PureComponent {
   };
 
   render() {
-    const { addStone, color, isStarPoint } = this.props;
+    const {
+      isTopEdge,
+      isLeftEdge,
+      isRightEdge,
+      isBottomEdge,
+      addStone,
+      color,
+      isStarPoint,
+      showBoardCoordinates,
+    } = this.props;
     let stone = null;
 
     if (color === BOARD.BLACK) {
@@ -62,6 +67,28 @@ export default class Intersection extends React.PureComponent {
     } else if (color === BOARD.WHITE) {
       stone = <div className="stone stone--white" />;
     }
+
+    const coordinateMap = [
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F',
+      'G',
+      'H',
+      'J',
+      'K',
+      'L',
+      'M',
+      'N',
+      'O',
+      'P',
+      'Q',
+      'R',
+      'S',
+      'T',
+    ];
 
     const clickable = {
       cursor: 'pointer',
@@ -75,9 +102,27 @@ export default class Intersection extends React.PureComponent {
       >
         {stone}
         <div className={this.makeGridlineClassName(this.props)} />
-        {isStarPoint ? (
-          <div className="star-point" />
-        ) : null}
+        {isStarPoint && <div className="star-point" />}
+        {showBoardCoordinates && isTopEdge && (
+          <div className="game-coordinate game-coordinate--top">
+            {coordinateMap[this.props.x]}
+          </div>
+        )}
+        {showBoardCoordinates && isBottomEdge && (
+          <div className="game-coordinate game-coordinate--bottom">
+            {coordinateMap[this.props.x]}
+          </div>
+        )}
+        {showBoardCoordinates && isLeftEdge && (
+          <div className="game-coordinate game-coordinate--left">
+            {BOARD.SIZE - this.props.y}
+          </div>
+        )}
+        {showBoardCoordinates && isRightEdge && (
+          <div className="game-coordinate game-coordinate--right">
+            {BOARD.SIZE - this.props.y}
+          </div>
+        )}
       </div>
     );
   }
