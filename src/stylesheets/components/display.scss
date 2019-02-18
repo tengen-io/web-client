@@ -1,7 +1,4 @@
 .display {
-  &__time {
-    font-family: 'Cousine', monospace;
-  }
   &__player-information {
     height: 50px;
     flex: 1;
@@ -16,6 +13,3 @@
     display: flex;
   }
 }
-
-// @media (min-width: $desktop) {
-// }
