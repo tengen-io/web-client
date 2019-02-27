@@ -5,7 +5,7 @@ const Footer = () => (
     <div className="container footer__container">
       <p>
         <strong>GoStop</strong> Open Source Go &nbsp; · &nbsp;
-        <a href="https://github.com/ianwessen/go-stop-client">
+        <a href="https://github.com/tengen-io">
           GitHub Source
         </a>
       </p>

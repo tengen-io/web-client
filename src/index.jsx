@@ -34,8 +34,7 @@ const client = new ApolloClient({
   // uri: 'https://go-stop.live/api',
   // uri: 'http://localhost:8000/graphql',
   // uri: process.env['API_URL'],
-  uri: `http://18.223.97.75/graphql`,
-
+  uri: `${process.env.REACT_APP_API_URI}/graphql`,
   request: authHandler,
   cache: new InMemoryCache(),
 });

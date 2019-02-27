@@ -1,6 +1,6 @@
 {
-  "name": "go-stop-client",
-  "version": "1.0.0",
+  "name": "tengen-web-client",
+  "version": "0.1.0",
   "private": true,
   "description": ":black_circle: Frontend of the open source Go server",
   "scripts": {
@@ -12,14 +12,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ianwessen/go-stop-client.git"
+    "url": "git+https://github.com/tengen-io/web-client.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ianwessen/go-stop-client/issues"
+    "url": "https://github.com/tengen-io/web-client/issues"
   },
-  "homepage": "https://github.com/ianwessen/go-stop-client#readme",
   "dependencies": {
     "@types/jest": "24.0.0",
     "@types/node": "10.12.24",
