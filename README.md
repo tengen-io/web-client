@@ -1,4 +1,4 @@
-# tengen.io | Web client
+# tengen.io
 :black_circle: Frontend of the open source Go server
 
 [Server app](https://github.com/tengen-io/server)
