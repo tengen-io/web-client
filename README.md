@@ -10,15 +10,15 @@ We'd like to do to Go what [Lichess](https://lichess.org/) has done to internet 
 ### Running the App with Docker
 
 ```bash
-docker pull formomosan/go_stop_client
+docker pull tengen-io/web-client
 
-docker run -p 8080:8080 -d formomosan/go_stop_client
+docker run -p 8080:8080 -d tengen-io/web-client
 ```
 Then visit http://localhost:8080 to view the app.
 
 ### Contribute
 
-Jump in and check out [the issues page](https://github.com/ianwessen/go-stop-client/issues).
+Jump in and check out [the issues page](https://github.com/tengen-io/web-client/issues).
 
 The frontend uses:
 
@@ -38,4 +38,4 @@ Some dev app conventions:
 * We like Prettier.js and use it to automate formatting
 * We prefer a terse functional style in code
 
-The project is in very early stages of development and much of the components are open for contribution. For more specifics, see the [the issues page](https://github.com/ianwessen/go-stop-client/issues).
+The project is in very early stages of development and much of the components are open for contribution. For more specifics, see the [the issues page](https://github.com/tengen-io/web-client/issues).
