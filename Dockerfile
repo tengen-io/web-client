@@ -9,3 +9,4 @@ RUN npm run-script build
 
 FROM nginx:stable
 COPY --from=build /usr/src/tengen/build/ /usr/share/nginx/html
+EXPOSE 80
