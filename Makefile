@@ -1,2 +1,2 @@
 docker:
-	docker build -t formomosan/go_stop_client:latest . -f Dockerfile
+	docker build -t gcr.io/tengen-io/webclient:latest . -f Dockerfile
