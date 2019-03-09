@@ -16,7 +16,7 @@ import HomePage from './pages/Home';
 import AboutPage from './pages/About';
 import LobbyPage from './pages/Lobby';
 import GamePage from './pages/Game';
-import RegisterPage from './pages/Register';
+import Register from './pages/Register';
 import FourOhFourPage from './pages/FourOhFour';
 
 const authHandler = operation => {
@@ -47,7 +47,7 @@ const Main = () => {
           <Route path="/about" component={AboutPage} />
           <Route path="/lobby" component={LobbyPage} />
           <Route path="/game/:id" component={GamePage} />
-          <Route path="/register" component={RegisterPage} />
+          <Route path="/register" component={Register} />
           <Route component={FourOhFourPage} />
         </Switch>
       </main>
