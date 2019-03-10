@@ -39,18 +39,18 @@ const client = new ApolloClient({
 
 const Main = () => {
   return (
-      <main className="main container">
-        <Switch>
-          <Route exact path="/" component={HomePage}/>
-          <Route path="/about" component={AboutPage}/>
-          <Route path="/lobby" component={LobbyPage}/>
-          <Route path="/game/:id" component={GamePage}/>
-          <Route path="/register" component={Register}/>
-          <Route component={FourOhFourPage}/>
-        </Switch>
-      </main>
+    <main className="main container">
+      <Switch>
+        <Route exact path="/" component={HomePage}/>
+        <Route path="/about" component={AboutPage}/>
+        <Route path="/lobby" component={LobbyPage}/>
+        <Route path="/game/:id" component={GamePage}/>
+        <Route path="/register" component={Register}/>
+        <Route component={FourOhFourPage}/>
+      </Switch>
+    </main>
   );
-}
+};
 
 class App extends Component {
   constructor(props) {
@@ -61,13 +61,13 @@ class App extends Component {
 
   render() {
     return (
-        <AuthStore repo={this.authRepo}>
-          <div className="app">
-            <Header/>
-            <Main/>
-            <Footer/>
-          </div>
-        </AuthStore>
+      <AuthStore repo={this.authRepo}>
+        <div className="app">
+          <Header/>
+          <Main/>
+          <Footer/>
+        </div>
+      </AuthStore>
     );
   }
 }
@@ -75,11 +75,11 @@ class App extends Component {
 require('./stylesheets/index.scss');
 
 render(
-    <ApolloProvider client={client}>
-      <BrowserRouter>
-        <App/>
-      </BrowserRouter>
-    </ApolloProvider>,
+  <ApolloProvider client={client}>
+    <BrowserRouter>
+      <App/>
+    </BrowserRouter>
+  </ApolloProvider>,
 
-    document.getElementById('root'),
+  document.getElementById('root'),
 );
