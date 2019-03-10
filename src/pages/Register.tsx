@@ -1,7 +1,7 @@
 import React, {SyntheticEvent} from 'react';
 
 import LogInForm from '../components/logInForm';
-import SignUpForm from '../components/signUpForm';
+import SignupForm from '../components/signupForm';
 
 const RegisterHero = (props: { title: string }) => {
   const { title } = props;
@@ -16,7 +16,7 @@ const FormComponent = (props: { shouldShowLogin: boolean }) => {
   const { shouldShowLogin } = props;
   return (
     <div className="columns is-centered">
-      {shouldShowLogin ? <LogInForm /> : <SignUpForm />}
+      {shouldShowLogin ? <LogInForm /> : <SignupForm />}
     </div>
   );
 };
