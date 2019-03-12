@@ -38,11 +38,12 @@ export class AuthContext extends React.PureComponent<IAuthStoreProps, IAuthStore
   constructor(props: IAuthStoreProps) {
     super(props);
 
+    const token = localStorage.getItem(AUTH_TOKEN);
+
     this.state = {
-      token: undefined,
+      token: token ? token : undefined,
     }
   }
-
 
   componentDidUpdate(prevProps: Readonly<IAuthStoreProps>, prevState: Readonly<IAuthStoreState>, snapshot?: any): void {
     const {token} = this.state;
