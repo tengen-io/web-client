@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
-import ApolloClient from 'apollo-boost';
-import {ApolloProvider} from 'react-apollo';
-import {InMemoryCache} from 'apollo-cache-inmemory';
 import {AuthStore} from './stores/authStore';
 
 import Header from './components/header';
@@ -18,24 +15,7 @@ import Register from './pages/Register';
 import FourOhFourPage from './pages/FourOhFour';
 import AuthRepository from "./repositories/authRepository";
 
-const authHandler = operation => {
-  // const token = localStorage.getItem(AUTH_TOKEN);
-  const {token} = operation.getContext();
-  const authHeader = token ? `Bearer ${token}` : null;
-  operation.setContext({
-    headers: {
-      Authorization: authHeader,
-    },
-  });
-};
-
 const ApiRoot = process.env.REACT_APP_API_URI;
-
-const client = new ApolloClient({
-  uri: `${ApiRoot}/graphql`,
-  request: authHandler,
-  cache: new InMemoryCache(),
-});
 
 const Main = () => {
   return (
@@ -75,11 +55,9 @@ class App extends Component {
 require('./stylesheets/index.scss');
 
 render(
-  <ApolloProvider client={client}>
-    <BrowserRouter>
-      <App/>
-    </BrowserRouter>
-  </ApolloProvider>,
+  <BrowserRouter>
+    <App/>
+  </BrowserRouter>,
 
   document.getElementById('root'),
 );
