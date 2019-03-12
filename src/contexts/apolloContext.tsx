@@ -14,12 +14,23 @@ const GET_VIEWER = gql`
     }
 `;
 
-type Props = {}
+interface ICtxProps {
+  token?: string
+}
 
-const apolloContext: React.FunctionComponent<Props> = (props) => {
-  let token: string | undefined;
+class AuthedApolloContext extends React.PureComponent<ICtxProps, {}> {
+  constructor(props: ICtxProps) {
+    super(props);
 
-  const addAuthHeader = async (operation: Operation) => {
+    this.client = new ApolloClient<NormalizedCacheObject>({
+      uri: `${ApiRoot}/graphql`,
+      request: this.addAuthHeader,
+      cache: new InMemoryCache(),
+    });
+  }
+
+  addAuthHeader = async (operation: Operation) => {
+    const {token} = this.props;
     if (token) {
       const header = `Bearer ${token}`;
       operation.setContext({
@@ -30,24 +41,31 @@ const apolloContext: React.FunctionComponent<Props> = (props) => {
     }
   };
 
-  const client = new ApolloClient<NormalizedCacheObject>({
-    uri: `${ApiRoot}/graphql`,
-    request: addAuthHeader,
-    cache: new InMemoryCache(),
-  });
+  private readonly client: ApolloClient<NormalizedCacheObject>;
 
+  render() {
+    const { children } = this.props;
+
+    return (
+      <ApolloProvider client={this.client}>
+        {children}
+      </ApolloProvider>
+    )
+  }
+}
+
+const ApolloContext: React.FunctionComponent<{}> = (props) => {
   return (
     <AuthContextConsumer>
       { context => {
-        token = context.token;
         return (
-          <ApolloProvider client={client}>
+          <AuthedApolloContext token={context.token}>
             { props.children }
-          </ApolloProvider>
-        )
+          </AuthedApolloContext>
+        );
       }}
     </AuthContextConsumer>
   );
 };
 
-export default apolloContext;
+export default ApolloContext;
