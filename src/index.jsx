@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
-import {AuthStore} from './stores/authStore';
+import ApolloContext from './contexts/apolloContext';
+import {AuthContext} from './contexts/authContext';
 
 import Header from './components/header';
 import Footer from './components/footer';
@@ -41,13 +42,15 @@ class App extends Component {
 
   render() {
     return (
-      <AuthStore repo={this.authRepo}>
-        <div className="app">
-          <Header/>
-          <Main/>
-          <Footer/>
-        </div>
-      </AuthStore>
+      <AuthContext repo={this.authRepo}>
+        <ApolloContext>
+          <div className="app">
+            <Header/>
+            <Main/>
+            <Footer/>
+          </div>
+        </ApolloContext>
+      </AuthContext>
     );
   }
 }

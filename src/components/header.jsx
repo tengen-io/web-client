@@ -1,7 +1,7 @@
 import React  from 'react';
 import { Link } from 'react-router-dom';
 
-import { AuthStoreConsumer } from '../stores/authStore';
+import { AuthContextConsumer } from '../contexts/authContext';
 
 const LoggedInLink = ({ currentUser, logOut }) => {
   return (
@@ -56,7 +56,7 @@ const LoggedOutLink = () => {
 };
 
 const Header = () => (
-  <AuthStoreConsumer>
+  <AuthContextConsumer>
     {({ username, token, logout }) =>
       <header className="header">
         <nav
@@ -78,7 +78,7 @@ const Header = () => (
         </nav>
       </header>
     }
-  </AuthStoreConsumer>
+  </AuthContextConsumer>
 );
 
 export default Header;
