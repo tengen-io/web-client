@@ -1,7 +1,7 @@
 import React  from 'react';
 import { Link } from 'react-router-dom';
 
-import AuthContext from '../utils/AuthContext';
+import { AuthStoreConsumer } from '../stores/authStore';
 
 const LoggedInLink = ({ currentUser, logOut }) => {
   return (
@@ -56,8 +56,8 @@ const LoggedOutLink = () => {
 };
 
 const Header = () => (
-  <AuthContext.Consumer>
-    {({ username, logOut }) =>
+  <AuthStoreConsumer>
+    {({ username, token, logout }) =>
       <header className="header">
         <nav
           className="container header__navbar"
@@ -70,15 +70,15 @@ const Header = () => (
           <Link className="header__navbar-item" to="/about">
             Learn
           </Link>
-          {username ? (
-            <LoggedInLink currentUser={username} logOut={logOut} />
+          {token ? (
+            <LoggedInLink currentUser="FIXME" logOut={logout} />
           ) : (
             <LoggedOutLink />
           )}
         </nav>
       </header>
     }
-  </AuthContext.Consumer>
+  </AuthStoreConsumer>
 );
 
 export default Header;

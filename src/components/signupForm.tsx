@@ -1,51 +1,45 @@
-import React from 'react';
-import { Mutation } from 'react-apollo';
+import React, {SyntheticEvent} from 'react';
 import Input from './input';
-import AuthContext from '../utils/AuthContext';
+import {AuthStoreConsumer} from '../stores/authStore';
+import AuthRepository from "../repositories/authRepository";
 
-import { CREATE_USER } from '../graphql/mutations';
-
-// TODO(eac): figure out how this is used
-
-// const URL = 'http://example.com/answer';
-// function createUser(url, data) {
-//   return fetch(url, {
-//     body: JSON.stringify(data),
-//     cache: 'no-cache',
-//     credentials: 'same-origin',
-//     headers: {
-//       'content-type': 'application/json',
-//     },
-//     method: 'POST',
-//   });
-// }
-
+// TODO(eac): wire up success again
 function renderSuccess() {
   return <p>You did it!</p>;
 }
 
-export default class SignUpForm extends React.PureComponent {
-  constructor(props) {
+export interface SignupFormState {
+  email: string,
+  username: string,
+  password: string,
+  confirm: string,
+  error?: Error,
+}
+
+export default class SignupForm extends React.PureComponent<{}, SignupFormState> {
+  constructor(props: {}) {
     super(props);
     this.state = {
       email: '',
       username: '',
       password: '',
-      passwordConfirmation: '',
+      confirm: '',
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event) {
-    const { target } = event;
-    const { name } = target;
+  handleChange = (event: SyntheticEvent) => {
+    const {currentTarget} = event;
+    const target = currentTarget as HTMLInputElement;
+    const {name} = target;
+
     const value =
       target.type === 'checkbox' ? target.checked : target.value;
 
-    this.setState({
+    this.setState((prev) => ({
+      ...prev,
       [name]: value,
-    });
-  }
+    }));
+  };
 
   buildParams() {
     return {
@@ -53,24 +47,35 @@ export default class SignUpForm extends React.PureComponent {
     };
   }
 
-  renderSignUpForm(createUser, loading, logIn, error) {
+  renderSignUpForm(repo: AuthRepository, loading: boolean, login: (username: any, token: any) => void, error?: Error) {
     const {
       username,
       email,
       password,
-      passwordConfirmation,
+      confirm,
     } = this.state;
     return (
       <form
         className="column is-one-third"
         onSubmit={e => {
           e.preventDefault();
-          createUser(this.buildParams()).then(({ data }) => {
-            logIn(
-              data.createUser.user.username,
-              data.createUser.token,
-            );
-          });
+          if (password !== confirm) {
+            // TODO(eac): handle this.
+          }
+
+          // TODO(eac): handle rejections properly
+          repo.register(email, password, username).then(r => {
+              if (r.status !== 200) {
+                const err = new Error("failed to register new user");
+                this.setState((prev) => ({...prev, error: err}));
+                throw err;
+              }
+              return r.json();
+            }
+          ).then((json) => {
+            this.setState((prev) => ({...prev, error: undefined}));
+            login("", json.token);
+          }).catch(() => {});
         }}
       >
         <Input
@@ -98,14 +103,14 @@ export default class SignUpForm extends React.PureComponent {
           placeholder="Must be at least 8 characters"
         />
         <Input
-          name="passwordConfirmation"
+          name="confirm"
           label="Confirm password"
           inputType="password"
-          content={passwordConfirmation}
+          content={confirm}
           controlFunc={this.handleChange}
           placeholder="Type your password again"
         />
-        <br />
+        <br/>
         {error && (
           <div className="notification is-danger">
             {error.message}
@@ -122,7 +127,7 @@ export default class SignUpForm extends React.PureComponent {
         )}
         {!loading && (
           <button
-            type="button"
+            type="submit"
             className="button is-fullwidth is-black is-outlined"
           >
             Create account
@@ -133,33 +138,18 @@ export default class SignUpForm extends React.PureComponent {
   }
 
   render() {
+    const { error } = this.state;
     return (
-      <AuthContext.Consumer>
-        {({ logIn }) => {
-          return (
-            <Mutation mutation={CREATE_USER}>
-              {(createUser, { loading, error, data }) => {
-                if (error) {
-                  return this.renderSignUpForm(
-                    createUser,
-                    loading,
-                    logIn,
-                    error,
-                  );
-                }
-                if (data) {
-                  return renderSuccess(data);
-                }
-                return this.renderSignUpForm(
-                  createUser,
-                  loading,
-                  logIn,
-                );
-              }}
-            </Mutation>
+      <AuthStoreConsumer>
+        {({repo, login}) => {
+          return this.renderSignUpForm(
+            repo,
+            false,
+            login,
+            error
           );
         }}
-      </AuthContext.Consumer>
+      </AuthStoreConsumer>
     );
   }
 }

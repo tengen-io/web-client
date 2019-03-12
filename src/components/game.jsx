@@ -4,7 +4,7 @@ import Loading from './loading';
 
 import { GET_GAME } from '../graphql/queries';
 import { ADD_STONE } from '../graphql/mutations';
-import AuthContext from '../utils/AuthContext';
+import { AuthStoreConsumer } from '../stores/authStore';
 
 import Board from './board';
 import Display from './display';
@@ -27,7 +27,7 @@ export default class Game extends React.Component {
 
   renderBoard(game) {
     return (
-      <AuthContext.Consumer>
+      <AuthStoreConsumer>
         {({ token }) => {
           return (
             <Mutation mutation={ADD_STONE} context={{ token }}>
@@ -43,7 +43,7 @@ export default class Game extends React.Component {
             </Mutation>
           );
         }}
-      </AuthContext.Consumer>
+      </AuthStoreConsumer>
     );
   }
 
