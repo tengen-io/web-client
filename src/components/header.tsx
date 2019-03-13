@@ -3,7 +3,12 @@ import { Link } from 'react-router-dom';
 
 import { AuthContextConsumer } from '../contexts/authContext';
 
-const LoggedInLink = ({ currentUser, logOut }) => {
+type LoggedInLinkProps = {
+  currentUser: String
+  logout: () => void
+}
+
+const LoggedInLink: React.FunctionComponent<LoggedInLinkProps> = ({ currentUser, logout }) => {
   return (
     <div className="header__navbar-item header__navbar-item--right">
       <div className="dropdown is-hoverable">
@@ -30,7 +35,7 @@ const LoggedInLink = ({ currentUser, logOut }) => {
             <Link
               className="dropdown-item"
               to="#"
-              onClick={logOut}
+              onClick={logout}
             >
               Log out
             </Link>
@@ -57,7 +62,7 @@ const LoggedOutLink = () => {
 
 const Header = () => (
   <AuthContextConsumer>
-    {({ username, token, logout }) =>
+    {({ token, logout }) =>
       <header className="header">
         <nav
           className="container header__navbar"

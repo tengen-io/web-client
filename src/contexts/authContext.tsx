@@ -1,9 +1,7 @@
 import * as React from "react";
 import AuthRepository from "../repositories/authRepository";
-import IViewer from "../models/viewer";
 
 export interface IAuthContext {
-  username?: string
   token?: string
   repo: AuthRepository
 
@@ -17,13 +15,11 @@ export interface IAuthStoreProps {
 
 export interface IAuthStoreState {
   token?: string
-  viewer?: IViewer
 }
 
 const AUTH_TOKEN = "auth-token";
 
 const context = React.createContext<IAuthContext>({
-  username: undefined,
   token: undefined,
   // TODO(eac): How do I initialize this better?
   repo: new AuthRepository(""),
@@ -68,7 +64,6 @@ export class AuthContext extends React.PureComponent<IAuthStoreProps, IAuthStore
 
     const value = {
       token,
-      username: undefined,
       repo,
       login: this.login,
       logout: this.logout,

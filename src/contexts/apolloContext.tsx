@@ -5,15 +5,6 @@ import ApolloProvider from "react-apollo/ApolloProvider";
 
 const ApiRoot = process.env.REACT_APP_API_URI;
 
-const GET_VIEWER = gql`
-    {
-        viewer {
-            id
-            user
-        }
-    }
-`;
-
 interface ICtxProps {
   token?: string
 }

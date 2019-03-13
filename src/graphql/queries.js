@@ -1,5 +1,14 @@
 import gql from 'graphql-tag';
 
+export const GET_VIEWER = gql`
+    {
+        viewer {
+            id
+            user
+        }
+    }
+`;
+
 export const GET_GAME = gql`
   query Game($id: ID!) {
     game(id: $id) {
