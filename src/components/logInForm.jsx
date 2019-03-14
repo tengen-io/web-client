@@ -1,7 +1,7 @@
 import React from 'react';
 import Input from './input';
 import { Mutation } from 'react-apollo';
-import { AuthStoreConsumer } from '../stores/authStore';
+import { AuthContextConsumer } from '../contexts/authContext';
 
 import { LOG_IN } from '../graphql/mutations';
 
@@ -81,7 +81,7 @@ export default class LogInForm extends React.PureComponent {
 
   render() {
     return (
-      <AuthStoreConsumer>
+      <AuthContextConsumer>
         {({ logIn }) => {
           return (
             <Mutation mutation={LOG_IN}>
@@ -99,7 +99,7 @@ export default class LogInForm extends React.PureComponent {
             </Mutation>
           );
         }}
-      </AuthStoreConsumer>
+      </AuthContextConsumer>
     );
   }
 }

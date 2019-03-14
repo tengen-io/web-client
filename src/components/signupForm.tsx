@@ -1,6 +1,6 @@
 import React, {SyntheticEvent} from 'react';
 import Input from './input';
-import {AuthStoreConsumer} from '../stores/authStore';
+import {AuthContextConsumer} from '../contexts/authContext';
 import AuthRepository from "../repositories/authRepository";
 
 // TODO(eac): wire up success again
@@ -140,7 +140,7 @@ export default class SignupForm extends React.PureComponent<{}, SignupFormState>
   render() {
     const { error } = this.state;
     return (
-      <AuthStoreConsumer>
+      <AuthContextConsumer>
         {({repo, login}) => {
           return this.renderSignUpForm(
             repo,
@@ -149,7 +149,7 @@ export default class SignupForm extends React.PureComponent<{}, SignupFormState>
             error
           );
         }}
-      </AuthStoreConsumer>
+      </AuthContextConsumer>
     );
   }
 }

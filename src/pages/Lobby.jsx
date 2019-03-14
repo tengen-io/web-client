@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import { GET_GAMES } from '../graphql/queries';
 import { CREATE_GAME } from '../graphql/mutations';
-import { AuthStoreConsumer } from '../stores/authStore';
+import { AuthContextConsumer } from '../contexts/authContext';
 import Input from '../components/input';
 
 const LobbyRow = ({ game }) => {
@@ -63,7 +63,7 @@ class CreateGameCard extends React.PureComponent {
   render() {
     const { opponentUsername } = this.state;
     return (
-      <AuthStoreConsumer>
+      <AuthContextConsumer>
         {({ token }) => {
           return (
             <Mutation
@@ -129,7 +129,7 @@ class CreateGameCard extends React.PureComponent {
             </Mutation>
           );
         }}
-      </AuthStoreConsumer>
+      </AuthContextConsumer>
     );
   }
 }

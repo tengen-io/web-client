@@ -1,9 +1,16 @@
 import React  from 'react';
 import { Link } from 'react-router-dom';
 
-import { AuthStoreConsumer } from '../stores/authStore';
+import { AuthContextConsumer } from '../contexts/authContext';
+import {Query} from 'react-apollo';
+import {GET_VIEWER, GetViewerData, GetViewerQuery} from "../graphql/queries";
 
-const LoggedInLink = ({ currentUser, logOut }) => {
+type LoggedInLinkProps = {
+  currentUser: String
+  logout: () => void
+}
+
+const LoggedInLink: React.FunctionComponent<LoggedInLinkProps> = ({ currentUser, logout }) => {
   return (
     <div className="header__navbar-item header__navbar-item--right">
       <div className="dropdown is-hoverable">
@@ -30,7 +37,7 @@ const LoggedInLink = ({ currentUser, logOut }) => {
             <Link
               className="dropdown-item"
               to="#"
-              onClick={logOut}
+              onClick={logout}
             >
               Log out
             </Link>
@@ -56,8 +63,8 @@ const LoggedOutLink = () => {
 };
 
 const Header = () => (
-  <AuthStoreConsumer>
-    {({ username, token, logout }) =>
+  <AuthContextConsumer>
+    {({ token, logout }) =>
       <header className="header">
         <nav
           className="container header__navbar"
@@ -71,14 +78,24 @@ const Header = () => (
             Learn
           </Link>
           {token ? (
-            <LoggedInLink currentUser="FIXME" logOut={logout} />
+            <Query<GetViewerData, {}> query={GET_VIEWER}>
+              {({loading, error, data}) => {
+                // TODO(eac): turn these into actual styled components
+                if (loading) return "loading";
+                if (error) return "error";
+
+                return (
+                  <LoggedInLink currentUser={data.viewer.user.name} logout={logout} />
+                );
+              }}
+            </Query>
           ) : (
             <LoggedOutLink />
           )}
         </nav>
       </header>
     }
-  </AuthStoreConsumer>
+  </AuthContextConsumer>
 );
 
 export default Header;

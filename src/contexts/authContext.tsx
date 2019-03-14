@@ -2,11 +2,11 @@ import * as React from "react";
 import AuthRepository from "../repositories/authRepository";
 
 export interface IAuthContext {
-  username?: string,
-  token?: string,
+  token?: string
   repo: AuthRepository
-  login: (username: string, token: string) => void,
-  logout: () => void,
+
+  login: (username: string, token: string) => void
+  logout: () => void
 };
 
 export interface IAuthStoreProps {
@@ -19,22 +19,32 @@ export interface IAuthStoreState {
 
 const AUTH_TOKEN = "auth-token";
 
-export const AuthStoreContext = React.createContext<IAuthContext>({
-  username: undefined,
+const context = React.createContext<IAuthContext>({
   token: undefined,
   // TODO(eac): How do I initialize this better?
   repo: new AuthRepository(""),
+
   login: (username: string, token: string) => { },
   logout: () => { },
 });
 
-export const AuthStoreConsumer = AuthStoreContext.Consumer;
+export const AuthContextConsumer = context.Consumer;
 
-export class AuthStore extends React.PureComponent<IAuthStoreProps, IAuthStoreState> {
+export class AuthContext extends React.PureComponent<IAuthStoreProps, IAuthStoreState> {
   constructor(props: IAuthStoreProps) {
     super(props);
+
+    const token = localStorage.getItem(AUTH_TOKEN);
+
     this.state = {
-      token: undefined
+      token: token ? token : undefined,
+    }
+  }
+
+  componentDidUpdate(prevProps: Readonly<IAuthStoreProps>, prevState: Readonly<IAuthStoreState>, snapshot?: any): void {
+    const {token} = this.state;
+    if (token !== prevState.token) {
+      // todo(eac): invalidate apollo cache
     }
   }
 
@@ -54,16 +64,15 @@ export class AuthStore extends React.PureComponent<IAuthStoreProps, IAuthStoreSt
 
     const value = {
       token,
-      username: undefined,
       repo,
       login: this.login,
       logout: this.logout,
     };
 
     return (
-      <AuthStoreContext.Provider value={value}>
+      <context.Provider value={value}>
         {children}
-      </AuthStoreContext.Provider>
+      </context.Provider>
     );
   }
 }

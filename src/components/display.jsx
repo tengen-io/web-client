@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
 import { PASS } from '../graphql/mutations';
-import { AuthStoreConsumer } from '../stores/authStore';
+import { AuthContextConsumer } from '../contexts/authContext';
 
 const PlayerInformation = ({ player, playerTurnId }) => {
   const isTurn = player.id === playerTurnId;
@@ -57,7 +57,7 @@ const Display = ({
           />
         </div>
         <footer className="card-footer">
-          <AuthStoreConsumer>
+          <AuthContextConsumer>
             {({ token }) => {
               return (
                 <Mutation mutation={PASS} context={{ token }}>
@@ -83,7 +83,7 @@ const Display = ({
                 </Mutation>
               );
             }}
-          </AuthStoreConsumer>
+          </AuthContextConsumer>
         </footer>
       </div>
     </section>
