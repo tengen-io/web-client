@@ -17,6 +17,8 @@ export interface GetViewerData {
   viewer: IViewer
 }
 
+export const GET_INVITATIONS =
+
 export const GET_GAME = gql`
   query Game($id: ID!) {
     game(id: $id) {
