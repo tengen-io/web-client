@@ -1,14 +1,15 @@
 import React from 'react';
 import {Mutation, Query} from 'react-apollo';
-import Loading from '../components/loading';
 import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
-import {GET_GAMES} from '../graphql/queries';
+import Loading from '../components/loading';
+import {GET_GAMES, GetGamesData, GetGamesVariables} from '../graphql/queries';
 import {CREATE_INVITATION, ICreateGameInvitationInput, ICreateGameInvitationPayload} from '../graphql/mutations';
 import IGame from "../models/game";
-import {GameType} from "../models/enums";
+import {GameState, GameType} from "../models/enums";
+import {AuthContextConsumer} from "../contexts/authContext";
 
-const LobbyRow: React.FunctionComponent<{ game: IGame }> = ({ game }) => {
+const LobbyRow: React.FunctionComponent<{game: IGame}> = ({ game }) => {
   return (
     <tr key={game.id}>
       <td>
@@ -23,7 +24,7 @@ const LobbyRow: React.FunctionComponent<{ game: IGame }> = ({ game }) => {
   );
 };
 
-const LobbyTable: React.FunctionComponent<{games: [IGame, number][]}> = ({ games }) => {
+const LobbyTable: React.FunctionComponent<{games: IGame[]}> = ({games}) => {
   return (
     <section className="card">
       <table className="table is-hoverable is-fullwidth">
@@ -36,8 +37,8 @@ const LobbyTable: React.FunctionComponent<{games: [IGame, number][]}> = ({ games
           </tr>
         </thead>
         <tbody>
-          {games.map(([game, index]) => (
-            <LobbyRow key={index} game={game} />
+          {games.map((game) => (
+            <LobbyRow key={game.id} game={game} />
           ))}
         </tbody>
       </table>
@@ -45,68 +46,62 @@ const LobbyTable: React.FunctionComponent<{games: [IGame, number][]}> = ({ games
   );
 };
 
-class CreateGameCard extends React.PureComponent<{}, {}> {
-  constructor(props: {}) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <Mutation<ICreateGameInvitationPayload, ICreateGameInvitationInput>
-        mutation={ CREATE_INVITATION }
-        variables={{ invitation: { boardSize: 19, type: GameType.Standard }}}>
-        {(createGame, { loading, error, data }) => {
-          if (data) {
-            return (
-              <Redirect
-                to={{
-                  pathname: `/game/${data.game.id}`,
-                  // FIXME(eac): replace this with game invitation flow?
-                  // state: { game: data.createGame },
-                }}
-              />
-            );
-          }
-          return (
-            <div className="card">
-              <div className="card-content">
-                {error && (
-                  <div className="notification is-danger">
-                    {error.message}
-                  </div>
-                )}
-              </div>
-              <div className="card-footer">
-                <p className="card-footer-item">
-                  {loading && (
-                    <button
-                      type="button"
-                      disabled
-                      className="button is-black is-outlined is-fullwidth is-loading"
-                    >
-                      Create Invitation
-                    </button>
-                  )}
-                  {!loading && (
-                    <button
-                      type="button"
-                      onClick={() => createGame() }
-                      className="button is-black is-outlined is-fullwidth"
-                    >
-                      Create Invitation
-                    </button>
-                  )}
-                </p>
-              </div>
+const CreateGameCard: React.FunctionComponent = () => {
+  return (
+    <Mutation<ICreateGameInvitationPayload, ICreateGameInvitationInput>
+      mutation={ CREATE_INVITATION }
+      variables={{ invitation: { boardSize: 19, type: GameType.Standard }}}>
+      {(createGame, { loading, error, data }) => {
+        if (data) {
+          // FIXME(eac): replace this with game invitation flow?
+          // return (
+          //   <Redirect
+          //     to={{
+          //       pathname: `/game/${data.game.id}`,
+          //       // state: { game: data.createGame },
+          //     }}
+          //   />
+          // );
+        }
+        return (
+          <div className="card">
+            <div className="card-content">
+              {error && (
+                <div className="notification is-danger">
+                  {error.message}
+                </div>
+              )}
             </div>
-          );
-        }}
-      </Mutation>
-    );
-  }
+            <div className="card-footer">
+              <p className="card-footer-item">
+                {loading && (
+                  <button
+                    type="button"
+                    disabled
+                    className="button is-black is-outlined is-fullwidth is-loading"
+                  >
+                    Create Invitation
+                  </button>
+                )}
+                {!loading && (
+                  <button
+                    type="button"
+                    onClick={() => createGame() }
+                    className="button is-black is-outlined is-fullwidth"
+                  >
+                    Create Invitation
+                  </button>
+                )}
+              </p>
+            </div>
+          </div>
+        );
+      }}
+    </Mutation>
+  );
 }
 
-const LobbyPage = () => {
+const LobbyPage: React.FunctionComponent = () => {
   return (
     <section className="section page page--home">
       <div className="hero hero--home">
@@ -117,18 +112,29 @@ const LobbyPage = () => {
 
       <div className="container">
         <div className="columns is-centered">
-          <div className="column is-one-quarter">
-            <h4 className="title is-4">New game</h4>
-            <p className="subtitle has-text-grey">
-              Select an opponent
-            </p>
-            <CreateGameCard />
-          </div>
+          <AuthContextConsumer>
+            {(authContext) => {
+              if (authContext.token)
+                return (<div className="column is-one-quarter">
+                  <h4 className="title is-4">New game</h4>
+                  <p className="subtitle has-text-grey">
+                    Select an opponent
+                  </p>
+                  <CreateGameCard />
+                </div>);
+            }}
+          </AuthContextConsumer>
           <div className="column is-three-quarters">
             <h4 className="title is-4">Invitations</h4>
-            <p>
-              invitations
-            </p>
+              <Query<GetGamesData, GetGamesVariables>
+                query={GET_GAMES} variables={{states: [GameState.Invitation]}}
+                pollInterval={1000}>
+                {({ loading, error, data}) => {
+                  if (loading) return <Loading/>;
+                  if (error || !data) return <p>Error!!!</p>;
+                  return <LobbyTable games={data.games}/>;
+                }}
+              </Query>
           </div>
         </div>
       </div>
@@ -140,11 +146,11 @@ const LobbyPage = () => {
             <p className="subtitle has-text-grey">
               Join an existing game
             </p>
-            <Query query={GET_GAMES}>
+            <Query<GetGamesData, GetGamesVariables> query={GET_GAMES} variables={{states: [GameState.InProgress]}}>
               {({ loading, error, data }) => {
                 if (loading) return <Loading />;
-                if (error) return <p>Error!!!</p>;
-                return <LobbyTable games={data.lobby} />;
+                if (error || !data) return <p>Error!!!</p>;
+                return <LobbyTable games={data.games} />;
               }}
             </Query>
           </div>

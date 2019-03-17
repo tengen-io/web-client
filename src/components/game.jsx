@@ -2,7 +2,6 @@ import React from 'react';
 import { Mutation, Query } from 'react-apollo';
 import Loading from './loading';
 
-import { GET_GAME } from '../graphql/queries';
 import { ADD_STONE } from '../graphql/mutations';
 import { AuthContextConsumer } from '../contexts/authContext';
 
@@ -73,7 +72,7 @@ export default class Game extends React.Component {
     const { id } = this.props;
     return (
       <Query
-        query={GET_GAME}
+        query={null} // TODO(eac): Fixme
         variables={{ id }}
         pollInterval={500}
         partialRefetch={true}

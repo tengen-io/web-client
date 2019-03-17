@@ -1,8 +1,8 @@
 import React  from 'react';
 import { Link } from 'react-router-dom';
 
-import { AuthContextConsumer } from '../contexts/authContext';
 import {Query} from 'react-apollo';
+import {AuthContextConsumer} from '../contexts/authContext';
 import {GET_VIEWER, GetViewerData} from "../graphql/queries";
 
 type LoggedInLinkProps = {

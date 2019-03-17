@@ -1,5 +1,7 @@
 import gql from 'graphql-tag';
 import IViewer from "../models/viewer";
+import IGame from "../models/game";
+import {GameState} from "../models/enums";
 
 export const GET_VIEWER = gql`
     {
@@ -17,45 +19,21 @@ export interface GetViewerData {
   viewer: IViewer
 }
 
-export const GET_INVITATIONS =
-
-export const GET_GAME = gql`
-  query Game($id: ID!) {
-    game(id: $id) {
-      id
-      status
-      playerTurnId
-      players {
-        id
-        color
-        user {
-          id
-          username
-        }
-      }
-      boardSize
-      stones {
-        id
-        x
-        y
-        color
-      }
-    }
-  }
-`;
-
 export const GET_GAMES = gql`
-  {
-    lobby {
+  query Games($states: [GameState!]) {
+    games(states: $states) {
       id
-      status
-      players {
-        id
-        user {
-          id
-          username
-        }
-      }
+      type
+      state
+      boardSize
     }
   }
 `;
+
+export interface GetGamesData {
+    games: IGame[]
+}
+
+export interface GetGamesVariables {
+    states: GameState[]
+}

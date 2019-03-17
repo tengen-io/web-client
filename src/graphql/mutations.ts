@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import {GameType} from "../models/enums";
-import {IGame} from "../models/game";
+import IGame from "../models/game";
 
 export const CREATE_INVITATION = gql`
   mutation CreateGameInvitation($invitation: CreateGameInvitationInput!) {
