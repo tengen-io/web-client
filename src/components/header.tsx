@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { AuthContextConsumer } from '../contexts/authContext';
 import {Query} from 'react-apollo';
-import {GET_VIEWER, GetViewerData, GetViewerQuery} from "../graphql/queries";
+import {GET_VIEWER, GetViewerData} from "../graphql/queries";
 
 type LoggedInLinkProps = {
   currentUser: String
@@ -82,7 +82,7 @@ const Header = () => (
               {({loading, error, data}) => {
                 // TODO(eac): turn these into actual styled components
                 if (loading) return "loading";
-                if (error) return "error";
+                if (error || !data) return "error";
 
                 return (
                   <LoggedInLink currentUser={data.viewer.user.name} logout={logout} />
