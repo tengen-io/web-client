@@ -7,3 +7,8 @@ export enum GameState {
   InProgress = "IN_PROGRESS",
   Finished = "FINISHED",
 }
+
+export enum GameUserEdgeType {
+  OWNER = "OWNER",
+  PLAYER = "PLAYER",
+}

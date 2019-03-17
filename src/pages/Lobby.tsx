@@ -1,13 +1,38 @@
 import React from 'react';
 import {Mutation, Query} from 'react-apollo';
 import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
 import Loading from '../components/loading';
-import {GET_GAMES, GetGamesData, GetGamesVariables} from '../graphql/queries';
 import {CREATE_INVITATION, ICreateGameInvitationInput, ICreateGameInvitationPayload} from '../graphql/mutations';
 import IGame from "../models/game";
 import {GameState, GameType} from "../models/enums";
 import {AuthContextConsumer} from "../contexts/authContext";
+import gql from 'graphql-tag';
+
+const GET_GAMES = gql`
+    query Games($states: [GameState!]) {
+        games(states: $states) {
+            id
+            type
+            state
+            boardSize
+            users {
+                type
+                user {
+                    id
+                    name
+                }
+            }
+        }
+    }
+`;
+
+interface GetGamesData {
+  games: IGame[]
+}
+
+interface GetGamesVariables {
+  states: GameState[]
+}
 
 const LobbyRow: React.FunctionComponent<{game: IGame}> = ({ game }) => {
   return (
@@ -24,24 +49,40 @@ const LobbyRow: React.FunctionComponent<{game: IGame}> = ({ game }) => {
   );
 };
 
-const LobbyTable: React.FunctionComponent<{games: IGame[]}> = ({games}) => {
+const LobbyCard: React.FunctionComponent<{game: IGame}> = ({game}) => {
+  switch (game.state) {
+    case GameState.Invitation:
+      return (
+        <div>
+          <ul>
+            <li>Type: {game.type}</li>
+            <li>Size: {game.boardSize}</li>
+            <li>Players:
+              <ul>
+                {game.users.map((user) => {
+                  return (<li> {user.user.name} ({user.type})</li>)
+                })}
+              </ul>
+            </li>
+          </ul>
+        </div>
+      );
+
+    default:
+      return (
+        <div>unknown game state</div>
+      )
+  }
+};
+
+const LobbyCards: React.FunctionComponent<{games: IGame[]}> = ({games}) => {
   return (
     <section className="card">
-      <table className="table is-hoverable is-fullwidth">
-        <thead className="is-light">
-          <tr>
-            <th> </th>
-            <th>Game</th>
-            <th>⚫️ Player</th>
-            <th>⚪️ Player</th>
-          </tr>
-        </thead>
-        <tbody>
-          {games.map((game) => (
-            <LobbyRow key={game.id} game={game} />
-          ))}
-        </tbody>
-      </table>
+      <div>
+        {games.map((game) => (
+          <LobbyCard key={game.id} game={game} />
+        ))}
+      </div>
     </section>
   );
 };
@@ -99,7 +140,7 @@ const CreateGameCard: React.FunctionComponent = () => {
       }}
     </Mutation>
   );
-}
+};
 
 const LobbyPage: React.FunctionComponent = () => {
   return (
@@ -122,6 +163,8 @@ const LobbyPage: React.FunctionComponent = () => {
                   </p>
                   <CreateGameCard />
                 </div>);
+
+              return (<div></div>);
             }}
           </AuthContextConsumer>
           <div className="column is-three-quarters">
@@ -132,7 +175,7 @@ const LobbyPage: React.FunctionComponent = () => {
                 {({ loading, error, data}) => {
                   if (loading) return <Loading/>;
                   if (error || !data) return <p>Error!!!</p>;
-                  return <LobbyTable games={data.games}/>;
+                  return <LobbyCards games={data.games}/>;
                 }}
               </Query>
           </div>
@@ -150,7 +193,7 @@ const LobbyPage: React.FunctionComponent = () => {
               {({ loading, error, data }) => {
                 if (loading) return <Loading />;
                 if (error || !data) return <p>Error!!!</p>;
-                return <LobbyTable games={data.games} />;
+                return <LobbyCards games={data.games} />;
               }}
             </Query>
           </div>
