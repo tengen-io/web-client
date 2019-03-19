@@ -1,29 +1,28 @@
 import React from 'react';
 import {Mutation, Query} from 'react-apollo';
-import {Link} from 'react-router-dom';
+import gql from 'graphql-tag';
 import Loading from '../components/loading';
 import {CREATE_INVITATION, ICreateGameInvitationInput, ICreateGameInvitationPayload} from '../graphql/mutations';
 import IGame from "../models/game";
 import {GameState, GameType} from "../models/enums";
 import {AuthContextConsumer} from "../contexts/authContext";
-import gql from 'graphql-tag';
 
 const GET_GAMES = gql`
-    query Games($states: [GameState!]) {
-        games(states: $states) {
-            id
-            type
-            state
-            boardSize
-            users {
-                type
-                user {
-                    id
-                    name
-                }
-            }
+  query Games($states: [GameState!]) {
+    games(states: $states) {
+      id
+      type
+      state
+      boardSize
+      users {
+        type
+        user {
+          id
+          name
         }
+      }
     }
+  }
 `;
 
 interface GetGamesData {
@@ -34,20 +33,31 @@ interface GetGamesVariables {
   states: GameState[]
 }
 
-const LobbyRow: React.FunctionComponent<{game: IGame}> = ({ game }) => {
-  return (
-    <tr key={game.id}>
-      <td>
-        <Link className="button is-fullwidth" to={`/game/${game.id}`}>
-          Watch
-        </Link>
-      </td>
-      <td>{game.id}</td>
-      <td>PLAYER 0 FIXME</td>
-      <td>PLAYER 1 FIXME</td>
-    </tr>
-  );
-};
+const JOIN_GAME = gql`
+  mutation JoinGame($id: ID!) {
+    joinGame(gameId: $id) {
+      game {
+        id
+        state
+        users {
+          type 
+          user {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
+interface JoinGameData {
+  game: IGame;
+}
+
+interface JoinGameVariables {
+  id: string
+}
 
 const LobbyCard: React.FunctionComponent<{game: IGame}> = ({game}) => {
   switch (game.state) {
@@ -65,6 +75,15 @@ const LobbyCard: React.FunctionComponent<{game: IGame}> = ({game}) => {
               </ul>
             </li>
           </ul>
+          <Mutation<JoinGameData, JoinGameVariables> mutation={JOIN_GAME} variables={{id: game.id}}>
+            {(joinGame, { loading, error, data }) => {
+              return (
+                <button type="button" disabled={loading} onClick={() => joinGame()} className="button is-black is-outlined is-fullwidth">
+                  Join Game
+                </button>
+              );
+            }}
+          </Mutation>
         </div>
       );
 
