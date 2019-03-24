@@ -2,10 +2,10 @@ import React from 'react';
 import {Mutation, Query} from 'react-apollo';
 import gql from 'graphql-tag';
 import Loading from '../components/loading';
-import {CREATE_INVITATION, ICreateGameInvitationInput, ICreateGameInvitationPayload} from '../graphql/mutations';
-import IGame from "../models/game";
-import {GameState, GameType} from "../models/enums";
+import {GameState} from "../models/enums";
 import {AuthContextConsumer} from "../contexts/authContext";
+import {IMatchmakingRequest} from "../models/matchmaking";
+import IGame from "../models/game";
 
 const GET_GAMES = gql`
   query Games($states: [GameState!]) {
@@ -33,35 +33,31 @@ interface GetGamesVariables {
   states: GameState[]
 }
 
-const JOIN_GAME = gql`
-  mutation JoinGame($id: ID!) {
-    joinGame(gameId: $id) {
-      game {
-        id
-        state
-        users {
-          type 
-          user {
-            id
-            name
+const CREATE_MATCHMAKING_REQUEST = gql`
+  mutation CreateMatchmakingRequest($input: CreateMatchmakingRequestInput!) {
+      createMatchmakingRequest(input: $input) {
+          request {
+              id
+              createdAt
+              updatedAt
           }
-        }
       }
-    }
   }
 `;
 
-interface JoinGameData {
-  game: IGame;
+interface ICreateMatchmakingRequestInput {
+  input: {
+    delta: number
+  }
 }
 
-interface JoinGameVariables {
-  id: string
+interface ICreateMatchmakingRequestData {
+  request: IMatchmakingRequest
 }
 
 const LobbyCard: React.FunctionComponent<{game: IGame}> = ({game}) => {
   switch (game.state) {
-    case GameState.Invitation:
+    case GameState.Negotiation:
       return (
         <div>
           <ul>
@@ -75,15 +71,6 @@ const LobbyCard: React.FunctionComponent<{game: IGame}> = ({game}) => {
               </ul>
             </li>
           </ul>
-          <Mutation<JoinGameData, JoinGameVariables> mutation={JOIN_GAME} variables={{id: game.id}}>
-            {(joinGame, { loading, error, data }) => {
-              return (
-                <button type="button" disabled={loading} onClick={() => joinGame()} className="button is-black is-outlined is-fullwidth">
-                  Join Game
-                </button>
-              );
-            }}
-          </Mutation>
         </div>
       );
 
@@ -108,9 +95,9 @@ const LobbyCards: React.FunctionComponent<{games: IGame[]}> = ({games}) => {
 
 const CreateGameCard: React.FunctionComponent = () => {
   return (
-    <Mutation<ICreateGameInvitationPayload, ICreateGameInvitationInput>
-      mutation={ CREATE_INVITATION }
-      variables={{ invitation: { boardSize: 19, type: GameType.Standard }}}>
+    <Mutation<ICreateMatchmakingRequestData, ICreateMatchmakingRequestInput>
+      mutation={ CREATE_MATCHMAKING_REQUEST }
+      variables={{ input: { delta: 3 }}}>
       {(createGame, { loading, error, data }) => {
         if (data) {
           // FIXME(eac): replace this with game invitation flow?
@@ -140,7 +127,7 @@ const CreateGameCard: React.FunctionComponent = () => {
                     disabled
                     className="button is-black is-outlined is-fullwidth is-loading"
                   >
-                    Create Invitation
+                    Search
                   </button>
                 )}
                 {!loading && (
@@ -149,7 +136,7 @@ const CreateGameCard: React.FunctionComponent = () => {
                     onClick={() => createGame() }
                     className="button is-black is-outlined is-fullwidth"
                   >
-                    Create Invitation
+                    Search
                   </button>
                 )}
               </p>
@@ -176,10 +163,7 @@ const LobbyPage: React.FunctionComponent = () => {
             {(authContext) => {
               if (authContext.token)
                 return (<div className="column is-one-quarter">
-                  <h4 className="title is-4">New game</h4>
-                  <p className="subtitle has-text-grey">
-                    Select an opponent
-                  </p>
+                  <h4 className="title is-4">Find a game</h4>
                   <CreateGameCard />
                 </div>);
 
@@ -187,9 +171,9 @@ const LobbyPage: React.FunctionComponent = () => {
             }}
           </AuthContextConsumer>
           <div className="column is-three-quarters">
-            <h4 className="title is-4">Invitations</h4>
+            <h4 className="title is-4">Games</h4>
               <Query<GetGamesData, GetGamesVariables>
-                query={GET_GAMES} variables={{states: [GameState.Invitation]}}
+                query={GET_GAMES} variables={{states: [GameState.Negotiation, GameState.InProgress]}}
                 pollInterval={1000}>
                 {({ loading, error, data}) => {
                   if (loading) return <Loading/>;

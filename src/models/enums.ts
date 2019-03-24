@@ -3,7 +3,7 @@ export enum GameType {
 }
 
 export enum GameState {
-  Invitation = "INVITATION",
+  Negotiation = "NEGOTIATION",
   InProgress = "IN_PROGRESS",
   Finished = "FINISHED",
 }
