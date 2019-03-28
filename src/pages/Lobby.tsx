@@ -7,7 +7,6 @@ import {AuthContextConsumer} from "../contexts/authContext";
 import {IMatchmakingRequest} from "../models/matchmaking";
 import IGame from "../models/game";
 import {GET_VIEWER, GetViewerData} from "../graphql/queries";
-import {IUser} from "../models/viewer";
 
 const GET_GAMES = gql`
   query Games($states: [GameState!]) {
@@ -35,47 +34,40 @@ interface GetGamesVariables {
   states: GameState[]
 }
 
-const SUBSCRIBE_MATCHMAKING = gql`
-  subscription MatchmakingRequest {
-    matchmakingRequests {
-      __typename
-      ... on MatchmakingRequestPayload {
-        requests {
+const GET_MATCHMAKING_REQUESTS = gql`
+  query MatchmakingRequests {
+      matchmakingRequests {
           id
+          queue
+          rank
           createdAt
-        }
       }
-      ... on MatchmakingRequestCompletePayload {
-        game {
-          id
-          users {
-              user {
-                  id
-                  name
-              }
-          }
-        }
-      }
-    }
   }
 `;
 
-interface ISubscribeMatchmakingRequestsVariables {
-  user: string
+interface IGetMatchmakingRequestValue {
+  matchamkingRequests: IMatchmakingRequest[]
 }
 
-interface IMatchmakingRequestPayload {
-  kind: "MatchmakingRequest"
-  requests: [IMatchmakingRequest]
-}
+const SUBSCRIBE_MATCHMAKING = gql`
+  subscription MatchmakingRequest {
+      matchmakingRequestCompletions {
+          game {
+              id
+              users {
+                  user {
+                      id
+                      name
+                  }
+              }
+          }
+      }
+  }
+`;
 
-interface IMatchmakingRequestCompletePayload {
-  kind: "MatchmakingRequestComplete"
+interface IMatchmakingCompletionPayload {
   game: IGame
 }
-
-type SubscribeMatchmakingRequestsPayload = IMatchmakingRequestPayload | IMatchmakingRequestCompletePayload;
-
 
 const CREATE_MATCHMAKING_REQUEST = gql`
   mutation CreateMatchmakingRequest($input: CreateMatchmakingRequestInput!) {
@@ -193,31 +185,37 @@ const CreateGameCard: React.FunctionComponent = () => {
   );
 };
 
-const MatchmakeStatusCard: React.FunctionComponent<{user: IUser}> = ({user}) => {
+const MatchmakeStatusCard: React.FunctionComponent<{}> = () => {
   return (
-    <Subscription<SubscribeMatchmakingRequestsPayload, ISubscribeMatchmakingRequestsVariables> subscription={SUBSCRIBE_MATCHMAKING} variables={{user: user.id}}>
-      {({data, error, loading}) => {
-        if (loading) {
-          return "loading";
-        }
-
-        if (error) {
-          return `subscription error: ${JSON.stringify(error)}`;
-        }
-
-        if (data) {
-          switch (data.kind) {
-            case "MatchmakingRequest":
-              break;
-            case "MatchmakingRequestComplete":
-              return (<div>game matched: {data.game.id} </div>);
-            default:
-              return (<div>{JSON.stringify(data)}</div>);
+    <div>
+      <Query<IGetMatchmakingRequestValue, {}> query={GET_MATCHMAKING_REQUESTS}>
+        {({loading, error, data}) => {
+          return (
+            <div>
+              { data && JSON.stringify(data) }
+            </div>
+          );
+        }}
+      </Query>
+      <Subscription<IMatchmakingCompletionPayload, {}> subscription={SUBSCRIBE_MATCHMAKING}>
+        {({data, error, loading}) => {
+          if (loading) {
+            return "loading";
           }
-        }
-        return (<div>wtf</div>);
-      }}
-    </Subscription>
+
+          if (error) {
+            return "error";
+          }
+
+          if (data) {
+            return JSON.stringify(data);
+          }
+
+          return "wtf";
+        }}
+      </Subscription>
+    </div>
+
   );
 };
 
@@ -249,7 +247,7 @@ const LobbyPage: React.FunctionComponent = () => {
                       }
 
                       if (data) {
-                        return (<MatchmakeStatusCard user={data.viewer.user}/>);
+                        return (<MatchmakeStatusCard />);
                       }
 
                       return "wtf";
