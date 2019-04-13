@@ -1,22 +1,14 @@
 import gql from 'graphql-tag';
 
 export const LOG_IN = gql`
-  mutation LogIn($username: String!, $password: String!) {
-    logIn(username: $username, password: $password) {
-      token
-      user {
-        username
-      }
+    mutation LogIn($username: String!, $password: String!) {
+        logIn(username: $username, password: $password) {
+            token
+            user {
+                username
+            }
+        }
     }
-  }
-`;
-
-export const CREATE_GAME = gql`
-  mutation CreateGame($opponentUsername: String!) {
-    createGame(opponentUsername: $opponentUsername) {
-      id
-    }
-  }
 `;
 
 export const ADD_STONE = gql`
